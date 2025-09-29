@@ -4,17 +4,21 @@ project:
   teamId: 'PorfaCompila'
   identities: {}
   notifications:
-    email: 'angel.barcelo@alu.uclm.es,fco.sanchez21@alu.uclm.es,elias.lucas@alu.uclm.es'
+    email: 'angel.barcelo@alu.uclm.es,fco.sanchez21@alu.uclm.es,elias.lucas@alu.uclm.es,carlosjavier.camacho@alu.uclm.es'
   members:
     member1:
-      name: '¡ngel'
-      surname: 'BarcelÛ Parada' 
+      name: '√Ångel'
+      surname: 'Barcel√≥ Parada' 
       githubUsername: 'SteAngel02'
     member2:
       name: 'Francisco'
-      surname: 'S·nchez Ponce' 
+      surname: 'S√°nchez Ponce' 
       githubUsername: 'PacoSanchez26'
     member3:
-      name: 'ElÌas'
+      name: 'El√≠as'
       surname: 'Lucas Monsalve' 
       githubUsername: 'Elias100cas'
+    member4:
+      name: 'Carlos'
+      surname: 'Camacho Marchante' 
+      githubUsername: 'CarlosJ2004'
