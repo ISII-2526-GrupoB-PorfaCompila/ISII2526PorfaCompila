@@ -1,9 +1,17 @@
 ﻿namespace AppForSEII2526.API.Models {
-public enum PaymentMethod
+
+    /* Dudas
+            1. Cambiar el nombre de paymentmethod a paymenmethodtypes?
+            2. Debe de estar esta clase aquí?
+     */
+    public enum PaymentMethod 
 {
     TarjetaDeCredito,
     Paypal,
-    Metalico
+    Metalico,
+    Visa,
+    GooglePay,
+    PayPal
 }
 
 public class Booking
