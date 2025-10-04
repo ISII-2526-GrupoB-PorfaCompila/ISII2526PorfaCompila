@@ -19,7 +19,7 @@ public class Maintenance
     public Maintenance(){
         
     }
-    public Maintenance(int id, string name, int numberOfDays, int price)
+    public Maintenance(int id, string name, int numberOfDays, decimal price)
     {
         Id = id;
         Name = name;
