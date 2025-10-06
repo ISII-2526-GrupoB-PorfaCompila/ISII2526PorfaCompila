@@ -8,8 +8,22 @@ namespace AppForSEII2526.API.Models
         {
         }
 
+        //Constructor para CU1-Comprar coches
+        public Car(int id, Model model, string carClass, string color, string? description, string manufacturer, PurchaseItem purchaseItems, decimal purchasingPrice, int quantityForPurchasing)
+        {
+            Id = id;
+            Model = model;
+            CarClass = carClass;
+            Color = color;
+            Description = description;
+            Manufacturer = manufacturer;
+            PurchaseItems = purchaseItems;
+            PurchasingPrice = purchasingPrice;
+            QuantityForPurchasing = quantityForPurchasing;
+        }
+
         //Constructor Para CU4-Reseñar coches
-        public Car(int id, /*Model model,*/ string carClass, string color, string? description, string engDispacement, string fuelType, /*MaintenanceType maintenanceTypes,*/ string manufacturer, /*PurchaseItem purchaseItems,*/ double purchasingPrice, int quantityForPurchasing, int quantityForRenting, /*RentalItems rentalItems,*/ double rentingPrice, int rimSize/*, IList<ReviewItem> reviewItems*/)
+        public Car(int id, Model model, string carClass, string color, string? description, string engDispacement, string fuelType, /*MaintenanceType maintenanceTypes,*/ string manufacturer, PurchaseItem purchaseItems, decimal purchasingPrice, int quantityForPurchasing, int quantityForRenting, /*RentalItems rentalItems,*/ double rentingPrice, int rimSize/*, IList<ReviewItem> reviewItems*/)
         {
             Id = id;
             //Model = model;
@@ -20,7 +34,7 @@ namespace AppForSEII2526.API.Models
             FuelType = fuelType;
             //MaintenanceTypes = maintenanceTypes;
             Manufacturer = manufacturer;
-            //PurchaseItems = purchaseItems;
+            PurchaseItems = purchaseItems;
             PurchasingPrice = purchasingPrice;
             QuantityForPurchasing = quantityForPurchasing;
             QuantityForRenting = quantityForRenting;
@@ -33,7 +47,7 @@ namespace AppForSEII2526.API.Models
         [Key]
         public int Id { get; set; }
 
-        //public Model Model { get; set; }
+        public Model Model { get; set; }
 
         public string CarClass {  get; set; }
 
@@ -50,10 +64,10 @@ namespace AppForSEII2526.API.Models
 
         public string Manufacturer { get; set; }
 
-        //public PurchaseItem PurchaseItems { get; set; }
+        public PurchaseItem PurchaseItems { get; set; }
 
         [Precision(10, 2)]
-        public double PurchasingPrice { get; set; }
+        public decimal PurchasingPrice { get; set; }
 
         [Display(Name = "Quantity For Purchasing")]
         [Range(1,int.MaxValue, ErrorMessage = "Minimum quantity for purchasing is 1")]
