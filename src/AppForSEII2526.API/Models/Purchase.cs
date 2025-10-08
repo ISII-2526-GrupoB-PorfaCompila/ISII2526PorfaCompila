@@ -12,13 +12,11 @@
         //{            
         //}
 
-        public Purchase(int purchaseId, string name, string surname, string deliveryCarDealer, DateTime purchasingDate, decimal purchasingPrice, ApplicationUser applicationUser,IList<PurchaseItem> purchaseItems, PaymentMethod paymentMethod)
+        public Purchase(int purchaseId, string deliveryCarDealer, DateTime purchasingDate, decimal purchasingPrice, ApplicationUser applicationUser,IList<PurchaseItem> purchaseItems, PaymentMethod paymentMethod)
         {
             PurchasingPrice = decimal.Round(purchaseItems.Sum(pi => pi.Price * pi.Quantity),2);
 
             Id = purchaseId;
-            Name = name;
-            Surname = surname;
             DeliveryCarDealer = deliveryCarDealer;
             PurchasingDate = purchasingDate;
             ApplicationUser = applicationUser;
@@ -28,10 +26,6 @@
 
         [Key]
         public int Id { get; set; }
-
-        public string Name { get; set; }
-
-        public string Surname { get; set; }
 
         [DataType(System.ComponentModel.DataAnnotations.DataType.MultilineText)]
         [Display(Name = "Delivery Car Dealer")]
