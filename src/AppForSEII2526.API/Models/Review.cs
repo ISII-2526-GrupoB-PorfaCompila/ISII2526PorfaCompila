@@ -8,10 +8,10 @@ namespace AppForSEII2526.API.Models
         {
         }
 
-        public Review(int id, string userName, string country, DateTime created, DriverTypes driverType)
+        public Review(int id, ApplicationUser applicationUser, string country, DateTime created, DriverTypes driverType)
         {
             Id = id;
-            UserName = userName;
+            ApplicationUser = applicationUser;
             Country = country;
             Created = created;
             DriverType = driverType;
@@ -21,8 +21,7 @@ namespace AppForSEII2526.API.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(20, ErrorMessage = "Name cannot be longer than 50 characters.")]
-        public string UserName { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
         [Required]
         public string Country { get; set; }
