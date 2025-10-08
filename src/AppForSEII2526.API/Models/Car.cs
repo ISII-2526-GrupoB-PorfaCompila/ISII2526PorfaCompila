@@ -9,7 +9,7 @@ namespace AppForSEII2526.API.Models
         }
 
         //Constructor para CU1-Comprar coches
-        public Car(int id, Model model, string carClass, string color, string? description, string manufacturer, PurchaseItem purchaseItems, decimal purchasingPrice, int quantityForPurchasing)
+        public Car(int id, Model model, string carClass, string color, string? description, string manufacturer, IList<PurchaseItem> purchaseItems, decimal purchasingPrice, int quantityForPurchasing)
         {
             Id = id;
             Model = model;
@@ -23,7 +23,7 @@ namespace AppForSEII2526.API.Models
         }
 
         //Constructor Para CU4-Reseñar coches
-        public Car(int id, Model model, string carClass, string color, string? description, string engDispacement, string fuelType, MaintenanceType maintenanceTypes, string manufacturer, PurchaseItem purchaseItems, decimal purchasingPrice, int quantityForPurchasing, int quantityForRenting, RentalItem rentalItems, double rentingPrice, int rimSize, IList<ReviewItem> reviewItems)
+        public Car(int id, Model model, string carClass, string color, string? description, string engDispacement, string fuelType, MaintenanceType maintenanceTypes, string manufacturer, IList<PurchaseItem> purchaseItems, decimal purchasingPrice, int quantityForPurchasing, int quantityForRenting, IList<RentalItem> rentalItems, double rentingPrice, int rimSize, IList<ReviewItem> reviewItems)
         {
             Id = id;
             Model = model;
@@ -45,7 +45,7 @@ namespace AppForSEII2526.API.Models
         }
 
         //Constructor Para CU2-Alquilar coches
-        public Car(int id, Model model, string carClass, string color, string? description, string engDispacement, string fuelType, MaintenanceType maintenanceTypes, string manufacturer, decimal purchasingPrice, int quantityForPurchasing, int quantityForRenting, double rentingPrice, int rimSize, RentalItem rentalItems)
+        public Car(int id, Model model, string carClass, string color, string? description, string engDispacement, string fuelType, MaintenanceType maintenanceTypes, string manufacturer, decimal purchasingPrice, int quantityForPurchasing, int quantityForRenting, double rentingPrice, int rimSize, IList<RentalItem> rentalItems)
         {
             Id = id;
             Model = model;
@@ -91,10 +91,7 @@ namespace AppForSEII2526.API.Models
         public string Manufacturer { get; set; }
 
         [Required]
-        public PurchaseItem PurchaseItems { get; set; }
-
         [Precision(10, 2)]
-        [Required]
         public decimal PurchasingPrice { get; set; }
 
         [Required]
@@ -114,9 +111,13 @@ namespace AppForSEII2526.API.Models
         public int RimSize { get; set; }
 
         // relación con RentalItem
-        public RentalItem RentalItems { get; set; }
+        public IList<RentalItem> RentalItems { get; set; }
 
         // relación con ReviewItem
         public IList<ReviewItem> ReviewItems { get; set; }
+
+        // relación con PurchaseItem
+        [Required]
+        public IList<PurchaseItem> PurchaseItems { get; set; }
     }
 }
