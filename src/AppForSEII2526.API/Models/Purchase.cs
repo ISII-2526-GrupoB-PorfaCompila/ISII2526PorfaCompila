@@ -25,6 +25,7 @@
         }
 
         [Key]
+        [Required]
         public int Id { get; set; }
 
         [DataType(System.ComponentModel.DataAnnotations.DataType.MultilineText)]
@@ -32,13 +33,18 @@
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please, set your Delivery car dealer.")]
         public string DeliveryCarDealer { get; set; }
 
+        [Required]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime PurchasingDate { get; set; }
 
+        [Required]
         [Precision(10, 2)]
         public decimal PurchasingPrice { get; set; }
 
+        [Required]
         public ApplicationUser ApplicationUser { get; set; }
 
+        [Required]
         public IList<PurchaseItem> PurchaseItems { get; set; }
 
         [Display(Name = "Payment Method")]
