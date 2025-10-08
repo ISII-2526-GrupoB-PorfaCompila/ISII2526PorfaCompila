@@ -4,6 +4,10 @@
     [PrimaryKey(nameof(CarId), nameof(RentalId))]
     public class RentalItem
     {
+        public RentalItem()
+        {
+        }
+
         public RentalItem(Car car, Rental rental, int rentalId, int carId, int quantity)
         {
             Car = car;
