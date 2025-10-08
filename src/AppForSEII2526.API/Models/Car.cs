@@ -44,6 +44,7 @@ namespace AppForSEII2526.API.Models
             ReviewItems = reviewItems;
         }
 
+        //Constructor Para CU2-Alquilar coches
         public Car(int id, Model model, string carClass, string color, string? description, string engDispacement, string fuelType, MaintenanceType maintenanceTypes, string manufacturer, decimal purchasingPrice, int quantityForPurchasing, int quantityForRenting, double rentingPrice, int rimSize, RentalItem rentalItems)
         {
             Id = id;
@@ -71,7 +72,7 @@ namespace AppForSEII2526.API.Models
         public Model Model { get; set; }
 
         [Required]
-        public string CarClass {  get; set; }
+        public string CarClass { get; set; }
 
         [Required]
         public string Color { get; set; }
@@ -98,7 +99,7 @@ namespace AppForSEII2526.API.Models
 
         [Required]
         [Display(Name = "Quantity For Purchasing")]
-        [Range(1,int.MaxValue, ErrorMessage = "Minimum quantity for purchasing is 1")]
+        [Range(1, int.MaxValue, ErrorMessage = "Minimum quantity for purchasing is 1")]
         public int QuantityForPurchasing { get; set; }
 
         [Required]
@@ -116,6 +117,6 @@ namespace AppForSEII2526.API.Models
         public RentalItem RentalItems { get; set; }
 
         // relación con ReviewItem
-        public IList<ReviewItem> ReviewItems { get; set; } 
+        public IList<ReviewItem> ReviewItems { get; set; }
     }
 }
