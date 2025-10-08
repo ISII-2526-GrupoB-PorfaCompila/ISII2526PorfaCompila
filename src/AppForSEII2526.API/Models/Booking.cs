@@ -12,7 +12,7 @@ public class Booking
     public int Id { get; set; }
     [Required(AllowEmptyStrings = false, ErrorMessage = "Es obligatorio introducir tu nombre de usuario.")]
     public ApplicationUser ApplicationUser { get; set; }
-    [Required(AllowEmptyStrings = false, ErrorMessage = "Por favor, introduzca una dirección.")]
+    [Required(AllowEmptyStrings = false, ErrorMessage = "Por favor, introduzca una dirección válida.")]
     public string ClientAddress { get; set; }
     public string? ClientPhoneNumber { get; set; }
     [Required(ErrorMessage = "Por favor, seleccione un método de pago.")]
