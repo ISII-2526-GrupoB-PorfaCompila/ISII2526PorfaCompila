@@ -47,10 +47,13 @@ namespace AppForSEII2526.API.Models
         [Key]
         public int Id { get; set; }
 
+        [Required]
         public Model Model { get; set; }
 
+        [Required]
         public string CarClass {  get; set; }
 
+        [Required]
         public string Color { get; set; }
 
         [StringLength(100, ErrorMessage = "Description cannot be longer than 100 characters.")]
@@ -58,27 +61,34 @@ namespace AppForSEII2526.API.Models
 
         public string EngDispacement { get; set; }
 
+        [Required]
         public string FuelType { get; set; }
 
         //public MaintenanceType MaintenanceTypes { get; set; }
 
+        [Required]
         public string Manufacturer { get; set; }
 
+        [Required]
         public PurchaseItem PurchaseItems { get; set; }
 
         [Precision(10, 2)]
+        [Required]
         public decimal PurchasingPrice { get; set; }
 
+        [Required]
         [Display(Name = "Quantity For Purchasing")]
         [Range(1,int.MaxValue, ErrorMessage = "Minimum quantity for purchasing is 1")]
         public int QuantityForPurchasing { get; set; }
 
+        [Required]
         [Display(Name = "Quantity For Renting")]
         [Range(1, int.MaxValue, ErrorMessage = "Minimum quantity for renting is 1")]
         public int QuantityForRenting { get; set; }
 
         //public RentalItems RentalItems { get; set; }
 
+        [Required]
         [Precision(10, 2)]
         public double RentingPrice { get; set; }
 
