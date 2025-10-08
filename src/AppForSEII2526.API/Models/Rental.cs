@@ -8,17 +8,17 @@ namespace AppForSEII2526.API.Models
         {
         }
 
-        public Rental(int id, double totalPrice, string deliveryCarDealer, string name, string surname, DateTime endDate, DateTime rentingDate, DateTime startDate, PaymentMethod paymentMethod)
+        public Rental(int id, /*IList<RentalItem> rentalItems,*/ double totalPrice, string deliveryCarDealer, ApplicationUser applicationUser , DateTime endDate, DateTime rentingDate, DateTime startDate, PaymentMethod paymentMethod)
         {
             Id = id;
             TotalPrice = totalPrice;
             DeliveryCarDealer = deliveryCarDealer;
-            Name = name;
-            Surname = surname;
+            ApplicationUser =applicationUser;
             EndDate = endDate;
             RentingDate = rentingDate;
             StartDate = startDate;
             PaymentMethod = paymentMethod;
+            //RentalItems = rentalItems; //Cuando añada RentalItem tengo que descomentar esto
         }
 
         [Key]
@@ -33,13 +33,8 @@ namespace AppForSEII2526.API.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Please, set your delivery car dealer")]
         public string DeliveryCarDealer { get; set; }
 
-        [StringLength(20, ErrorMessage = "Name cannot be longer than 20 characters.")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please, set your name")]
-        public string Name { get; set; } //creo que esto y surname hay que sustituirlo por ApplicationUser
-
-        [StringLength(25, ErrorMessage = "Title cannot be longer than 25 characters.")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Please, set your Surname")]
-        public string Surname { get; set; }
+        [Required]
+        ApplicationUser ApplicationUser { get; set; }
 
         [Required]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
@@ -55,5 +50,8 @@ namespace AppForSEII2526.API.Models
 
         [Required]
         public PaymentMethod PaymentMethod { get; set; }
+
+        //[Required]
+        //public IList<RentalItem> RentalItems { get; set; } //Cuando añada RentalItem tengo que descomentar esto
     }
 }
