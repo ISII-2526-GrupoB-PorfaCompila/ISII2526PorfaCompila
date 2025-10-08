@@ -1,10 +1,11 @@
 ﻿namespace AppForSEII2526.API.Models
 {
-public class BookingItem
+    [PrimaryKey(nameof(BookingId), nameof(MantId))]
+    public class BookingItem
 {
     public int BookingId { get; set; }
     public int MantId { get; set; }
-    [StringLength(50, ErrorMessage = "El comentario es obligatorio. Debe tener como maximo 50 caracteres.", MinimumLength = 1)]
+    [Required(AllowEmptyStrings = false, ErrorMessage = "El comentario es obligatorio. Introduzca un comentario.")]
     public string Comment { get; set; }
     public Booking Booking { get; set; }
     public Maintenance Maintenance { get; set; }
