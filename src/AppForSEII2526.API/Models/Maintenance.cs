@@ -15,16 +15,20 @@ public class Maintenance
     [Range(1, 500, ErrorMessage = "El precio debe estar entre 1 y 500 euros.")]
     [Display(Name = "Price")]
     public decimal Price { get; set; }
+    public IList<BookingItem> Bookings { get; set; }
+    public IList<MaintenanceType> MaintenanceTypes { get; set; }
     
     public Maintenance(){
         
     }
-    public Maintenance(int id, string name, int numberOfDays, decimal price)
-    {
-        Id = id;
-        Name = name;
-        NumberOfDays = numberOfDays;
-        Price = price;
-    }
+    public Maintenance(int id, string name, int numberOfDays, decimal price, IList<BookingItem> bookings, IList<MaintenanceType> maintenanceTypes)
+        {
+            Id = id;
+            Name = name;
+            NumberOfDays = numberOfDays;
+            Price = price;
+            Bookings = bookings;
+            MaintenanceTypes = maintenanceTypes;
+        }
     }
 }
