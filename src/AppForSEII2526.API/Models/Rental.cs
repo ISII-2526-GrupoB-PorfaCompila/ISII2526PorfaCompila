@@ -8,7 +8,7 @@ namespace AppForSEII2526.API.Models
         {
         }
 
-        public Rental(int id, /*IList<RentalItem> rentalItems,*/ double totalPrice, string deliveryCarDealer, ApplicationUser applicationUser , DateTime endDate, DateTime rentingDate, DateTime startDate, PaymentMethod paymentMethod)
+        public Rental(int id, IList<RentalItem> rentalItems, double totalPrice, string deliveryCarDealer, ApplicationUser applicationUser , DateTime endDate, DateTime rentingDate, DateTime startDate, PaymentMethod paymentMethod)
         {
             Id = id;
             TotalPrice = totalPrice;
@@ -18,7 +18,7 @@ namespace AppForSEII2526.API.Models
             RentingDate = rentingDate;
             StartDate = startDate;
             PaymentMethod = paymentMethod;
-            //RentalItems = rentalItems; //Cuando añada RentalItem tengo que descomentar esto
+            RentalItems = rentalItems;
         }
 
         [Key]
@@ -51,7 +51,8 @@ namespace AppForSEII2526.API.Models
         [Required]
         public PaymentMethod PaymentMethod { get; set; }
 
-        //[Required]
-        //public IList<RentalItem> RentalItems { get; set; } //Cuando añada RentalItem tengo que descomentar esto
+        //relación con RentalItem
+        [Required]
+        public IList<RentalItem> RentalItems { get; set; }
     }
 }
