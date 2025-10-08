@@ -44,6 +44,25 @@ namespace AppForSEII2526.API.Models
             ReviewItems = reviewItems;
         }
 
+        public Car(int id, Model model, string carClass, string color, string? description, string engDispacement, string fuelType, MaintenanceType maintenanceTypes, string manufacturer, decimal purchasingPrice, int quantityForPurchasing, int quantityForRenting, double rentingPrice, int rimSize, RentalItem rentalItems)
+        {
+            Id = id;
+            Model = model;
+            CarClass = carClass;
+            Color = color;
+            Description = description;
+            EngDispacement = engDispacement;
+            FuelType = fuelType;
+            MaintenanceTypes = maintenanceTypes;
+            Manufacturer = manufacturer;
+            PurchasingPrice = purchasingPrice;
+            QuantityForPurchasing = quantityForPurchasing;
+            QuantityForRenting = quantityForRenting;
+            RentingPrice = rentingPrice;
+            RimSize = rimSize;
+            RentalItems = rentalItems;
+        }
+
         [Key]
         public int Id { get; set; }
 
