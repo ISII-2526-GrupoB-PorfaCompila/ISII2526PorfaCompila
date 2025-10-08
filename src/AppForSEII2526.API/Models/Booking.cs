@@ -16,29 +16,27 @@
 
 public class Booking
 {
-    [Key]
-    public int Id { get; set; }
-    [StringLength(20,ErrorMessage ="El nombre tiene que tener entre 1 y 20 caracteres.", MinimumLength =1)]
-    public string ClientName { get; set; }
-    [StringLength(20, ErrorMessage = "El apellido tiene que tener entre 1 y 20 caracteres.", MinimumLength = 1)]
-    public string ClientSurname { get; set; }
-    [StringLength(30, ErrorMessage = "La direccion tiene que tener entre 1 y 30 caracteres.", MinimumLength = 1)]
-    public string ClientAddress { get; set; }
-    public string? ClientPhoneNumber { get; set; }
-    public PaymentMethod PaymentMethod { get; set; }
+        [Key]
+        public int Id { get; set; }
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Es obligatorio introducir tu nombre de usuario.")]
+        public ApplicationUser ApplicationUser { get; set; }
+        [Required(AllowEmptyStrings = true, ErrorMessage = "Por favor, introduzca una dirección.")]
+        public string ClientAddress { get; set; }
+        public string? ClientPhoneNumber { get; set; }
+        [Required(ErrorMessage = "Por favor, seleccione un método de pago.")]
+        public PaymentMethod PaymentMethod { get; set; }
 
-    public Booking()
-    {
-    }
-    public Booking(int id, string clientName, string clientSurname, string clientAddress, string clientPhoneNumber, PaymentMethod paymentMethod)
-    {
-        Id = id;
-        ClientName = clientName;
-        ClientSurname = clientSurname;
-        ClientAddress = clientAddress;
-        ClientPhoneNumber = clientPhoneNumber;
-        PaymentMethod = paymentMethod;
-    }
-        
+        public Booking()
+        {
+        }
+        public Booking(int id, ApplicationUser applicationUser, string clientAddress, string clientPhoneNumber, PaymentMethod paymentMethod)
+        {
+            Id = id;
+            ApplicationUser = applicationUser;
+            ClientAddress = clientAddress;
+            ClientPhoneNumber = clientPhoneNumber;
+            PaymentMethod = paymentMethod;
+        }
+
     }
 }
