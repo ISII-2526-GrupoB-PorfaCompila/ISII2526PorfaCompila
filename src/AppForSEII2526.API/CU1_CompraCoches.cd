@@ -29,6 +29,9 @@
       <HashCode>AAAjAAAAAABAAAAQAAAAgAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Models\Purchase.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ApplicationUser" />
+    </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="PurchaseItems" />
     </ShowAsCollectionAssociation>
@@ -40,9 +43,19 @@
       <FileName>Models\PurchaseItem.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Car" />
       <Property Name="Purchase" />
+      <Property Name="Car" />
     </ShowAsAssociation>
+  </Class>
+  <Class Name="AppForSEII2526.API.Models.ApplicationUser">
+    <Position X="16.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAAAAAAAAAAAAAAAAQABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ApplicationUser.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Purchases" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

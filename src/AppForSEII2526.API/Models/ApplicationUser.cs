@@ -16,6 +16,33 @@ public class ApplicationUser : IdentityUser {
         Purchases = purchases;
     }
 
+    //Constructor CU2
+    public ApplicationUser(int id, string name, string surname, IList<Rental> rentals)
+    {
+        Id = id;
+        Name = name;
+        Surname = surname;
+        Rentals = rentals;
+    }
+
+    //Constructor CU3
+    public ApplicationUser(int id, string name, string surname, IList<Booking> bookings)
+    {
+        Id = id;
+        Name = name;
+        Surname = surname;
+        Bookings = bookings;
+    }
+
+    //Constructor CU4
+    public ApplicationUser(int id, string name, string surname, IList<Review> reviews)
+    {
+        Id = id;
+        Name = name;
+        Surname = surname;
+        Reviews = reviews;
+    }
+
     [Key]
     public int Id { get; set; }
 
@@ -28,4 +55,13 @@ public class ApplicationUser : IdentityUser {
 
     [Required]
     public IList<Purchase> Purchases { get; set; }
+
+    [Required]
+    public IList<Rental> Rentals { get; set; }
+
+    [Required]
+    public IList<Booking> Bookings { get; set; }
+
+    [Required]
+    public IList<Review> Reviews { get; set; }
 }

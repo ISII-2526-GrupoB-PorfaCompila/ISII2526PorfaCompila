@@ -1,17 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="AppForSEII2526.API.Models.Booking">
-    <Position X="0.5" Y="1" Width="1.5" />
+    <Position X="3.25" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AgADAAAAAAAACAAQAAAAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
       <FileName>Models\Booking.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ApplicationUser" />
+    </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Items" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="AppForSEII2526.API.Models.BookingItem">
-    <Position X="3.25" Y="1" Width="1.5" />
+    <Position X="6" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAAAIAAAAAAAAAAAAAABAAAAgAAACAAAAAAA=</HashCode>
       <FileName>Models\BookingItem.cs</FileName>
@@ -22,18 +25,18 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="AppForSEII2526.API.Models.Maintenance">
-    <Position X="6" Y="1" Width="1.5" />
+    <Position X="8.75" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAQAgACAAAAAAAAQAAAAAAAAAAAAAAAAAAAI=</HashCode>
       <FileName>Models\Maintenance.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="MaintenanceTypes" />
       <Property Name="Bookings" />
+      <Property Name="MaintenanceTypes" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="AppForSEII2526.API.Models.MaintenanceType">
-    <Position X="9" Y="1" Width="1.5" />
+    <Position X="11.75" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQACAAAAAgA=</HashCode>
       <FileName>Models\MaintenanceType.cs</FileName>
@@ -42,8 +45,18 @@
       <Property Name="Maintenance" />
     </ShowAsAssociation>
   </Class>
+  <Class Name="AppForSEII2526.API.Models.ApplicationUser">
+    <Position X="0.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAwCAEAAAAAgAAAAAAAAAAQABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ApplicationUser.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Bookings" />
+    </ShowAsCollectionAssociation>
+  </Class>
   <Enum Name="AppForSEII2526.API.Models.PaymentMethod">
-    <Position X="0.5" Y="4" Width="1.5" />
+    <Position X="3.25" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAIAAQBAAAAAQAAAAAAAQAAAAAEAAAAAAAA=</HashCode>
       <FileName>Models\Booking.cs</FileName>
