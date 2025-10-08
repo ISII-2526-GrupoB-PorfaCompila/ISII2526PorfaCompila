@@ -14,9 +14,11 @@
         [Key]
         public int Id { get; set; }
 
+        [Required]
         [StringLength(50, ErrorMessage = "Name cannot be longer than 50 characters.", MinimumLength = 1)]
         public string Name { get; set; }
 
+        [Required]
         public IList<Car> Cars { get; set; } = new List<Car>();
     }
 }
