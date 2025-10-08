@@ -16,6 +16,9 @@
       <HashCode>AAADCAAAAAAAAAAQAAAAgAAgAAAAQAAAAAAAAEAAAAE=</HashCode>
       <FileName>Models\Rental.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ApplicationUser" />
+    </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="RentalItems" />
     </ShowAsCollectionAssociation>
@@ -42,6 +45,16 @@
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="RentalItems" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="AppForSEII2526.API.Models.ApplicationUser">
+    <Position X="14.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAwCAEAAAAAgAAAAAAAAAAQABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ApplicationUser.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Rentals" />
     </ShowAsCollectionAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
