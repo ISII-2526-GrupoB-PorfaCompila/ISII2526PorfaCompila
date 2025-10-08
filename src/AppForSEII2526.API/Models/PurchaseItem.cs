@@ -14,17 +14,24 @@
             CarId = car.Id;
             Quantity = quantity;
         }
+
+        [Required]
         public Purchase Purchase { get; set; }
 
+        [Required]
         public int PurchaseId { get; set; }
 
+        [Required]
         public Car Car { get; set; }
 
+        [Required]
         public int CarId { get; set; }
 
+        [Required]
         [Precision(10, 2)]
         public decimal Price { get; set; }
 
+        [Required]
         [Range(1, int.MaxValue, ErrorMessage = "You must provide a quantity higher than 1")]
         public int Quantity { get; set; }
     }
