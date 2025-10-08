@@ -8,13 +8,14 @@ namespace AppForSEII2526.API.Models
         {
         }
 
-        public Review(int id, ApplicationUser applicationUser, string country, DateTime created, DriverTypes driverType)
+        public Review(int id, ApplicationUser applicationUser, string country, DateTime created, DriverTypes driverType, IList<ReviewItem> reviewItems)
         {
             Id = id;
             ApplicationUser = applicationUser;
             Country = country;
             Created = created;
             DriverType = driverType;
+            ReviewItems = reviewItems;
         }
 
         [Key]
@@ -33,6 +34,9 @@ namespace AppForSEII2526.API.Models
 
         [Required]
         public DriverTypes DriverType { get; set; }
+
+        [Required]
+        public IList<ReviewItem> ReviewItems { get; set; }
     }
 
     public enum DriverTypes
