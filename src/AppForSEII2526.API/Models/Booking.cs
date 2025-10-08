@@ -25,17 +25,19 @@ public class Booking
         public string? ClientPhoneNumber { get; set; }
         [Required(ErrorMessage = "Por favor, seleccione un método de pago.")]
         public PaymentMethod PaymentMethod { get; set; }
+        public IList<BookingItem> Items { get; set; }
 
         public Booking()
         {
         }
-        public Booking(int id, ApplicationUser applicationUser, string clientAddress, string clientPhoneNumber, PaymentMethod paymentMethod)
+        public Booking(int id, ApplicationUser applicationUser, string clientAddress, string clientPhoneNumber, PaymentMethod paymentMethod, IList<BookingItem> items)
         {
             Id = id;
             ApplicationUser = applicationUser;
             ClientAddress = clientAddress;
             ClientPhoneNumber = clientPhoneNumber;
             PaymentMethod = paymentMethod;
+            Items = items;
         }
 
     }
