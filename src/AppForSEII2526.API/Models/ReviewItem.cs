@@ -1,5 +1,6 @@
 ﻿namespace AppForSEII2526.API.Models
 {
+    [PrimaryKey(nameof(CarId), nameof(ReviewId))]
     public class ReviewItem
     {
         public ReviewItem()
@@ -27,8 +28,10 @@
         [Range(1,5, ErrorMessage = "You must provide a rating between 1 and 5.")]
         public int Rating { get; set; }
 
+        [Required]
         public Car Car { get; set; }
 
+        [Required]
         public Review Review { get; set; }
     }
 }
