@@ -28,10 +28,6 @@
         public int CarId { get; set; }
 
         [Required]
-        [Precision(10, 2)]
-        public decimal Price { get; set; }
-
-        [Required]
         [Range(1, int.MaxValue, ErrorMessage = "You must provide a quantity higher than 1")]
         public int Quantity { get; set; }
     }
