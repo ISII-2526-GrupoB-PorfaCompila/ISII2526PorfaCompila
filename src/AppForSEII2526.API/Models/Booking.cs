@@ -32,12 +32,11 @@ public class Booking
         public Booking()
         {
         }
-        public Booking(int id, ApplicationUser applicationUser, string clientAddress, string clientPhoneNumber, PaymentMethod paymentMethod, IList<BookingItem> items)
+        public Booking(int id, ApplicationUser applicationUser, string clientAddress, PaymentMethod paymentMethod, IList<BookingItem> items)
         {
             Id = id;
             ApplicationUser = applicationUser;
             ClientAddress = clientAddress;
-            ClientPhoneNumber = clientPhoneNumber;
             PaymentMethod = paymentMethod;
             Items = items;
         }
