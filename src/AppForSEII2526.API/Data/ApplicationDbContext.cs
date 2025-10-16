@@ -12,7 +12,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
         builder.Entity<PurchaseItem>().HasKey(pi => new { pi.PurchaseId, pi.CarId });
         builder.Entity<RentalItem>().HasKey(pi => new { pi.RentalId, pi.CarId });
-        builder.Entity<BookingItem>().HasKey(pi => new { pi.BookingId, pi.MantId });
+        builder.Entity<BookingItem>().HasKey(pi => new { pi.BookingId, pi.MaintenanceId });
         builder.Entity<ReviewItem>().HasKey(pi => new { pi.ReviewId, pi.CarId });
     }
 
