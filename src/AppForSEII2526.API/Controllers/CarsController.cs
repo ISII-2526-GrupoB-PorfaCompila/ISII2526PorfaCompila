@@ -1,5 +1,6 @@
 ﻿using AppForSEII2526.API.DTOs;
 using AppForSEII2526.API.DTOs.RentalDTO;
+using AppForSEII2526.API.DTOs.ReviewDTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,6 +47,18 @@ namespace AppForSEII2526.API.Controllers
             return Ok(cars);
         }
 
+        //Get para select del CU4 - Reseñar coches
+        [HttpGet]
+        [Route("[action]")]
+        [ProducesResponseType(typeof(IList<CarForReviewDTO>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetCars_ForReview(string? manufacturer, string? fuelType)
+        {
+            var cars = await _context.Cars.Include(Car => Car.Model)
+                .Where(c => (c.Manufacturer.Contains(manufacturer) || (manufacturer == null)) && ((c.FuelType.Contains(fuelType)) || (fuelType == null)))
+                .Select(c => new CarForReviewDTO(c.Id, c.Model.Name, c.CarClass, c.Manufacturer, c.FuelType, c.Color))
+                .ToListAsync();
+            return Ok(cars);
+        }
     }
 }
 
