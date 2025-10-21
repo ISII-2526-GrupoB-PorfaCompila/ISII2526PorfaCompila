@@ -9,7 +9,7 @@ namespace AppForSEII2526.API.Models
         }
 
         //Constructor para CU1-Comprar coches
-        public Car(int id, Model model, string carClass, string color, string? description, string manufacturer, IList<PurchaseItem> purchaseItems, decimal purchasingPrice, int quantityForPurchasing)
+        public Car(int id, Model model, string carClass, string color, string description, string manufacturer, IList<PurchaseItem> purchaseItems, decimal purchasingPrice, int quantityForPurchasing)
         {
             Id = id;
             Model = model;
@@ -23,7 +23,7 @@ namespace AppForSEII2526.API.Models
         }
 
         //Constructor Para CU4-Reseñar coches
-        public Car(int id, Model model, string carClass, string color, string? description, string engDispacement, string fuelType, MaintenanceType maintenanceTypes, string manufacturer, IList<PurchaseItem> purchaseItems, decimal purchasingPrice, int quantityForPurchasing, int quantityForRenting, IList<RentalItem> rentalItems, double rentingPrice, int rimSize, IList<ReviewItem> reviewItems)
+        public Car(int id, Model model, string carClass, string color, string description, string engDispacement, string fuelType, MaintenanceType maintenanceTypes, string manufacturer, IList<PurchaseItem> purchaseItems, decimal purchasingPrice, int quantityForPurchasing, int quantityForRenting, IList<RentalItem> rentalItems, double rentingPrice, int rimSize, IList<ReviewItem> reviewItems)
         {
             Id = id;
             Model = model;
@@ -45,7 +45,7 @@ namespace AppForSEII2526.API.Models
         }
 
         //Constructor Para CU2-Alquilar coches
-        public Car(int id, Model model, string carClass, string color, string? description, string engDispacement, string fuelType, MaintenanceType maintenanceTypes, string manufacturer, decimal purchasingPrice, int quantityForPurchasing, int quantityForRenting, double rentingPrice, int rimSize, IList<RentalItem> rentalItems)
+        public Car(int id, Model model, string carClass, string color, string description, string engDispacement, string fuelType, MaintenanceType maintenanceTypes, string manufacturer, decimal purchasingPrice, int quantityForPurchasing, int quantityForRenting, double rentingPrice, int rimSize, IList<RentalItem> rentalItems)
         {
             Id = id;
             Model = model;
@@ -78,7 +78,7 @@ namespace AppForSEII2526.API.Models
         public string Color { get; set; }
 
         [StringLength(100, ErrorMessage = "Description cannot be longer than 100 characters.")]
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         public string EngDispacement { get; set; }
 

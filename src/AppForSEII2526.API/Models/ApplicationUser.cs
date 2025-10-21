@@ -26,12 +26,13 @@ public class ApplicationUser : IdentityUser {
     }
 
     //Constructor CU3
-    public ApplicationUser(int id, string name, string surname, IList<Booking> bookings)
+    public ApplicationUser(int id, string name, string surname, IList<Booking> bookings, string? clientPhoneNumber)
     {
         Id = id;
         Name = name;
         Surname = surname;
         Bookings = bookings;
+        ClientPhoneNumber = clientPhoneNumber;
     }
 
     //Constructor CU4
@@ -52,6 +53,7 @@ public class ApplicationUser : IdentityUser {
 
     [Display(Name = "Surname")]
     public string? Surname { get; set; }
+    public string? ClientPhoneNumber { get; set; }
 
     [Required]
     public IList<Purchase> Purchases { get; set; }

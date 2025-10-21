@@ -22,7 +22,9 @@ public class Booking
         public ApplicationUser ApplicationUser { get; set; }
         [Required(AllowEmptyStrings = true, ErrorMessage = "Por favor, introduzca una dirección.")]
         public string ClientAddress { get; set; }
-        public string? ClientPhoneNumber { get; set; }
+        [Required]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime Date { get; set; }
         [Required(ErrorMessage = "Por favor, seleccione un método de pago.")]
         public PaymentMethod PaymentMethod { get; set; }
         public IList<BookingItem> Items { get; set; }
@@ -30,12 +32,11 @@ public class Booking
         public Booking()
         {
         }
-        public Booking(int id, ApplicationUser applicationUser, string clientAddress, string clientPhoneNumber, PaymentMethod paymentMethod, IList<BookingItem> items)
+        public Booking(int id, ApplicationUser applicationUser, string clientAddress, PaymentMethod paymentMethod, IList<BookingItem> items)
         {
             Id = id;
             ApplicationUser = applicationUser;
             ClientAddress = clientAddress;
-            ClientPhoneNumber = clientPhoneNumber;
             PaymentMethod = paymentMethod;
             Items = items;
         }
