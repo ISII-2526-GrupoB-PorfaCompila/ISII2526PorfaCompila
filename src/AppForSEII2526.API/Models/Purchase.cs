@@ -14,7 +14,7 @@
 
         public Purchase(int purchaseId, string deliveryCarDealer, DateTime purchasingDate, decimal purchasingPrice, ApplicationUser applicationUser,IList<PurchaseItem> purchaseItems, PaymentMethod paymentMethod)
         {
-            PurchasingPrice = decimal.Round(purchaseItems.Sum(pi => pi.Price * pi.Quantity),2);
+            PurchasingPrice = decimal.Round(purchaseItems.Sum(pi => pi.Car.PurchasingPrice * pi.Quantity),2);
 
             Id = purchaseId;
             DeliveryCarDealer = deliveryCarDealer;
