@@ -4,13 +4,13 @@
     {
         public ReviewForCreateDTO(string userName, string country, DriverTypes driverType, string? description, int rating, DateTime created, IList<ReviewItemDTO> reviewItems)
         {
-            UserName = userName;
-            Country = country;
+            UserName = userName ?? throw new ArgumentNullException(nameof(userName));
+            Country = country ?? throw new ArgumentNullException(nameof(country));
             DriverType = driverType;
             Description = description;
             Rating = rating;
             Created = created;
-            ReviewItems = reviewItems;
+            ReviewItems = reviewItems ?? throw new ArgumentNullException(nameof(reviewItems));
         }
 
         [Required]
