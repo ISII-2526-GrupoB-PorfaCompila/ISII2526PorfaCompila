@@ -2,5 +2,12 @@
 {
     public class RentalForCreateDTO
     {
+
+        /* ------ Atributos de aquí
+         
+
+         
+         */
+
     }
 }
