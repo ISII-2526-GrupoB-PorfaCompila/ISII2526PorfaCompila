@@ -2,14 +2,13 @@
 {
     public class ReviewForCreateDTO
     {
-        public ReviewForCreateDTO(string userName, string country, DriverTypes driverType, string? description, int rating, DateTime created, IList<ReviewItemDTO> reviewItems)
+        public ReviewForCreateDTO(string userName, string country, DriverTypes driverType, string? description, int rating, IList<ReviewItemDTO> reviewItems)
         {
             UserName = userName ?? throw new ArgumentNullException(nameof(userName));
             Country = country ?? throw new ArgumentNullException(nameof(country));
             DriverType = driverType;
             Description = description;
             Rating = rating;
-            Created = created;
             ReviewItems = reviewItems ?? throw new ArgumentNullException(nameof(reviewItems));
         }
 
@@ -26,11 +25,6 @@
 
         [Required]
         public int Rating { get; set; }
-
-        [Required]
-        [Display(Name = "Created Date")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime Created { get; set; }
 
         public IList<ReviewItemDTO> ReviewItems { get; set; }
     }
