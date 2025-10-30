@@ -34,7 +34,7 @@ namespace AppForSEII2526.API.Models
         public string DeliveryCarDealer { get; set; }
 
         [Required]
-        ApplicationUser ApplicationUser { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
         [Required]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
