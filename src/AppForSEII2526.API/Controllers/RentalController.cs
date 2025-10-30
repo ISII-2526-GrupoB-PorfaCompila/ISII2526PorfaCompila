@@ -36,7 +36,7 @@ namespace AppForSEII2526.API.Controllers
              .Select(r => new RentalDetailDTO(
                  r.ApplicationUser.Name, 
                  r.ApplicationUser.Surname, 
-                 r.ApplicationUser.Address, 
+                 r.DeliveryCarDealer, 
                  r.RentalItems
                     .Select (ri => 
                                 new RentalItemDTO(
