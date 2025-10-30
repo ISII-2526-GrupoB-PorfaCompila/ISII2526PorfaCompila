@@ -54,6 +54,7 @@ public class ApplicationUser : IdentityUser {
     [Display(Name = "Surname")]
     public string? Surname { get; set; }
     public string? ClientPhoneNumber { get; set; }
+    public string? Address { get; set; }
 
     [Required]
     public IList<Purchase> Purchases { get; set; }
