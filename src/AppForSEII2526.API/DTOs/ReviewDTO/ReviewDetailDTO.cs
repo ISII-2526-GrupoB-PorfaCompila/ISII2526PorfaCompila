@@ -5,16 +5,11 @@ namespace AppForSEII2526.API.DTOs.ReviewDTO
 {
     public class ReviewDetailDTO : ReviewForCreateDTO
     {
-        public ReviewDetailDTO(int id, DateTime created, string userName, string country, DriverTypes driverType, string? description, int rating, DateTime created, IList<ReviewItemDTO> reviewItems)
-            : base (userName, country, driverType, description, rating, reviewItems)
+        public ReviewDetailDTO(int id, DateTime created, string userName, string country, DriverTypes driverType, IList<ReviewItemDTO> reviewItems)
+            : base (userName, country, driverType, reviewItems)
         {
             Id = id;
-            UserName = userName ?? throw new ArgumentNullException(nameof(userName));
-            Country = country ?? throw new ArgumentNullException(nameof(country));
-            DriverType = driverType;
-            Description = description;
-            Rating = rating;
-            ReviewItems = reviewItems ?? throw new ArgumentNullException(nameof(reviewItems));
+            Created = created;
         }
 
         public int Id { get; set; }

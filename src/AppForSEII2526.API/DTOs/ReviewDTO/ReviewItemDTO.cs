@@ -2,25 +2,26 @@
 {
     public class ReviewItemDTO
     {
-        public ReviewItemDTO(int carId, string manufacturer, string fuelType, string? description, int rating)
+        public ReviewItemDTO(int carId, Model model, string manufacturer, string color, int rating, string description = "")
         {
             CarId = carId;
+            Model = model;
             Manufacturer = manufacturer;
-            FuelType = fuelType;
-            Description = description;
+            Color = color;
             Rating = rating;
+            Description = description;
         }
 
         public int CarId { get; set; }
 
+        public Model Model { get; set; }
+
         public string Manufacturer { get; set; }
 
-        public string FuelType { get; set; }
-
-        public string? Description { get; set; }
+        public string Color { get; set; }
 
         public int Rating { get; set; }
 
-        
+        public string? Description { get; set; }
     }
 }
