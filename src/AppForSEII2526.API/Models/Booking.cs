@@ -22,6 +22,7 @@ public class Booking
         public ApplicationUser ApplicationUser { get; set; }
         [Required(AllowEmptyStrings = true, ErrorMessage = "Por favor, introduzca una dirección.")]
         public string ClientAddress { get; set; }
+        public double TotalPrice { get; set; }
         [Required]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
@@ -39,6 +40,7 @@ public class Booking
             ClientAddress = clientAddress;
             PaymentMethod = paymentMethod;
             Items = items;
+            TotalPrice = (double)items.Sum(ri => ri.Maintenance.Price * ri.Maintenance.NumberOfDays);
         }
 
     }

@@ -21,5 +21,11 @@
             Booking = booking;
             Maintenance = maintenance;
         }
+        public BookingItem(int bookingId, int maintenanceId, string comment)
+        {
+            BookingId = bookingId;
+            MaintenanceId = maintenanceId;
+            Comment = comment;
+        }
     }
 }
