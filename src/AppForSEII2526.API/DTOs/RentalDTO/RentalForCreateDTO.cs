@@ -12,6 +12,10 @@
           
          ------- */
 
+        public RentalForCreateDTO()
+        {
+        }
+
         public RentalForCreateDTO(string name, string? surname, string? deliveryCarDealer, IList<RentalItemDTO> rentalItems, 
             PaymentMethod paymentMethod, DateTime endDate, DateTime startDate)
         {

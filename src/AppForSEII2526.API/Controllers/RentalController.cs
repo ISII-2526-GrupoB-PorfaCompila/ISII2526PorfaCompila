@@ -42,9 +42,9 @@ namespace AppForSEII2526.API.Controllers
                                 new RentalItemDTO(
                                     ri.Car.Id,
                                     ri.Car.Manufacturer,
-                                    ri.Car.QuantityForRenting,
+                                    ri.Quantity,
                                     ri.Car.RentingPrice,
-                                    ri.Car.Model.ToString())
+                                    ri.Car.Model.Name)
                                 )
                     .ToList(),
                  r.PaymentMethod,
@@ -62,7 +62,82 @@ namespace AppForSEII2526.API.Controllers
             return Ok(rental);
         }
 
+        [HttpPost]
+        [Route("[action]")]
+        [ProducesResponseType(typeof(RentalDetailDTO), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
+        public async Task<ActionResult> CreateRental(RentalForCreateDTO rentalForCreate)
+        {
 
+            //cada validacion definida en RentalForCreate se comprueba antes de ejecutar el método, por lo que no es necesario comprobarlas de nuevo
+            if (rentalForCreate.StartDate <= DateTime.Today)
+                ModelState.AddModelError("RentalDateFrom", "Error! Your rental date must start later than today");
 
+            if (rentalForCreate.StartDate >= rentalForCreate.EndDate)
+                ModelState.AddModelError("RentalDateFrom&RentalDateTo", "Error! Your rental must end later than it starts");
+
+            if (rentalForCreate.RentalItems.Count == 0)
+                ModelState.AddModelError("RentalItems", "Error! You must include at least one car to be rented");
+
+            var user = _context.ApplicationUsers.FirstOrDefault(au => au.Name == rentalForCreate.Name);
+            if (user == null)
+                ModelState.AddModelError("RentalApplicationUser", "Error! That user is not registered");
+
+            if (ModelState.ErrorCount > 0)
+                return BadRequest(new ValidationProblemDetails(ModelState));
+
+            //esto creo que solo vale para probar si esos coches están en stock.
+            //var carNames = rentalForCreate.RentalItems.Select(ri => ri.Id).ToList();
+
+            //var cars = _context.Cars.Include(c => c.RentalItems)
+            //    .ThenInclude(ri => ri.Rental)
+            //    .Where(c => carNames.Contains(c.Id)).ToList()
+
+            //    .Select(c => new
+            //    {
+            //        c.Id,
+            //        c.QuantityForRenting,
+            //        c.RentingPrice,
+            //    })
+            //    .ToList();
+
+            Rental rental = new Rental(new List<RentalItem>(), rentalForCreate.TotalPrice, rentalForCreate.DeliveryCarDealer, 
+                new ApplicationUser(rentalForCreate.Name, rentalForCreate.Surname), rentalForCreate.EndDate, rentalForCreate.StartDate, rentalForCreate.PaymentMethod);
+
+            foreach (var item in rentalForCreate.RentalItems)
+            {
+                var car = _context.Cars.FirstOrDefault(c => c.Id == item.Id);
+                rental.RentalItems.Add(new RentalItem(car, rental, rental.Id, car.Id, item.QuantityForRenting));
+                item.RentingPrice = car.RentingPrice;
+            }
+
+            _context.Add(rental);
+
+            try
+            {
+                //we store in the database both rental and its rentalitems
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                ModelState.AddModelError("Rental", $"Error! There was an error while saving your rental, plese, try again later");
+                return Conflict("Error" + ex.Message);
+
+            }
+
+            var rentalDetail = new RentalDetailDTO(
+                 rentalForCreate.Name,
+                 rentalForCreate.Surname,
+                 user.Address,
+                 rentalForCreate.RentalItems,
+                 rentalForCreate.PaymentMethod,
+                 rentalForCreate.EndDate,
+                 rental.RentingDate,
+                 rentalForCreate.StartDate);
+
+            return CreatedAtAction("GetRental", new { id = rental.Id }, rentalDetail);
+        }
     }
 }

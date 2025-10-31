@@ -24,6 +24,12 @@ public class ApplicationUser : IdentityUser {
         Surname = surname;
         Rentals = rentals;
     }
+    //Constructor para el POST
+    public ApplicationUser(string name, string surname)
+    {
+        Name = name;
+        Surname = surname;
+    }
 
     //Constructor CU3
     public ApplicationUser(int id, string name, string surname, IList<Booking> bookings, string? clientPhoneNumber)
