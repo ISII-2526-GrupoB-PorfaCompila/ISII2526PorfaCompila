@@ -70,7 +70,7 @@ namespace AppForSEII2526.API.Controllers
                 })
                 .ToList();
 
-            Booking reserva = new Booking(user, reservaForCreate.ClientAddress, (AppForSEII2526.API.Models.PaymentMethod)reservaForCreate.PaymentMethod, new List<BookingItem>());
+            Booking reserva = new Booking(user, reservaForCreate.ClientAddress, reservaForCreate.Date, (AppForSEII2526.API.Models.PaymentMethod)reservaForCreate.PaymentMethod, new List<BookingItem>());
             reserva.TotalPrice = 0;
 
             foreach (var item in reservaForCreate.ReservaItems)

@@ -40,8 +40,16 @@ public class Booking
             ClientAddress = clientAddress;
             PaymentMethod = paymentMethod;
             Items = items;
-            TotalPrice = (double)items.Sum(ri => ri.Maintenance.Price * ri.Maintenance.NumberOfDays);
         }
 
+        public Booking(ApplicationUser applicationUser, string clientAddress, DateTime date, PaymentMethod paymentMethod, IList<BookingItem> items)
+        {
+            ApplicationUser = applicationUser;
+            ClientAddress = clientAddress;
+            Date = date;
+            PaymentMethod = paymentMethod;
+            Items = items;
+            TotalPrice = (double)items.Sum(ri => ri.Maintenance.Price * ri.Maintenance.NumberOfDays);
+        }
     }
 }
