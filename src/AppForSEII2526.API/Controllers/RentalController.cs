@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AppForSEII2526.API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class RentalController : Controller
     {
 
@@ -137,7 +139,7 @@ namespace AppForSEII2526.API.Controllers
                  rental.RentingDate,
                  rentalForCreate.StartDate);
 
-            return CreatedAtAction("GetRental", new { id = rental.Id }, rentalDetail);
+            return CreatedAtAction("GetRentalDetail", new { id = rental.Id }, rentalDetail);
         }
     }
 }
