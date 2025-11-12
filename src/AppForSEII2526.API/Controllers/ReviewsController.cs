@@ -1,4 +1,5 @@
 ﻿using AppForSEII2526.API.DTOs.ReviewDTO;
+using AppForSEII2526.API.Models;
 
 namespace AppForSEII2526.API.Controllers
 {
@@ -31,13 +32,13 @@ namespace AppForSEII2526.API.Controllers
 
             var review = await _context.Reviews
                 .Where(r => r.Id == id)
+                    .Include(r => r.ApplicationUser)
                     .Include(r => r.ReviewItems) //join table ReviewItems
-                    .ThenInclude(ri => ri.Car) //then join table Cars
-                        .ThenInclude(car => car.Manufacturer) //then join table Manufacturer
+                        .ThenInclude(ri => ri.Car) //then join table Cars
                 .Select(r => new ReviewDetailDTO(r.Id, r.Created,r.ApplicationUser.UserName,
                     r.Country, (DriverTypes)r.DriverType,
                     r.ReviewItems
-                        .Select(ri => new ReviewItemDTO(ri.Car.Id, ri.Car.Model,
+                        .Select(ri => new ReviewItemDTO(ri.Car.Id, ri.Car.Model.Name,
                                 ri.Car.Manufacturer, ri.Car.Color,
                                 ri.Rating, ri.Description)).ToList<ReviewItemDTO>()))
                 .FirstOrDefaultAsync();
@@ -53,6 +54,7 @@ namespace AppForSEII2526.API.Controllers
             return Ok(review);
         }
 
+
         [HttpPost]
         [Route("[action]")]
         [ProducesResponseType(typeof(ReviewDetailDTO), (int)HttpStatusCode.Created)]
@@ -60,58 +62,25 @@ namespace AppForSEII2526.API.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
         public async Task<ActionResult> CreateReview(ReviewForCreateDTO reviewForCreate)
         {
-            //any validation defined in ReviewForCreate is checked before running the method so they don't have to be checked again
+
+            //cada validacion definida en ReviewForCreate se comprueba antes de ejecutar el método, por lo que no es necesario comprobarlas de nuevo
             if (reviewForCreate.ReviewItems.Count == 0)
                 ModelState.AddModelError("ReviewItems", "Error! You must include at least one car to be reviewed");
 
-            // if (!_context.ApplicationUsers.Any(au=>au.UserName==reviewForCreate.CustomerUserName))
             var user = _context.ApplicationUsers.FirstOrDefault(au => au.UserName == reviewForCreate.UserName);
             if (user == null)
-                ModelState.AddModelError("ReviewApplicationUser", "Error! UserName is not registered");
+                ModelState.AddModelError("ReviewApplicationUser", "Error! That user is not registered");
 
             if (ModelState.ErrorCount > 0)
                 return BadRequest(new ValidationProblemDetails(ModelState));
 
-
-            var carIds = reviewForCreate.ReviewItems.Select(ri => ri.CarId).ToList();
-
-            var cars = _context.Cars.Include(c => c.ReviewItems)
-                .ThenInclude(ri => ri.Review)
-                .Where(c => carIds.Contains(c.Id))
-
-                //we use an anonymous type https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/anonymous-types
-                .Select(c => new {
-                    c.Id,
-                    c.Model.Name,
-                    c.FuelType,
-                    c.Manufacturer,
-                    c.Color,
-                })
-                .ToList();
-
-
-            Review review = new Review(reviewForCreate.UserName,reviewForCreate.Country,
-                reviewForCreate.Country, new List<RentalItem>());
+            Review review = new Review(new ApplicationUser(reviewForCreate.UserName), reviewForCreate.Country,
+                reviewForCreate.DriverType, new List<ReviewItem>());
 
             foreach (var item in reviewForCreate.ReviewItems)
             {
-                var car = cars.FirstOrDefault(c => c.Id == item.CarId);
-                //we must check that there is enough quantity to be rented in the database
-                if (car == null)
-                {
-                    ModelState.AddModelError("ReviewItems", $"Error! Car with id '{item.CarId}' is not available for being reviewed");
-                }
-                else
-                {
-                    // review does not exist in the database yet and does not have a valid Id, so we must relate reviewitem to the object review
-                    review.ReviewItems.Add(new ReviewItem(car.Id, review.Id, item.Description, item.Rating, car, review));
-                }
-            }
-
-            //if there is any problem because of the available quantity of movies or because the movie does not exist
-            if (ModelState.ErrorCount > 0)
-            {
-                return BadRequest(new ValidationProblemDetails(ModelState));
+                var car = _context.Cars.FirstOrDefault(c => c.Id == item.CarId);
+                review.ReviewItems.Add(new ReviewItem(review, car, item.Rating, item.Description));
             }
 
             _context.Add(review);
@@ -129,12 +98,15 @@ namespace AppForSEII2526.API.Controllers
 
             }
 
-            //it returns rentalDetail
-            var reviewDetail = new ReviewDetailDTO(review.Id, review.Created,
-                review.ApplicationUser.UserName, review.Country, review.DriverType,
+            var reviewDetail = new ReviewDetailDTO(
+                review.Id,
+                review.Created,
+                reviewForCreate.UserName,
+                reviewForCreate.Country,
+                reviewForCreate.DriverType,
                 reviewForCreate.ReviewItems);
 
-            return CreatedAtAction("GetReview", new { id = review.Id }, reviewDetail);
+            return CreatedAtAction("GetReviewDetail", new { id = review.Id }, reviewDetail);
         }
     }
 }

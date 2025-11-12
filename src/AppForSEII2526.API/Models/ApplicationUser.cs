@@ -36,12 +36,17 @@ public class ApplicationUser : IdentityUser {
     }
 
     //Constructor CU4
-    public ApplicationUser(int id, string name, string surname, IList<Review> reviews)
+    public ApplicationUser(int id, string username, IList<Review> reviews)
     {
         Id = id;
-        Name = name;
-        Surname = surname;
+        UserName = username;
         Reviews = reviews;
+    }
+
+    //Contructor para el POST
+    public ApplicationUser(string username)
+    {
+        UserName = username;
     }
 
     [Key]
