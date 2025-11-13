@@ -6,6 +6,13 @@
         public PurchaseItem()
         {
         }
+        public PurchaseItem(Purchase purchase, int carId, int quantity)
+        {
+            Purchase = purchase;
+            CarId = carId;
+            Quantity = quantity;
+        }
+
         public PurchaseItem(Purchase purchase, Car car, int quantity)
         {
             Purchase = purchase;

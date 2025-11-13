@@ -1,15 +1,16 @@
 ﻿using System.Drawing;
 
-namespace AppForSEII2526.API.DTOs
+namespace AppForSEII2526.API.DTOs.PurchaseDTOs
 {
     public class CarForPurchaseDTO
     {
-        public CarForPurchaseDTO(int id, string model, string color, string manufacturer, decimal purchasingPrice)
+        public CarForPurchaseDTO(int id, string model, string color, string manufacturer, string fuelType,decimal purchasingPrice)
         {
             Id = id;
             Model = model;
             Color = color;
             Manufacturer = manufacturer;
+            FuelType = fuelType;
             PurchasingPrice = purchasingPrice;
         }
 
@@ -18,5 +19,6 @@ namespace AppForSEII2526.API.DTOs
         public string Color { get; set; }
         public string Manufacturer { get; set; }
         public decimal PurchasingPrice { get; set; }
+        public string FuelType { get; set; }
     }
 }
