@@ -1,6 +1,7 @@
 ﻿using AppForSEII2526.API.DTOs;
 using AppForSEII2526.API.DTOs.RentalDTO;
 using AppForSEII2526.API.DTOs.ReviewDTO;
+using AppForSEII2526.API.DTOs.PurchaseDTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,7 +30,7 @@ namespace AppForSEII2526.API.Controllers
         {
             var cars = await _context.Cars.Include(Car => Car.Model)
                 .Where(c =>(c.Color.Contains(color) || (color == null)) && ((c.Model.Name.Contains(model)) || (model == null)))
-                .Select(c=>new CarForPurchaseDTO(c.Id, c.Model.Name, c.Color, c.Manufacturer, c.PurchasingPrice))
+                .Select(c=>new CarForPurchaseDTO(c.Id, c.Model.Name, c.Color, c.Manufacturer, c.FuelType,c.PurchasingPrice))
                 .ToListAsync();
             return Ok(cars);
         }
