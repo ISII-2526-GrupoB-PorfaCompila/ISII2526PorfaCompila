@@ -132,7 +132,7 @@ namespace AppForSEII2526.API.Controllers
             var rentalDetail = new RentalDetailDTO(
                  rentalForCreate.Name,
                  rentalForCreate.Surname,
-                 user.Address,
+                 rental.DeliveryCarDealer,
                  rentalForCreate.RentalItems,
                  rentalForCreate.PaymentMethod,
                  rentalForCreate.EndDate,
