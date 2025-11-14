@@ -8,7 +8,7 @@
         {
             Name = name;
             Surname = surname;
-            Address = address;
+            DeliveryCarDealer = address;
             RentalItems = rentalItems;
             PaymentMethod = paymentMethod;
             EndDate = endDate;
@@ -19,7 +19,7 @@
         [Required]
         public string Name { get; set; }
         public string? Surname { get; set; }
-        public string? Address { get; set; }
+        public string? DeliveryCarDealer { get; set; } //esto es el address
 
         public IList<RentalItemDTO> RentalItems { get; set; }
 
