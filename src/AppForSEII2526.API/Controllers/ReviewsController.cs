@@ -74,7 +74,7 @@ namespace AppForSEII2526.API.Controllers
             if (ModelState.ErrorCount > 0)
                 return BadRequest(new ValidationProblemDetails(ModelState));
 
-            Review review = new Review(new ApplicationUser(reviewForCreate.UserName), reviewForCreate.Country,
+            Review review = new Review(user, reviewForCreate.Country, DateTime.Now,
                 reviewForCreate.DriverType, new List<ReviewItem>());
 
             foreach (var item in reviewForCreate.ReviewItems)
@@ -106,7 +106,7 @@ namespace AppForSEII2526.API.Controllers
                 reviewForCreate.DriverType,
                 reviewForCreate.ReviewItems);
 
-            return CreatedAtAction("GetReviewDetail", new { id = review.Id }, reviewDetail);
+            return CreatedAtAction("GetReview", new { id = review.Id }, reviewDetail);
         }
     }
 }

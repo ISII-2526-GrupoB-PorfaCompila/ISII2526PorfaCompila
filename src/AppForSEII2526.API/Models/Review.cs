@@ -8,10 +8,11 @@ namespace AppForSEII2526.API.Models
         {
         }
 
-        public Review(ApplicationUser applicationUser, string country, DriverTypes driverType, IList<ReviewItem> reviewItems)
+        public Review(ApplicationUser applicationUser, string country, DateTime created, DriverTypes driverType, IList<ReviewItem> reviewItems)
         {
             ApplicationUser = applicationUser;
             Country = country;
+            Created = created;
             DriverType = driverType;
             ReviewItems = reviewItems;
         }
