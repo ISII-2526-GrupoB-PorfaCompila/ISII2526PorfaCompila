@@ -48,7 +48,7 @@ public class Booking
             Date = date;
             PaymentMethod = paymentMethod;
             Items = items;
-            TotalPrice = (double)Items.Sum(ri => ri.Maintenance.Price * ri.Maintenance.Price);
+            TotalPrice = (double)Items.Sum(ri => ri.Maintenance.Price * ri.Maintenance.NumberOfDays);
         }
     }
 }

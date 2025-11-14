@@ -72,6 +72,7 @@ namespace AppForSEII2526.API.Controllers
 
             Booking reserva = new Booking(user, reservaForCreate.ClientAddress, reservaForCreate.Date, (AppForSEII2526.API.Models.PaymentMethod)reservaForCreate.PaymentMethod, new List<BookingItem>());
             reserva.TotalPrice = 0;
+            reserva.ApplicationUser = user;
 
             foreach (var item in reservaForCreate.ReservaItems)
             {
@@ -82,11 +83,20 @@ namespace AppForSEII2526.API.Controllers
                 }
                 else
                 {
-                    reserva.Items.Add(new BookingItem(mantenimiento.Id, reserva.Id, item.Comentarios));
+                    reserva.Items.Add(new BookingItem(reserva.Id, mantenimiento.Id, item.Comentarios));
                     item.Price = mantenimiento.Price;
                 }
             }
-            reserva.TotalPrice = (double)reserva.Items.Sum(ri => ri.Maintenance.Price * ri.Maintenance.NumberOfDays);
+            double total = 0;
+            foreach (var ri in reserva.Items)
+            {
+                var m = mantenimientos.FirstOrDefault(mm => mm.Id == ri.MaintenanceId);
+                if (m != null)
+                {
+                    total += (double)(m.Price * m.NumberOfDays);
+                }
+            }
+            reserva.TotalPrice = total;
 
             if (ModelState.ErrorCount > 0)
             {
@@ -105,7 +115,7 @@ namespace AppForSEII2526.API.Controllers
                 return Conflict("Error" + ex.Message);
 
             }
-            var reservaDetail = new ReservaDetailDTO(reserva.Id, reserva.ApplicationUser.UserName, reserva.ClientAddress, reserva.PaymentMethod, reserva.Date, reservaForCreate.ReservaItems);
+            var reservaDetail = new ReservaDetailDTO(reserva.Id, reservaForCreate.ApplicationUser, reserva.ClientAddress, reserva.PaymentMethod, reserva.Date, reservaForCreate.ReservaItems);
 
             return CreatedAtAction("GetReserva", new { id = reserva.Id }, reservaDetail);
         }

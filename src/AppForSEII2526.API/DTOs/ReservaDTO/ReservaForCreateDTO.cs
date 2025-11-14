@@ -2,14 +2,13 @@
 {
     public class ReservaForCreateDTO
     {
-        [Required]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Por favor, introduzca un nombre de usuario.")]
         public string ApplicationUser { get; set; }
         [Required(AllowEmptyStrings = true, ErrorMessage = "Por favor, introduzca una dirección.")]
         public string ClientAddress { get; set; }
         [Required]
         public PaymentMethod PaymentMethod { get; set; }
         [Required]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
         public IList<ReservaItemDTO> ReservaItems { get; set; }
         [Display(Name = "Total Price")]
@@ -23,16 +22,25 @@
         }
         public ReservaForCreateDTO(string applicationUser, string clientAddress, PaymentMethod paymentMethod, DateTime date, IList<ReservaItemDTO> reservaItems)
         {
-            ApplicationUser = applicationUser; throw new ArgumentNullException(nameof(applicationUser));
-            ClientAddress = clientAddress; throw new ArgumentNullException(nameof(clientAddress));
+            if (applicationUser is null) throw new ArgumentNullException(nameof(applicationUser));
+            if (clientAddress is null) throw new ArgumentNullException(nameof(clientAddress));
+            if (reservaItems is null) throw new ArgumentNullException(nameof(reservaItems));
+
+            ApplicationUser = applicationUser;
+            ClientAddress = clientAddress;
             PaymentMethod = paymentMethod;
             Date = date;
-            ReservaItems = reservaItems; throw new ArgumentNullException(nameof(reservaItems));
+            ReservaItems = reservaItems;
         }
         public ReservaForCreateDTO(IList<ReservaItemDTO> reservaItems)
         {
             ReservaItems = reservaItems;
         }
+        public ReservaForCreateDTO()
+        {
+
+        }
+
         public override bool Equals(object? obj)
         {
             return obj is ReservaForCreateDTO dTO &&

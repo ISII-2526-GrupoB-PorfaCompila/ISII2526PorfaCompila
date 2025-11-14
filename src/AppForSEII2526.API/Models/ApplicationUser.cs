@@ -47,9 +47,8 @@ public class ApplicationUser : IdentityUser {
     [Key]
     public int Id { get; set; }
 
-    [Required]
     [Display(Name = "Name")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [Display(Name = "Surname")]
     public string? Surname { get; set; }
