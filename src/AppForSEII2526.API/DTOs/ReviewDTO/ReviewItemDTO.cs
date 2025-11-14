@@ -2,7 +2,7 @@
 {
     public class ReviewItemDTO
     {
-        public ReviewItemDTO(int carId, Model model, string manufacturer, string color, int rating, string description = "")
+        public ReviewItemDTO(int carId, string model, string manufacturer, string color, int rating, string description = "")
         {
             CarId = carId;
             Model = model;
@@ -14,7 +14,7 @@
 
         public int CarId { get; set; }
 
-        public Model Model { get; set; }
+        public string Model { get; set; }
 
         public string Manufacturer { get; set; }
 
