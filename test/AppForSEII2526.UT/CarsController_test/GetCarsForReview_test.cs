@@ -28,11 +28,8 @@ namespace AppForSEII2526.UT.CarsController_test
                 new Car(models[2], "Seat", "SEAT", "Diesel", "Azul")
             };
 
-            ApplicationUser user = new ApplicationUser("mperez");
-
             _context.AddRange(models);
             _context.AddRange(cars);
-            _context.Add(user);
             _context.SaveChanges();
         }
 
