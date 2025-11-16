@@ -16,7 +16,7 @@ public class ApplicationUser : IdentityUser {
         Purchases = purchases;
     }
 
-    //Constructor CU2
+    //Constructor CU2 // Alquilar coches
     public ApplicationUser(int id, string name, string surname, IList<Rental> rentals)
     {
         Id = id;

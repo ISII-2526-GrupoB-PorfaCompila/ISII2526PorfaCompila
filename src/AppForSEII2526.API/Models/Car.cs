@@ -64,6 +64,22 @@ namespace AppForSEII2526.API.Models
             RentalItems = rentalItems;
         }
 
+        // este es para los tests
+        public Car(int id, Model model, string color, string manufacturer, string fuelType, double rentingPrice)
+        {
+            Id = id;
+            Model = model;
+            Color = color;
+            Manufacturer = manufacturer;
+            FuelType = fuelType;
+            RentingPrice = rentingPrice;
+            CarClass = "vacío";
+            PurchasingPrice = 0;
+            Description = "vacío";
+            EngDispacement = "vacío";
+
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -85,7 +101,7 @@ namespace AppForSEII2526.API.Models
         [Required]
         public string FuelType { get; set; }
 
-        public MaintenanceType MaintenanceTypes { get; set; }
+        public MaintenanceType? MaintenanceTypes { get; set; }
 
         [Required]
         public string Manufacturer { get; set; }
@@ -117,7 +133,6 @@ namespace AppForSEII2526.API.Models
         public IList<ReviewItem> ReviewItems { get; set; }
 
         // relación con PurchaseItem
-        [Required]
         public IList<PurchaseItem> PurchaseItems { get; set; }
     }
 }

@@ -3,7 +3,13 @@
     public class Model
     {
         public Model() { }
-        
+
+        public Model(string name) //para poder crear modelos sin id 
+        {
+            Name = name;
+            Cars = new List<Car>();
+        }
+
         public Model(int id, string name, IList<Car> cars)
         {
             Id = id;
