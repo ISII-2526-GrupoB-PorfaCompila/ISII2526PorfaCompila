@@ -18,5 +18,21 @@ namespace AppForSEII2526.API.DTOs.ReviewDTO
         [Display(Name = "Created Date")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Created { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is ReviewDetailDTO dTO &&
+                   UserName == dTO.UserName &&
+                   Country == dTO.Country &&
+                   DriverType == dTO.DriverType &&
+                   ReviewItems.SequenceEqual(dTO.ReviewItems) &&
+                   Id == dTO.Id &&
+                   Created == dTO.Created;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(UserName, Country, DriverType, ReviewItems, Id, Created);
+        }
     }
 }

@@ -64,6 +64,18 @@ namespace AppForSEII2526.API.Models
             RentalItems = rentalItems;
         }
 
+        //Constructor para pruebas CU4
+        public Car(Model model, string carClass, string manufacturer, string fuelType, string color)
+        {
+            Model = model;
+            CarClass = carClass;
+            Manufacturer = manufacturer;
+            FuelType = fuelType;
+            Color = color;
+            Description = "Vacio";
+            EngDispacement = "Vacio";
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -85,7 +97,7 @@ namespace AppForSEII2526.API.Models
         [Required]
         public string FuelType { get; set; }
 
-        public MaintenanceType MaintenanceTypes { get; set; }
+        public MaintenanceType? MaintenanceTypes { get; set; }
 
         [Required]
         public string Manufacturer { get; set; }

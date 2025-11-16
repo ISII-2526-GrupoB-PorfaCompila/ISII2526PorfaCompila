@@ -7,16 +7,6 @@
         {
         }
 
-        /*public ReviewItem(int carId, int rating, Review review)
-        {
-            CarId = carId;
-            Rating = rating;
-            Review = review;
-        }
-
-        public ReviewItem(int carId, int rating, Review review, string? description) : this(carId, rating, review) => Description = description;
-        */
-
         public ReviewItem(Review review, Car car, int rating, string? description)
         {
             Car = car;

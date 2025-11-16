@@ -1,4 +1,5 @@
-﻿namespace AppForSEII2526.API.DTOs.ReviewDTO
+﻿
+namespace AppForSEII2526.API.DTOs.ReviewDTO
 {
     public class CarForReviewDTO
     {
@@ -18,5 +19,21 @@
         public string Manufacturer { get; set; }
         public string FuelType { get; set; }
         public string Color { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is CarForReviewDTO dTO &&
+                   Id == dTO.Id &&
+                   Model == dTO.Model &&
+                   CarClass == dTO.CarClass &&
+                   Manufacturer == dTO.Manufacturer &&
+                   FuelType == dTO.FuelType &&
+                   Color == dTO.Color;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Model, CarClass, Manufacturer, FuelType, Color);
+        }
     }
 }
