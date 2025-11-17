@@ -23,5 +23,16 @@
         public string Manufacturer { get; set; }
         public string FuelType { get; set; }
         public double RentingPrice { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is CarForRentalDTO dTO &&
+                   Id == dTO.Id &&
+                   Model == dTO.Model &&
+                   Color == dTO.Color &&
+                   Manufacturer == dTO.Manufacturer &&
+                   FuelType == dTO.FuelType &&
+                   RentingPrice == dTO.RentingPrice;
+        }
     }
 }
