@@ -16,13 +16,19 @@ public class ApplicationUser : IdentityUser {
         Purchases = purchases;
     }
 
-    //Constructor CU2
+    //Constructor CU2 // Alquilar coches
     public ApplicationUser(int id, string name, string surname, IList<Rental> rentals)
     {
         Id = id;
         Name = name;
         Surname = surname;
         Rentals = rentals;
+    }
+    //Constructor para el POST
+    public ApplicationUser(string name, string surname)
+    {
+        Name = name;
+        Surname = surname;
     }
 
     //Constructor CU3
