@@ -62,7 +62,7 @@ namespace AppForSEII2526.UT.CarsController_test
         [MemberData(nameof(TestCasesFor_GetCarsForRental_OK))]
         [Trait("Database", "WithoutFixture")]
         [Trait("LevelTesting", "Unit Testing")]
-        public async Task GetMoviesForRental_OK_test(double? rentingPrice, string? model, IList<CarForRentalDTO> expectedCars) //esto es esto { null, null, movieDTOsTC1 }
+        public async Task GetCarsForRental_OK_test(double? rentingPrice, string? model, IList<CarForRentalDTO> expectedCars) //esto es esto { null, null, movieDTOsTC1 }
         {
             // Arrange
             var controller = new CarsController(_context, null);
