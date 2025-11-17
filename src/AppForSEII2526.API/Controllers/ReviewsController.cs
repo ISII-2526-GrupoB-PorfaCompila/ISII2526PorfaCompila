@@ -10,9 +10,9 @@ namespace AppForSEII2526.API.Controllers
         //used to enable your controller to access to the database
         private readonly ApplicationDbContext _context;
         //used to log any information when your system is running
-        private readonly ILogger<CarsController> _logger;
+        private readonly ILogger<ReviewsController> _logger;
 
-        public ReviewsController(ApplicationDbContext context, ILogger<CarsController> logger)
+        public ReviewsController(ApplicationDbContext context, ILogger<ReviewsController> logger)
         {
             _context = context;
             _logger = logger;
