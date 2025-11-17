@@ -32,8 +32,8 @@ namespace AppForSEII2526.UT.RentalController_test
 
             var user = new ApplicationUser("Angel", "Barcelo");
 
-            var rental = new Rental(new List<RentalItem>(), 0, "Albacete", user, new DateTime(2025,12,19), 
-                new DateTime(2025,11,19), PaymentMethod.Metalico);
+            var rental = new Rental(new List<RentalItem>(), 0, "Albacete", user, DateTime.Today.AddDays(4), 
+                DateTime.Today.AddDays(2), PaymentMethod.Metalico);
 
             rental.RentalItems.Add(new RentalItem(cars[0], rental, 2));
 
@@ -75,8 +75,8 @@ namespace AppForSEII2526.UT.RentalController_test
             var controller = new RentalController(_context, logger);
 
 
-            var expectedRental = new RentalDetailDTO("Angel", "Barcelo", "Albacete", new List<RentalItemDTO>(), PaymentMethod.Metalico, 
-                new DateTime(2025,12,19), DateTime.Today, new DateTime(2025,11,19));
+            var expectedRental = new RentalDetailDTO("Angel", "Barcelo", "Albacete", new List<RentalItemDTO>(), PaymentMethod.Metalico,
+                DateTime.Today.AddDays(4), DateTime.Today, DateTime.Today.AddDays(2));
             expectedRental.RentalItems.Add(new RentalItemDTO(1, "Audi", 2, 49.99, "Audi"));
 
             // Act 
