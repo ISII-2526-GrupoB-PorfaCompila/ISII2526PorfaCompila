@@ -43,6 +43,11 @@ public class ApplicationUser : IdentityUser {
         Surname = surname;
         Reviews = reviews;
     }
+    //Contructor para el POST
+    public ApplicationUser(string username)
+    {
+        UserName = username;
+    }
 
     [Key]
     public int Id { get; set; }
