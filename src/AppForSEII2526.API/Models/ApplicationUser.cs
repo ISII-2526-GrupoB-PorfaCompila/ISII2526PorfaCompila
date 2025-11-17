@@ -3,9 +3,10 @@
 namespace AppForSEII2526.API.Models;
 
 // Add profile data for application users by adding properties to the ApplicationUser class
-public class ApplicationUser : IdentityUser {
-    public ApplicationUser() 
-    { 
+public class ApplicationUser : IdentityUser
+{
+    public ApplicationUser()
+    {
     }
     //Constructor CU1
     public ApplicationUser(int id, string name, string surname, IList<Purchase> purchases)
@@ -48,7 +49,7 @@ public class ApplicationUser : IdentityUser {
         UserName = username;
         Reviews = reviews;
     }
-    
+
     //Contructor para el POST
     public ApplicationUser(string username)
     {
@@ -68,13 +69,13 @@ public class ApplicationUser : IdentityUser {
 
     [Required]
     public IList<Purchase> Purchases { get; set; }
-    
+
     [Required]
     public IList<Rental> Rentals { get; set; }
-    
+
     [Required]
     public IList<Booking> Bookings { get; set; }
-    
+
     [Required]
     public IList<Review> Reviews { get; set; }
 }
