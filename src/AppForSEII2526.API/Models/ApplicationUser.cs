@@ -65,13 +65,10 @@ public class ApplicationUser : IdentityUser {
     public string? ClientPhoneNumber { get; set; }
     [Required]
     public IList<Purchase> Purchases { get; set; }
-
     [Required]
     public IList<Rental> Rentals { get; set; }
-
     [Required]
     public IList<Booking> Bookings { get; set; }
-
     [Required]
     public IList<Review> Reviews { get; set; }
 }
