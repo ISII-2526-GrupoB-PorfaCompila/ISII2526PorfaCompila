@@ -48,6 +48,11 @@ namespace AppForSEII2526.API.Controllers
                         pi.Car.PurchasingPrice)).ToList()
                 )).FirstOrDefaultAsync();
 
+            if (purchase == null)
+            {
+                return NotFound();
+            }
+
             return Ok(purchase);
         }
 

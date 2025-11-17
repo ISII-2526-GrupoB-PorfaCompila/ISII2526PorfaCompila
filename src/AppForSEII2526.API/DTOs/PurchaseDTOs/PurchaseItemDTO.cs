@@ -36,5 +36,16 @@ namespace AppForSEII2526.API.DTOs.PurchaseDTOs
         [Required]
         public int QuantityForPurchase { get; set; }
         public string Description { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is PurchaseItemDTO dTO &&
+                   CarId == dTO.CarId &&
+                   Model == dTO.Model &&
+                   Color == dTO.Color &&
+                   PriceForPurchase == dTO.PriceForPurchase &&
+                   QuantityForPurchase == dTO.QuantityForPurchase &&
+                   Description == dTO.Description;
+        }
     }
 }
