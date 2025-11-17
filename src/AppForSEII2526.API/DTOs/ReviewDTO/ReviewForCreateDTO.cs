@@ -1,4 +1,5 @@
-﻿namespace AppForSEII2526.API.DTOs.ReviewDTO
+﻿
+namespace AppForSEII2526.API.DTOs.ReviewDTO
 {
     public class ReviewForCreateDTO
     {
@@ -20,5 +21,19 @@
         public DriverTypes DriverType { get; set; }
 
         public IList<ReviewItemDTO> ReviewItems { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is ReviewForCreateDTO dTO &&
+                   UserName == dTO.UserName &&
+                   Country == dTO.Country &&
+                   DriverType == dTO.DriverType &&
+                   ReviewItems.SequenceEqual(dTO.ReviewItems);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(UserName, Country, DriverType, ReviewItems);
+        }
     }
 }

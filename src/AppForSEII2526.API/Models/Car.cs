@@ -43,6 +43,16 @@ namespace AppForSEII2526.API.Models
             RimSize = rimSize;
             ReviewItems = reviewItems;
         }
+        public Car(Model model, string carClass, string manufacturer, string fuelType, string color) //Constructor para pruebas CU4
+        {
+            Model = model;
+            CarClass = carClass;
+            Manufacturer = manufacturer;
+            FuelType = fuelType;
+            Color = color;
+            Description = "Vacio";
+            EngDispacement = "Vacio";
+        }
 
         //Constructor Para CU2-Alquilar coches
         public Car(int id, Model model, string carClass, string color, string description, string engDispacement, string fuelType, MaintenanceType maintenanceTypes, string manufacturer, decimal purchasingPrice, int quantityForPurchasing, int quantityForRenting, double rentingPrice, int rimSize, IList<RentalItem> rentalItems)
@@ -63,9 +73,7 @@ namespace AppForSEII2526.API.Models
             RimSize = rimSize;
             RentalItems = rentalItems;
         }
-
-        // este es para los tests
-        public Car(int id, Model model, string color, string manufacturer, string fuelType, double rentingPrice)
+        public Car(int id, Model model, string color, string manufacturer, string fuelType, double rentingPrice) // este es para los tests
         {
             Id = id;
             Model = model;

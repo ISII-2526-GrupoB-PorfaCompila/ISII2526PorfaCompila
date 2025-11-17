@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppForSEII2526.UT.CarController_tests
+namespace AppForSEII2526.UT.CarsController_test
 {
     public class GetCarForRental_test : AppForSEII25264SqliteUT
     {
