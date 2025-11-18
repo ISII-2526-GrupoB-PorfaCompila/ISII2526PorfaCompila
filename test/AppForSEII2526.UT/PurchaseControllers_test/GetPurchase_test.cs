@@ -1,5 +1,7 @@
 ﻿using AppForSEII2526.API.Controllers;
 using AppForSEII2526.API.DTOs.PurchaseDTOs;
+using AppForSEII2526.API.DTOs.RentalDTO;
+using AppForSEII2526.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,80 +14,53 @@ namespace AppForSEII2526.UT.PurchaseControllers_test
     {
         public GetPurchase_test()
         {
-            // --- Datos de prueba ---
-
-            // Modelo
-            var model = new Model(1, "Model S", new List<Car>());
-
-            // Coche (CU1 - comprar coches)
-            var purchaseItemsForCar = new List<PurchaseItem>() { };
-            var car = new Car(
-                id: 1,
-                model: model,
-                carClass: "Sedan",
-                color: "Red",
-                description: "Electric car",
-                manufacturer: "Tesla",
-                purchaseItems: purchaseItemsForCar,
-                purchasingPrice: 30000m,
-                quantityForPurchasing: 5,
-                new EngDispacement = "N/A"
-            );
-
-            // Usuario
-            var purchasesForUser = new List<Purchase>();
-            var user = new ApplicationUser(
-                id: 1,
-                name: "Juan",
-                surname: "Pérez",
-                purchases: purchasesForUser
-            );
-
-            // Compra
-            var purchasingDate = new DateTime(2024, 1, 1);
-            var purchase = new Purchase()
+            var models = new List<Model>()
             {
-                Id = 1,
-                DeliveryCarDealer = "Concesionario Centro",
-                PurchasingDate = purchasingDate,
-                ApplicationUser = user,
-                PurchaseItems = new List<PurchaseItem>(),
-                PaymentMethod = PaymentMethod.TarjetaDeCredito,
-                PurchasingPrice = 30000m
+                new Model("FIAT"),
+                new Model("KIA"),
+                new Model("SEAT")
+            };
+            var cars = new List<Car>()
+            {
+                new Car(1, models[0], "Coche normal", "Rojo", "FIAT rojo gasolina","FIAT", new List<PurchaseItem>(), 15000, 5, "Gasolina"),
+                new Car(2, models[1], "Coche eléctrico", "Blanco", "KIA blanco electrico","KIA", new List<PurchaseItem>(), 40000, 9, "Eléctrico"),
+                new Car(3, models[2], "Coche híbrido", "Azul", "SEAT azul híbrido","SEAT", new List<PurchaseItem>(), 30000, 7, "Gasoil")
             };
 
-            // Item de compra
-            var purchaseItem = new PurchaseItem(purchase, car, quantity: 1);
+            var user = new ApplicationUser("María", "Pérez");
 
-            // Relacionamos todo
-            purchase.PurchaseItems.Add(purchaseItem);
-            purchaseItemsForCar.Add(purchaseItem);
-            purchasesForUser.Add(purchase);
+            var purchasingDate = new DateTime(2024, 2, 20);
 
-            // Persistimos en la BD en memoria
-            _context.Models.Add(model);
-            _context.Cars.Add(car);
-            _context.ApplicationUsers.Add(user);
-            _context.Purchases.Add(purchase);
-            _context.Add(purchaseItem); 
+            var purchase = new Purchase(1,"Madrid", purchasingDate, user, new List<PurchaseItem>(), PaymentMethod.TarjetaDeCredito);
+
+            purchase.PurchaseItems.Add(new PurchaseItem(purchase, cars[0], 1));
+            purchase.PurchaseItems.Add(new PurchaseItem(purchase, cars[2], 2));
+
+            purchase.PurchasingPrice = decimal.Round(purchase.PurchaseItems.Sum(pi => pi.Car.PurchasingPrice * pi.Quantity), 2);
+
+            _context.AddRange(models);
+            _context.AddRange(cars);
+            _context.Add(user);
+            _context.Add(purchase);
             _context.SaveChanges();
         }
 
         [Fact]
-        [Trait("Database", "WithoutFixture")]
         [Trait("LevelTesting", "Unit Testing")]
+        [Trait("Database", "WithoutFixture")]
         public async Task GetPurchase_NotFound_test()
         {
             // Arrange
-            var mock = new Mock<ILogger<CarsController>>();
-            ILogger<CarsController> logger = mock.Object;
+            var mock = new Mock<ILogger<PurchaseController>>();
+            ILogger<PurchaseController> logger = mock.Object;
 
             var controller = new PurchaseController(_context, logger);
 
             // Act
-            var result = await controller.GetPurchase(0); // id que no existe
+            var result = await controller.GetPurchase(0);
 
-            // Assert
+            //Assert
+            //we check that the response type is OK and obtain the list of cars
             Assert.IsType<NotFoundResult>(result);
         }
 
@@ -95,44 +70,34 @@ namespace AppForSEII2526.UT.PurchaseControllers_test
         public async Task GetPurchase_Found_test()
         {
             // Arrange
-            var mock = new Mock<ILogger<CarsController>>();
-            ILogger<CarsController> logger = mock.Object;
+            var mock = new Mock<ILogger<PurchaseController>>();
+            ILogger<PurchaseController> logger = mock.Object;
             var controller = new PurchaseController(_context, logger);
 
-            var purchasingDate = new DateTime(2024, 1, 1);
-           
             var expectedPurchase = new PurchaseDetailDTO(
-                id: 1,
-                purchasingDate: purchasingDate,
-                name: "Juan",
-                surname: "Pérez",
-                deliveryCarDealer: "Concesionario Centro",
-                purchasePrice: 30000m,
-                purchaseItems: new List<PurchaseItemDTO>()
+                1,                 
+                new DateTime(2024, 2, 20),    
+                "María",          
+                "Pérez",          
+                "Madrid",         
+                75000m,                
+                new List<PurchaseItemDTO>()
             );
 
-            // ¡Cuidado! El controlador usa:
-            // QuantityForPurchase = pi.Car.QuantityForPurchasing
-            // PriceForPurchase    = pi.Car.PurchasingPrice
-            expectedPurchase.PurchaseItems.Add(
-                new PurchaseItemDTO(
-                    carId: 1,
-                    model: "Model S",
-                    color: "Red",
-                    quantityForPurchase: 5,   // QuantityForPurchasing del coche
-                    priceForPurchase: 30000m  // PurchasingPrice del coche
-                )
-            );
+            expectedPurchase.PurchaseItems.Add(new PurchaseItemDTO(1, "FIAT", "Rojo", 5, 15000m));
+            expectedPurchase.PurchaseItems.Add(new PurchaseItemDTO(3, "SEAT", "Azul", 7, 30000m));
 
-            // Act
+            // Act 
             var result = await controller.GetPurchase(1);
 
-            // Assert
+            //Assert
+            //we check that the response type is OK and obtain the rental
             var okResult = Assert.IsType<OkObjectResult>(result);
             var purchaseDTOActual = Assert.IsType<PurchaseDetailDTO>(okResult.Value);
-
-            // Comprobamos que el DTO devuelto es el esperado (usa Equals sobreescrito)
+            var eq = expectedPurchase.Equals(purchaseDTOActual);
+            //we check that the expected and actual are the same
             Assert.Equal(expectedPurchase, purchaseDTOActual);
+
         }
-    }
+    } 
 }

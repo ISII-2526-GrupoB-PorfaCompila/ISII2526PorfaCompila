@@ -9,7 +9,8 @@ namespace AppForSEII2526.API.Models
         }
 
         //Constructor para CU1-Comprar coches
-        public Car(int id, Model model, string carClass, string color, string description, string manufacturer, IList<PurchaseItem> purchaseItems, decimal purchasingPrice, int quantityForPurchasing)
+        public Car(int id, Model model, string carClass, string color, string description, string manufacturer, 
+                   IList<PurchaseItem> purchaseItems, decimal purchasingPrice, int quantityForPurchasing, string fuelType)
         {
             Id = id;
             Model = model;
@@ -20,6 +21,8 @@ namespace AppForSEII2526.API.Models
             PurchaseItems = purchaseItems;
             PurchasingPrice = purchasingPrice;
             QuantityForPurchasing = quantityForPurchasing;
+            FuelType = fuelType;
+            EngDispacement = "Vacio";
         }
 
         //Constructor Para CU4-Reseñar coches

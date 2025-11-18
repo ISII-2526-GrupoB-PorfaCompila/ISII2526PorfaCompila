@@ -10,8 +10,8 @@ namespace AppForSEII2526.API.Controllers
     public class PurchaseController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly ILogger<CarsController> _logger;
-        public PurchaseController(ApplicationDbContext context, ILogger<CarsController> logger)
+        private readonly ILogger<PurchaseController> _logger;
+        public PurchaseController(ApplicationDbContext context, ILogger<PurchaseController> logger)
         {
             _context = context;
             _logger = logger;
