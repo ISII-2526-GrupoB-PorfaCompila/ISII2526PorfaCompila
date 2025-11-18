@@ -23,5 +23,18 @@ namespace AppForSEII2526.API.DTOs.PurchaseDTOs
         public string DeliveryCarDealer { get; set; }
         public decimal PurchasePrice { get; set; }
         public IList<PurchaseItemDTO> PurchaseItems { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is PurchaseDetailDTO dTO &&
+                   Id == dTO.Id &&
+                   PurchasingDate == dTO.PurchasingDate &&
+                   Name == dTO.Name &&
+                   Surname == dTO.Surname &&
+                   DeliveryCarDealer == dTO.DeliveryCarDealer &&
+                   PurchasePrice == dTO.PurchasePrice &&
+                   PurchaseItems.SequenceEqual(dTO.PurchaseItems);
+                   //EqualityComparer<IList<PurchaseItemDTO>>.Default.Equals(PurchaseItems, dTO.PurchaseItems);
+        }
     }
 }
