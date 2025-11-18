@@ -19,5 +19,9 @@ public class MaintenanceType
         Type = type;
         Maintenance = maintenance;
     }
-}
+    public MaintenanceType(string type)
+    {
+        Type = type;
+    }
+    }
 }
