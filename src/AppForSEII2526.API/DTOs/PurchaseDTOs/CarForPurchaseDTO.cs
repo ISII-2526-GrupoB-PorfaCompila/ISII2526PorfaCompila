@@ -20,5 +20,16 @@ namespace AppForSEII2526.API.DTOs.PurchaseDTOs
         public string Manufacturer { get; set; }
         public decimal PurchasingPrice { get; set; }
         public string FuelType { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is CarForPurchaseDTO dTO &&
+                   Id == dTO.Id &&
+                   Model == dTO.Model &&
+                   Color == dTO.Color &&
+                   Manufacturer == dTO.Manufacturer &&
+                   PurchasingPrice == dTO.PurchasingPrice &&
+                   FuelType == dTO.FuelType;
+        }
     }
 }
