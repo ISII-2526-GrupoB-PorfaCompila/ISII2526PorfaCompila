@@ -1,4 +1,5 @@
-﻿namespace AppForSEII2526.API.DTOs.RentalDTO
+﻿
+namespace AppForSEII2526.API.DTOs.RentalDTO
 {
     /*Cada instancia de RentalItemDTO representa un coche. Ergo la IList de RentalDetailDTO es una
      lista de coches (con los atributos que nos interesan de cada uno.*/
@@ -35,5 +36,19 @@
         [Required]
         public string Model { get; set; }
 
+        public override bool Equals(object? obj)
+        {
+            return obj is RentalItemDTO dTO &&
+                   Id == dTO.Id &&
+                   Manufacturer == dTO.Manufacturer &&
+                   QuantityForRenting == dTO.QuantityForRenting &&
+                   RentingPrice == dTO.RentingPrice &&
+                   Model == dTO.Model;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Manufacturer, QuantityForRenting, RentingPrice, Model);
+        }
     }
 }

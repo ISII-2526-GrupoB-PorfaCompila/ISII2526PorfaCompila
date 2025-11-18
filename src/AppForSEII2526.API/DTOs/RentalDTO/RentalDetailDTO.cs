@@ -1,4 +1,7 @@
-﻿namespace AppForSEII2526.API.DTOs.RentalDTO
+﻿
+using Humanizer;
+
+namespace AppForSEII2526.API.DTOs.RentalDTO
 {
     public class RentalDetailDTO
     {
@@ -46,6 +49,11 @@
             }
         }
 
+        protected bool CompareDate(DateTime date1, DateTime date2)
+        {
+            return (date1.Subtract(date2) < new TimeSpan(0, 1, 0));
+        }
+
         [Display(Name = "Total Price")]
         [JsonPropertyName("TotalPrice")]
         public double TotalPrice
@@ -54,6 +62,22 @@
             {
                 return RentalItems.Sum(ri => ri.RentingPrice * NumberOfDays);
             }
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is RentalDetailDTO dTO &&
+                   Name == dTO.Name &&
+                   Surname == dTO.Surname &&
+                   DeliveryCarDealer == dTO.DeliveryCarDealer &&
+                   RentalItems.SequenceEqual(dTO.RentalItems) &&
+                   PaymentMethod == dTO.PaymentMethod &&
+                   CompareDate(EndDate, dTO.EndDate) &&
+                   CompareDate(RentingDate, dTO.RentingDate) &&
+                   CompareDate(StartDate, dTO.StartDate) &&
+                   NumberOfDays == dTO.NumberOfDays &&
+                   TotalPrice == dTO.TotalPrice;
+
         }
 
     }

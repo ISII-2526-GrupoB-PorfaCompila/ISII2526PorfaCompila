@@ -16,6 +16,12 @@
             CarId = carId;
             Quantity = quantity;
         }
+        public RentalItem(Car car, Rental rental, int quantity)
+        {
+            Car = car;
+            Rental = rental;
+            Quantity = quantity;
+        }
 
         // relaciones
         public Car Car { get; set; }
