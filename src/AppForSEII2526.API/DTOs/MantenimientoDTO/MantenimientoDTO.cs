@@ -1,4 +1,5 @@
-﻿namespace AppForSEII2526.API.DTOs.MantenimientosDTO
+﻿
+namespace AppForSEII2526.API.DTOs.MantenimientosDTO
 {
     public class MantenimientoDTO
     {
@@ -11,16 +12,31 @@
         [DataType(System.ComponentModel.DataAnnotations.DataType.Currency)]
         [Range(1, 500, ErrorMessage = "El precio debe estar entre 1 y 500 euros.")]
         [Display(Name = "Precio")]
-        public decimal Precio { get; set; }
+        public double Precio { get; set; }
         [Required]
         public int NumeroDias { get; set; }
-        public MantenimientoDTO(int id, string nombre, string tipo, decimal precio, int numeroDias)
+        public MantenimientoDTO(int id, string nombre, string tipo, double precio, int numeroDias)
         {
             Id = id;
             Nombre = nombre;
             Tipo = tipo;
             Precio = precio;
             NumeroDias = numeroDias;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is MantenimientoDTO dTO &&
+                   Id == dTO.Id &&
+                   Nombre == dTO.Nombre &&
+                   Tipo == dTO.Tipo &&
+                   Precio == dTO.Precio &&
+                   NumeroDias == dTO.NumeroDias;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Nombre, Tipo, Precio, NumeroDias);
         }
     }
 }
