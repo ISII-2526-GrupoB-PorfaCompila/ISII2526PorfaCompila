@@ -89,7 +89,7 @@ namespace AppForSEII2526.API.Controllers
             if (ModelState.ErrorCount > 0)
                 return BadRequest(new ValidationProblemDetails(ModelState));
 
-            //esto creo que solo vale para probar si esos coches están en stock.
+            //esto creo que solo vale para probar si esos coches están en stock, pero no sale en mi caso de uso...
             //var carNames = rentalForCreate.RentalItems.Select(ri => ri.Id).ToList();
 
             //var cars = _context.Cars.Include(c => c.RentalItems)
