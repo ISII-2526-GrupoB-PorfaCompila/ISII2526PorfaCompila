@@ -74,7 +74,7 @@ namespace AppForSEII2526.API.Controllers
             if (ModelState.ErrorCount > 0)
                 return BadRequest(new ValidationProblemDetails(ModelState));
 
-            Review review = new Review(user, reviewForCreate.Country, DateTime.Now,
+            Review review = new Review(user, reviewForCreate.Country, DateTime.Today,
                 reviewForCreate.DriverType, new List<ReviewItem>());
 
             foreach (var item in reviewForCreate.ReviewItems)
