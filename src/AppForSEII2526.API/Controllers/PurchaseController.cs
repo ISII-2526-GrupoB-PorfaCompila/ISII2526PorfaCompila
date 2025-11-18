@@ -89,7 +89,7 @@ namespace AppForSEII2526.API.Controllers
                     c.PurchasingPrice,
                 }).ToListAsync();
 
-            Purchase purchase = new Purchase( purchaseForCreate.DeliveryCarDealer, DateTime.Now, user,
+            Purchase purchase = new Purchase( purchaseForCreate.DeliveryCarDealer, DateTime.Today, user,
                         new List<PurchaseItem>(), purchaseForCreate.PaymentMethod);
 
             purchase.PurchasingPrice = 0;
