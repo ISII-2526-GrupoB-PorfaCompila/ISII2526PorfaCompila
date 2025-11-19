@@ -30,9 +30,10 @@ namespace AppForSEII2526.API.Controllers
             }
             var reserva = await _context.Bookings
                 .Where(r => r.Id == id)
+                    .Include(r => r.ApplicationUser)
                     .Include(r => r.Items)
                         .ThenInclude(ri => ri.Maintenance)
-                .Select(r => new ReservaDetailDTO(r.Id, r.ApplicationUser.UserName, r.ClientAddress,       
+                .Select(r => new ReservaDetailDTO(r.Id, r.ApplicationUser.Name, r.ClientAddress,       
                     (PaymentMethod)r.PaymentMethod,r.Date, r.Items.Select(ri => new ReservaItemDTO(ri.Maintenance.Id,
                     ri.Maintenance.Name, ri.Maintenance.Price, ri.Maintenance.NumberOfDays, ri.Comment)).ToList<ReservaItemDTO>())).FirstOrDefaultAsync();
             if (reserva == null)

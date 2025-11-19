@@ -36,6 +36,7 @@
         {
             ReservaItems = reservaItems;
         }
+
         public ReservaForCreateDTO()
         {
 
@@ -47,7 +48,7 @@
                    ApplicationUser == dTO.ApplicationUser &&
                    ClientAddress == dTO.ClientAddress &&
                    PaymentMethod == dTO.PaymentMethod &&
-                   Date == dTO.Date &&
+                   Date.Equals(dTO.Date) &&
                    ReservaItems.SequenceEqual(dTO.ReservaItems) &&
                    TotalPrice == dTO.TotalPrice;
         }
