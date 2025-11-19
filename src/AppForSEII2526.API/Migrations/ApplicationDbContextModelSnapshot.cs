@@ -228,8 +228,8 @@ namespace AppForSEII2526.API.Migrations
                     b.Property<int>("NumberOfDays")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
