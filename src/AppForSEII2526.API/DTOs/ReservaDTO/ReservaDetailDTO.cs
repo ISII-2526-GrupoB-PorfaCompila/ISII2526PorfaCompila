@@ -12,9 +12,9 @@
         public override bool Equals(object? obj)
         {
             return obj is ReservaDetailDTO dTO &&
-                   base.Equals(obj) && 
-                   TotalPrice == dTO.TotalPrice &&
-                   Id == dTO.Id;
+                Id == dTO.Id &&
+                base.Equals(obj) &&
+                TotalPrice == dTO.TotalPrice;
         }
 
         public override int GetHashCode()
