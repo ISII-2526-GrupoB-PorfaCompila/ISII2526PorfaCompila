@@ -9,7 +9,8 @@ namespace AppForSEII2526.API.Models
         }
 
         //Constructor para CU1-Comprar coches
-        public Car(int id, Model model, string carClass, string color, string description, string manufacturer, IList<PurchaseItem> purchaseItems, decimal purchasingPrice, int quantityForPurchasing)
+        public Car(int id, Model model, string carClass, string color, string description, string manufacturer, 
+                   IList<PurchaseItem> purchaseItems, decimal purchasingPrice, int quantityForPurchasing, string fuelType)
         {
             Id = id;
             Model = model;
@@ -20,6 +21,8 @@ namespace AppForSEII2526.API.Models
             PurchaseItems = purchaseItems;
             PurchasingPrice = purchasingPrice;
             QuantityForPurchasing = quantityForPurchasing;
+            FuelType = fuelType;
+            EngDispacement = "Vacio";
         }
 
         //Constructor Para CU4-Reseñar coches
@@ -43,6 +46,16 @@ namespace AppForSEII2526.API.Models
             RimSize = rimSize;
             ReviewItems = reviewItems;
         }
+        public Car(Model model, string carClass, string manufacturer, string fuelType, string color) //Constructor para pruebas CU4
+        {
+            Model = model;
+            CarClass = carClass;
+            Manufacturer = manufacturer;
+            FuelType = fuelType;
+            Color = color;
+            Description = "Vacio";
+            EngDispacement = "Vacio";
+        }
 
         //Constructor Para CU2-Alquilar coches
         public Car(int id, Model model, string carClass, string color, string description, string engDispacement, string fuelType, MaintenanceType maintenanceTypes, string manufacturer, decimal purchasingPrice, int quantityForPurchasing, int quantityForRenting, double rentingPrice, int rimSize, IList<RentalItem> rentalItems)
@@ -62,6 +75,20 @@ namespace AppForSEII2526.API.Models
             RentingPrice = rentingPrice;
             RimSize = rimSize;
             RentalItems = rentalItems;
+        }
+        public Car(int id, Model model, string color, string manufacturer, string fuelType, double rentingPrice) // este es para los tests
+        {
+            Id = id;
+            Model = model;
+            Color = color;
+            Manufacturer = manufacturer;
+            FuelType = fuelType;
+            RentingPrice = rentingPrice;
+            CarClass = "vacío";
+            PurchasingPrice = 0;
+            Description = "vacío";
+            EngDispacement = "vacío";
+
         }
 
         [Key]
@@ -85,7 +112,7 @@ namespace AppForSEII2526.API.Models
         [Required]
         public string FuelType { get; set; }
 
-        public MaintenanceType MaintenanceTypes { get; set; }
+        public MaintenanceType? MaintenanceTypes { get; set; }
 
         [Required]
         public string Manufacturer { get; set; }

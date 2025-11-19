@@ -4,6 +4,7 @@ using AppForSEII2526.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppForSEII2526.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251119174056_CreateIdentitySchema")]
+    partial class CreateIdentitySchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,7 +54,6 @@ namespace AppForSEII2526.API.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
@@ -142,8 +144,6 @@ namespace AppForSEII2526.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("BookingId", "MaintenanceId");
-
-                    b.HasKey("BookingId", "MantId");
 
                     b.HasIndex("MaintenanceId");
 
@@ -320,10 +320,6 @@ namespace AppForSEII2526.API.Migrations
 
                     b.Property<int>("CarId")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");

@@ -3,6 +3,11 @@
     public class Model
     {
         public Model() { }
+
+        public Model(string name)
+        {
+            Name = name;
+        }
         
         public Model(int id, string name, IList<Car> cars)
         {

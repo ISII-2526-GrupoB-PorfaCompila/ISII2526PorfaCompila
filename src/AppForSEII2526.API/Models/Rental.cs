@@ -21,6 +21,19 @@ namespace AppForSEII2526.API.Models
             RentalItems = rentalItems;
         }
 
+        //Constructor para el POST
+        public Rental(IList<RentalItem> rentalItems, double totalPrice, string deliveryCarDealer, ApplicationUser applicationUser, DateTime endDate, DateTime startDate, PaymentMethod paymentMethod)
+        {
+            TotalPrice = totalPrice;
+            DeliveryCarDealer = deliveryCarDealer;
+            ApplicationUser = applicationUser;
+            EndDate = endDate;
+            RentingDate = DateTime.Today;
+            StartDate = startDate;
+            PaymentMethod = paymentMethod;
+            RentalItems = rentalItems;
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -34,7 +47,7 @@ namespace AppForSEII2526.API.Models
         public string DeliveryCarDealer { get; set; }
 
         [Required]
-        ApplicationUser ApplicationUser { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
         [Required]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]

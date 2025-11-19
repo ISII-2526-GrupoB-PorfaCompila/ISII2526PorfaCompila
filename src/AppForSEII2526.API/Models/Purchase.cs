@@ -7,12 +7,14 @@
             PurchaseItems = new List<PurchaseItem>();
         }
 
-        //public Purchase(int purchaseId, string name, string surname, string deliveryCarDealer, DateTime purchasingDate, ApplicationUser applicationUser, IList<PurchaseItem> purchaseItems, PaymentMethod paymentMethod)
-        //    : this(0,name, surname, deliveryCarDealer, purchasingDate, 0, applicationUser, purchaseItems, paymentMethod)
-        //{            
-        //}
+        public Purchase(int purchaseId, string deliveryCarDealer, DateTime purchasingDate, ApplicationUser applicationUser,
+                    IList<PurchaseItem> purchaseItems, PaymentMethod paymentMethod)
+        :this(deliveryCarDealer, purchasingDate, applicationUser, purchaseItems, paymentMethod)
+        {
+            Id = purchaseId;
+        }
 
-        public Purchase(int purchaseId, string deliveryCarDealer, DateTime purchasingDate, decimal purchasingPrice, ApplicationUser applicationUser,IList<PurchaseItem> purchaseItems, PaymentMethod paymentMethod)
+        public Purchase(string deliveryCarDealer, DateTime purchasingDate, ApplicationUser applicationUser,IList<PurchaseItem> purchaseItems, PaymentMethod paymentMethod)
         {
             PurchasingPrice = decimal.Round(purchaseItems.Sum(pi => pi.Car.PurchasingPrice * pi.Quantity),2);
 
