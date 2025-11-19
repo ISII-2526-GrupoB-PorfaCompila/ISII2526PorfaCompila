@@ -63,7 +63,7 @@ namespace AppForSEII2526.UT.ReservasController_test
             ILogger<ReservasController> logger = mock.Object;
             var controller = new ReservasController(_context, logger);
             var expectedReserva = new ReservaDetailDTO(1, "Fernando", "Alcazar", PaymentMethod.TarjetaDeCredito, new DateTime(2026, 2, 20), new List<ReservaItemDTO>());
-            expectedReserva.ReservaItems.Add(new ReservaItemDTO(2, "Mant1", 70, 4, "Nada"));
+            expectedReserva.ReservaItems.Add(new ReservaItemDTO(1, "Mant1", 70, 6, "nada"));
 
             // Act 
             var result = await controller.GetReserva(1);
@@ -73,11 +73,7 @@ namespace AppForSEII2526.UT.ReservasController_test
             var okResult = Assert.IsType<OkObjectResult>(result);
             var reservaDTOActual = Assert.IsType<ReservaDetailDTO>(okResult.Value);
             //we check that the expected and actual are the same
-            Assert.Equal(expectedReserva.ApplicationUser, reservaDTOActual.ApplicationUser);
-            Assert.Equal(expectedReserva.ClientAddress, reservaDTOActual.ClientAddress);
-            Assert.Equal(expectedReserva.PaymentMethod, reservaDTOActual.PaymentMethod);
-            Assert.Equal(expectedReserva.Date, reservaDTOActual.Date);
-            Assert.Equal(expectedReserva.ReservaItems.Count, reservaDTOActual.ReservaItems.Count);
+            Assert.Equal(expectedReserva.ReservaItems, reservaDTOActual.ReservaItems);;
         }
     }
 }
