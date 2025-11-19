@@ -30,6 +30,7 @@ namespace AppForSEII2526.API.Controllers
             }
             var reserva = await _context.Bookings
                 .Where(r => r.Id == id)
+                    .Include(r => r.ApplicationUser)
                     .Include(r => r.Items)
                         .ThenInclude(ri => ri.Maintenance)
                 .Select(r => new ReservaDetailDTO(r.Id, r.ApplicationUser.Name, r.ClientAddress,       
