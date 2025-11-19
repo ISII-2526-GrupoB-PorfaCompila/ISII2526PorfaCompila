@@ -32,7 +32,7 @@ namespace AppForSEII2526.API.Controllers
                 .Where(r => r.Id == id)
                     .Include(r => r.Items)
                         .ThenInclude(ri => ri.Maintenance)
-                .Select(r => new ReservaDetailDTO(r.Id, r.ApplicationUser.UserName, r.ClientAddress,       
+                .Select(r => new ReservaDetailDTO(r.Id, r.ApplicationUser.Name, r.ClientAddress,       
                     (PaymentMethod)r.PaymentMethod,r.Date, r.Items.Select(ri => new ReservaItemDTO(ri.Maintenance.Id,
                     ri.Maintenance.Name, ri.Maintenance.Price, ri.Maintenance.NumberOfDays, ri.Comment)).ToList<ReservaItemDTO>())).FirstOrDefaultAsync();
             if (reserva == null)
@@ -53,7 +53,7 @@ namespace AppForSEII2526.API.Controllers
                 ModelState.AddModelError("Fecha inicio del mantenimiento", "Error! La fecha del mantenimiento no puede ser anterior a hoy.");
             if (reservaForCreate.ReservaItems.Count == 0)
                 ModelState.AddModelError("ReservaItems", "Error! Necesitas seleccionar al menos 1 mantenimiento para la reserva.");
-            var user = _context.ApplicationUsers.FirstOrDefault(au => au.UserName == reservaForCreate.ApplicationUser);
+            var user = _context.ApplicationUsers.FirstOrDefault(au => au.Name == reservaForCreate.ApplicationUser);
             if (user == null)
                 ModelState.AddModelError("ReservaApplicationUser", "Error! El nombre de usuario no está registrado.");
             if (ModelState.ErrorCount > 0)
@@ -73,7 +73,7 @@ namespace AppForSEII2526.API.Controllers
 
             Booking reserva = new Booking(user, reservaForCreate.ClientAddress, reservaForCreate.Date, (AppForSEII2526.API.Models.PaymentMethod)reservaForCreate.PaymentMethod, new List<BookingItem>());
             reserva.TotalPrice = 0;
-            reserva.ApplicationUser = user;
+            reserva.ApplicationUser.Name = user.Name;
 
             foreach (var item in reservaForCreate.ReservaItems)
             {
@@ -118,7 +118,7 @@ namespace AppForSEII2526.API.Controllers
             }
             var reservaDetail = new ReservaDetailDTO(reserva.Id, reservaForCreate.ApplicationUser, reserva.ClientAddress, reserva.PaymentMethod, reserva.Date, reservaForCreate.ReservaItems);
 
-            return CreatedAtAction("GetReserva", new { id = reserva.Id }, reservaDetail);
+            return CreatedAtAction("CreateReserva", new { id = reserva.Id }, reservaDetail);
         }
     }
 }
