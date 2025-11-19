@@ -73,7 +73,7 @@ namespace AppForSEII2526.UT.ReservasController_test
             var okResult = Assert.IsType<OkObjectResult>(result);
             var reservaDTOActual = Assert.IsType<ReservaDetailDTO>(okResult.Value);
             //we check that the expected and actual are the same
-            Assert.Equal(expectedReserva.ReservaItems, reservaDTOActual.ReservaItems);;
+            Assert.Equal(expectedReserva, reservaDTOActual);;
         }
     }
 }
