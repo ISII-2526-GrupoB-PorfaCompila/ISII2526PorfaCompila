@@ -82,6 +82,10 @@ namespace AppForSEII2526.API.Controllers
             if (rentalForCreate.RentalItems.Count == 0)
                 ModelState.AddModelError("RentalItems", "Error! You must include at least one car to be rented");
 
+            //Comprobación del examen.
+            if (!rentalForCreate.DeliveryCarDealer.Contains("Calle")) 
+                ModelState.AddModelError("RentalCalle", "¡Error! La dirección de envío tiene que empezar por la palabra Calle");
+
             var user = _context.ApplicationUsers.FirstOrDefault(au => au.Name == rentalForCreate.Name);
             if (user == null)
                 ModelState.AddModelError("RentalApplicationUser", "Error! That user is not registered");

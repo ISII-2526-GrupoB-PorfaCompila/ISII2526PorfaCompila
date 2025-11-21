@@ -9,7 +9,7 @@ namespace AppForSEII2526.UT.CarsController_test
 
         private const string _userName = "Angel";
         private const string _userSurname = "Barcelo";
-        private const string _delivery = "Concesionario1";
+        private const string _delivery = "Calle Mayor";
         private const PaymentMethod _payment = PaymentMethod.GooglePay;
         private const string _manufacturer = "FabricaCoches";
 
@@ -64,6 +64,9 @@ namespace AppForSEII2526.UT.CarsController_test
             var RentalApplicationUser = new RentalForCreateDTO("usuario inventado", _userSurname, _delivery, rentalItems, _payment,
                 DateTime.Today.AddDays(4), DateTime.Today.AddDays(2));
 
+            //Caso de prueba para el examen.
+            var rentalCalle = new RentalForCreateDTO(_userName, _userSurname, "Esta dir está mal", rentalItems, _payment,
+                DateTime.Today.AddDays(4), DateTime.Today.AddDays(1));
 
             var allTests = new List<object[]>
             {             //input for createpurchase - Error expected
@@ -71,6 +74,7 @@ namespace AppForSEII2526.UT.CarsController_test
                 new object[] { rentalFromBeforeToday, "Error! Your rental date must start later than today" },
                 new object[] { rentalToBeforeFrom, "Error! Your rental must end later than it starts" },
                 new object[] { RentalApplicationUser, "Error! That user is not registered" },
+                new object[] { rentalCalle, "¡Error! La dirección de envío tiene que empezar por la palabra Calle" } //Caso de prueba del examen.
             };
 
             return allTests;
