@@ -101,6 +101,10 @@ namespace AppForSEII2526.API.Controllers
                     ModelState.AddModelError("CarId", $"Error! The car with Id {item.CarId} does not exist.");
                 }
                 purchase.PurchaseItems.Add(new PurchaseItem(purchase, car.Id, item.QuantityForPurchase));
+                if (car.Description == "." && item.QuantityForPurchase == 2) 
+                {
+                    ModelState.AddModelError("CarId", $"¡Error! Estás comprando demasiados coches sin descripción.");
+                }
                 purchase.PurchasingPrice += car.PurchasingPrice * item.QuantityForPurchase;
             }
 

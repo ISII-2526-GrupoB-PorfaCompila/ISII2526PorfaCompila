@@ -34,7 +34,8 @@ namespace AppForSEII2526.UT.PurchaseControllers_test
 
             var cars = new List<Car>(){
                 new Car(1, models[0], _carClass1,_color1,"FIAT rojo?", _manufacturer, new List<PurchaseItem>(), 15000, 9, "Gasolina" ),
-                new Car(2, models[1], _carClass2,_color2, "KIA blanco?", _manufacturer, new List<PurchaseItem>(), 20000, 8, "Eléctrico" )
+                new Car(2, models[1], _carClass2,_color2, "KIA blanco?", _manufacturer, new List<PurchaseItem>(), 20000, 8, "Eléctrico" ),
+                new Car(3, models[1], _carClass2,_color2, ".", _manufacturer, new List<PurchaseItem>(), 20000, 8, "Eléctrico" )
             };
 
             var user = new ApplicationUser(_name, _surname);
@@ -69,11 +70,24 @@ namespace AppForSEII2526.UT.PurchaseControllers_test
                         QuantityForPurchase = 1
                     }
                 });
-
+            // 3) Examen POST
+            var purchaseNoDescripcion = new PurchaseForCreateDTO(
+                "Fulgencio",
+                _surname,
+                _deliveryCarDealer,
+                _paymentMethod,
+                new List<PurchaseItemDTO>(){
+                    new PurchaseItemDTO
+                    {
+                        CarId = 3,
+                        QuantityForPurchase = 2
+                    }
+                });
             var allTests = new List<object[]>
             {
                 new object[] { purchaseNoItem, "Error! You must include at least one car to be purchased" },
-                new object[] { purchaseUserNotRegistered, "Error! UserName is not registered" }
+                new object[] { purchaseUserNotRegistered, "Error! UserName is not registered" },
+                new object[] { purchaseNoDescripcion, "¡Error! Estás comprando demasiados coches sin descripción" }
             };
             return allTests;
         }
