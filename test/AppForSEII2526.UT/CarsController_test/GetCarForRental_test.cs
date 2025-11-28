@@ -68,7 +68,7 @@ namespace AppForSEII2526.UT.CarsController_test
             var controller = new CarsController(_context, null);
 
             // Act
-            var result = await controller.GetCars_ForRental(rentingPrice, model);
+            var result = await controller.GetCarsForRental(rentingPrice, model);
 
             //Assert
             //we check that the response type is OK 
