@@ -26,7 +26,7 @@ namespace AppForSEII2526.API.Controllers
         [HttpGet]
         [Route("[action]")]
         [ProducesResponseType(typeof(IList<CarForPurchaseDTO>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetCars_ForPurchase(string? color, string? model)
+        public async Task<IActionResult> GetCarsForPurchase(string? color, string? model)
         {
             var cars = await _context.Cars.Include(Car => Car.Model)
                 .Where(c =>(c.Color.Contains(color) || (color == null)) && ((c.Model.Name.Contains(model)) || (model == null)))
@@ -39,7 +39,7 @@ namespace AppForSEII2526.API.Controllers
         [HttpGet]
         [Route("[action]")]
         [ProducesResponseType(typeof(IList<CarForRentalDTO>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetCars_ForRental(double? rentingPrice, string? model)
+        public async Task<IActionResult> GetCarsForRental(double? rentingPrice, string? model)
         {
             var cars = await _context.Cars.Include(Car => Car.Model)
                 .Where(c => (c.RentingPrice <= rentingPrice || (rentingPrice == null)) && ((c.Model.Name.Contains(model)) || (model == null)))
@@ -52,7 +52,7 @@ namespace AppForSEII2526.API.Controllers
         [HttpGet]
         [Route("[action]")]
         [ProducesResponseType(typeof(IList<CarForReviewDTO>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetCars_ForReview(string? manufacturer, string? fuelType)
+        public async Task<IActionResult> GetCarsForReview(string? manufacturer, string? fuelType)
         {
             var cars = await _context.Cars.Include(Car => Car.Model)
                 .Where(c => (c.Manufacturer.Contains(manufacturer) || (manufacturer == null)) && ((c.FuelType.Contains(fuelType)) || (fuelType == null)))
