@@ -2,7 +2,7 @@
 
 namespace AppForSEII2526.Web
 {
-    public class RenviewStateContainer
+    public class ReviewStateContainer
     {
 
         //we create an instance of Review when an instance of ReviewStateContainer is created

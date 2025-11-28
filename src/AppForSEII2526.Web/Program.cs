@@ -48,6 +48,8 @@ builder.Services.AddScoped<AppForSEII2526APIClient>(sp => new AppForSEII2526APIC
 
 builder.Services.AddScoped<ReservaStateContainer>();
 
+builder.Services.AddScoped<ReviewStateContainer>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
