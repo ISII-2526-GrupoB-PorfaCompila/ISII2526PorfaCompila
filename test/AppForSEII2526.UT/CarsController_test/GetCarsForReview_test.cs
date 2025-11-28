@@ -71,7 +71,7 @@ namespace AppForSEII2526.UT.CarsController_test
             var controller = new CarsController(_context, null);
 
             // Act
-            var result = await controller.GetCars_ForReview(filterManufacturer, filterFuelType);
+            var result = await controller.GetCarsForReview(filterManufacturer, filterFuelType);
 
             //Assert
             //we check that the response type is OK 
