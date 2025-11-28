@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "AppForMovies.API",
+    "title": "AppForSEII2526.API",
     "description": "This API provides services for renting and purchasing movies",
     "contact": {
       "name": "Software Engineering II Team",
@@ -14,12 +14,12 @@
     "version": "v1"
   },
   "paths": {
-    "/api/Cars/GetCars_ForPurchase": {
+    "/api/Cars/GetCarsForPurchase": {
       "get": {
         "tags": [
           "Cars"
         ],
-        "operationId": "GetCars_ForPurchase",
+        "operationId": "GetCarsForPurchase",
         "parameters": [
           {
             "name": "color",
@@ -69,12 +69,12 @@
         }
       }
     },
-    "/api/Cars/GetCars_ForRental": {
+    "/api/Cars/GetCarsForRental": {
       "get": {
         "tags": [
           "Cars"
         ],
-        "operationId": "GetCars_ForRental",
+        "operationId": "GetCarsForRental",
         "parameters": [
           {
             "name": "rentingPrice",
@@ -125,12 +125,12 @@
         }
       }
     },
-    "/api/Cars/GetCars_ForReview": {
+    "/api/Cars/GetCarsForReview": {
       "get": {
         "tags": [
           "Cars"
         ],
-        "operationId": "GetCars_ForReview",
+        "operationId": "GetCarsForReview",
         "parameters": [
           {
             "name": "manufacturer",
