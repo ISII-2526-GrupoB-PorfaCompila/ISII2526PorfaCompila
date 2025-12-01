@@ -34,7 +34,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col">
+                @* <div class="col">
                     <div class="input-group mb-3">
                         <span class="input-group-text">From</span>
                         <InputDate @bind-Value="@From" id="fromDate" />
@@ -44,9 +44,9 @@
                     <span class="input-group-text">To</span>
                     <InputDate id="toDate" @bind-Value="@To" />
 
-                </div>
+                </div> *@
                 <div class="col">
-                    <button type="button" class="btn btn-primary" @onclick=@SearchCars id="searchMovies">Search movies</button>
+                    <button type="button" class="btn btn-primary" @onclick=@SearchCars id="searchMovies">Search cars</button>
                 </div>
 
             </div>
@@ -88,7 +88,7 @@
             </div>
             @foreach (RentalItemDTO item in rental.RentalItems) {
                 <div class="row">
-                    <button type="button" class="btn btn-light" id="removeMovie_@item.Model" @onclick="@(() => RemoveRentalItem(item))">x @item.Model - @item.RentingPrice€</button>
+                    <button type="button" class="btn btn-light" id="removeMovie_@item.Model" @onclick="@(() => RemoveRentalItem(item))">x @item.Model - @item.RentingPrice €</button>
                 </div>
             }
             <div class="row">
