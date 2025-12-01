@@ -50,6 +50,8 @@ builder.Services.AddScoped<ReservaStateContainer>();
 
 builder.Services.AddScoped<ReviewStateContainer>();
 
+builder.Services.AddScoped<RentalStateContainer>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
