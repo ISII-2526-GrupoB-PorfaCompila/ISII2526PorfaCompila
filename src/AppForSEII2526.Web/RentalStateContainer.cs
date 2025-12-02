@@ -36,8 +36,10 @@ namespace AppForSEII2526.Web
                 Rental.RentalItems.Add(new RentalItemDTO()
                 {
                     Id = car.Id,
+                    QuantityForRenting = 1,
                     Model = car.Model,
-                    Manufacturer = car.Manufacturer
+                    Manufacturer = car.Manufacturer,
+                    RentingPrice = car.RentingPrice
                 }
             );
 

@@ -11,16 +11,19 @@
 
 <h3>Select Cars For Rental</h3>
 <div class="container-fluid">
+    <!-- ventana flotante para mostrar que hay errores -->
     <div class="row alert alert-danger" role="alert" hidden="@hideErrors">
         <p id="ErrorsShown">Errors: @errors</p>
     </div>
+
+    <!-- html para mostrar filtros y fecha -->
     <div class="row">
         <div class="col-8">
             <div class="row">
                 <div class="col">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">RentingPrice</span>
-                        <input type="text" id="inputTitle" @bind=carRentingPrice class="form-control" placeholder="RentingPrice" aria-label="RentingPrice" aria-describedby="basic-addon1">
+                        <input type="text" id="inputPrice" @bind=carRentingPrice class="form-control" placeholder="RentingPrice" aria-label="RentingPrice" aria-describedby="basic-addon1">
                     </div>
                 </div>
                 <div class="col">
@@ -34,7 +37,7 @@
                         </select>
                     </div>
                 </div>
-                @* <div class="col">
+                <div class="col">
                     <div class="input-group mb-3">
                         <span class="input-group-text">From</span>
                         <InputDate @bind-Value="@From" id="fromDate" />
@@ -44,55 +47,66 @@
                     <span class="input-group-text">To</span>
                     <InputDate id="toDate" @bind-Value="@To" />
 
-                </div> *@
+                </div>
                 <div class="col">
-                    <button type="button" class="btn btn-primary" @onclick=@SearchCars id="searchMovies">Search cars</button>
+                    <button type="button" class="btn btn-primary" @onclick=@SearchCars id="searchCars">Search cars</button>
                 </div>
 
+            <!-- tabla de coches -->
             </div>
             <div class="row">
                 @if (cars == null) {
-                    <p>Loading movies....</p>
+                    <p>Loading cars....</p>
                 }
                 else
                 {
                     <div class="mh-100 table-responsive">
-                        <table class="table table-condensed table-hover" id="TableOfMovies">
+                        <table class="table table-condensed table-hover" id="TableOfCars">
                             <thead>
                                 <tr>
                                     <th>Model</th>
                                     <th>RentingPrice</th>
+                                    <th>Color</th>
+                                    <th>FuelType</th>
+                                    <th>Manufacturer</th>
                                     <th>Rent</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var car in cars) {
-                                    <tr id="MovieData_@car.Id">
+                                    <tr id="CarData_@car.Id">
                                         <td>@car.Model</td>
                                         <td>@car.RentingPrice</td>
+                                        <td>@car.Color</td>
+                                        <td>@car.FuelType</td>
+                                        <td>@car.Manufacturer</td>
                                         <td>
                                             <button class="btn btn-outline-secondary" id="carToRent_@car.Model" @onclick="@(() => AddCar(car))">Add</button>
                                         </td>
                                     </tr>
                                 }
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
                     </div>
-                
                 }
             </div>
         </div>
+
+        <!-- Carrito de la compra -->
         <div class="col-2" hidden="@hideRentingCart">
             <div class="row">
                 <h3>Shopping Cart</h3>
             </div>
             @foreach (RentalItemDTO item in rental.RentalItems) {
                 <div class="row">
-                    <button type="button" class="btn btn-light" id="removeMovie_@item.Model" @onclick="@(() => RemoveRentalItem(item))">x @item.Model - @item.RentingPrice €</button>
+                    <button type="button" class="btn btn-light" id="removeCar_@item.Model" @onclick="@(() => RemoveRentalItem(item))">@item.Model - @item.RentingPrice €</button>
                 </div>
             }
             <div class="row">
                 <button type="button" class="btn btn-primary" id="purchaseCarButton" @onclick=@RentCars>Rent Cars</button>
+            </div>
+            <div class="row">
+                <p class="btn btn-light">Precio final @rentalState.TotalPrice</p>
             </div>
         </div>
         
@@ -114,7 +128,7 @@
         get { return _from; }
         set {
             if (_from != value) {
-                //the rentingcart is cleared to ensure that only movies available for the selected period are selected
+                //the rentingcart is cleared to ensure that only cars available for the selected period are selected
                 _from = value;
                 rental.StartDate = DateTime.SpecifyKind(_from, DateTimeKind.Utc);
                 rentalState.ClearRentingCart();
@@ -122,13 +136,12 @@
             }
         }
     }
-
     private DateTime _to;
     private DateTime To {
         get { return _to; }
         set {
             if (_to != value) {
-                //the rentingcart is cleared to ensure that only movies available for the selected period are selected
+                //the rentingcart is cleared to ensure that only cars available for the selected period are selected
                 _to = value;
                 rental.EndDate = DateTime.SpecifyKind(_to, DateTimeKind.Utc);
                 rentalState.ClearRentingCart();
