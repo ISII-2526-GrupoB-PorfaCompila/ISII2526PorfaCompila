@@ -51,7 +51,7 @@ namespace AppForSEII2526.UT.ReviewsController_test
         {
             var reviewNoItem = new ReviewForCreateDTO(_username, _country, DriverTypes.Novato, new List<ReviewItemDTO>());
 
-            var reviewItems = new List<ReviewItemDTO>() { new ReviewItemDTO(2, _model1, "FIAT", "Rojo", 4, "Excelente") };
+            var reviewItems = new List<ReviewItemDTO>() { new ReviewItemDTO(2, _model1, _model1, "Rojo", "Gasolina", 4, "Excelente") };
 
             var RentalApplicationUser = new ReviewForCreateDTO("angel", _country, DriverTypes.Novato, reviewItems);
 
@@ -103,10 +103,10 @@ namespace AppForSEII2526.UT.ReviewsController_test
             var controller = new ReviewsController(_context, logger);
 
             var reviewDTO = new ReviewForCreateDTO(_username, _country, DriverTypes.Novato, 
-                new List<ReviewItemDTO>() { new ReviewItemDTO(1, _model1, "FIAT", "Rojo", 4, "Excelente")});
+                new List<ReviewItemDTO>() { new ReviewItemDTO(1, _model1, _model1, "Rojo", "Gasolina", 4, "Excelente")});
 
             var expectedreviewDetailDTO = new ReviewDetailDTO(2, DateTime.Today, _username, _country, DriverTypes.Novato,
-                new List<ReviewItemDTO>() { new ReviewItemDTO(1, _model1, "FIAT", "Rojo", 4, "Excelente") });
+                new List<ReviewItemDTO>() { new ReviewItemDTO(1, _model1, _model1, "Rojo", "Gasolina", 4, "Excelente") });
 
             // Act
             var result = await controller.CreateReview(reviewDTO);
