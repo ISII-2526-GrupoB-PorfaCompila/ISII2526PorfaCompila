@@ -1,0 +1,163 @@
+﻿﻿@page "/Purchase/SelectCarsForPurchase"
+
+@using Microsoft.AspNetCore.Authorization
+@using AppForSEII2526.Web.API
+@inject AppForSEII2526APIClient apiclient
+@inject ILogger<SelectCarsForPurchase> logger
+@inject PurchaseStateContainer purchaseState
+@inject NavigationManager navigation
+
+@attribute [Authorize]
+<h3>Select Movies For Rental</h3>
+<div class="container-fluid">
+    <div class="row alert alert-danger" role="alert" hidden="@hideErrors">
+        <p id="ErrorsShown">Errors: @errors</p>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="row">
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Title</span>
+                        <input type="text" id="inputTitle" @bind=movieTitle class="form-control" placeholder="Title" aria-label="Title" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Genre</span>
+                        <select class="form-select" aria-label="Default select" @bind="movieGenreSelected" id="selectGenre">
+                            <option value="All" selected>All</option>
+                            @foreach (string genreName in genresNames) {
+                                <option value="@genreName" id="genreNameSelected_@genreName">@genreName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">From</span>
+                        <InputDate @bind-Value="@From" id="fromDate" />
+                    </div>
+                </div>
+                <div class="col">
+                    <span class="input-group-text">To</span>
+                    <InputDate id="toDate" @bind-Value="@To" />
+
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-primary" @onclick=@SearchMovies id="searchMovies">Search movies</button>
+                </div>
+
+            </div>
+            <div class="row">
+                @if (movies == null) {
+                    <p>Loading movies....</p>
+                }
+                else
+                {
+                    <div class="mh-100 table-responsive">
+                        <table class="table table-condensed table-hover" id="TableOfMovies">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Genre</th>
+                                    <th>Release Date</th>
+                                    <th>Price For Renting</th>
+                                    <th>Rent</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var movie in movies) {
+                                    <tr id="MovieData_@movie.Title">
+                                        <td>@movie.Title</td>
+                                        <td>@movie.Genre</td>
+                                        <td>@movie.ReleaseDate.DateTime.ToShortDateString()</td>
+                                        <td>@movie.PriceForRenting</td>
+                                        <td>
+                                            <button class="btn btn-outline-secondary" id="movieToRent_@movie.Title" @onclick="@(() => AddMovie(movie))">Add</button>
+                                        </td>
+                                    </tr>
+                                }
+                        </tbody>
+                    </table>
+                    </div>
+                
+                }
+            </div>
+        </div>
+        <div class="col-2" hidden="@hideRentingCart">
+            <div class="row">
+                <h3>Shopping Cart</h3>
+            </div>
+            @foreach (RentalItemDTO item in rental.RentalItems) {
+                <div class="row">
+                    <button type="button" class="btn btn-light" id="removeMovie_@item.Title" @onclick="@(() => RemoveRentalItem(item))">x @item.Title - @item.PriceForRenting€</button>
+                </div>
+            }
+            <div class="row">
+                <button type="button" class="btn btn-primary" id="purchaseMovieButton" @onclick=@RentMovies>Rent movies</button>
+            </div>
+        </div>
+        
+    </div>
+
+</div>
+
+@code {
+    private string carModelSelected;
+    private ICollection<string>? modelNames = new List<string>();
+    private bool hidePurchasingCart { get { return purchase.PurchaseItems.Count == 0; } }
+    private ICollection<CarForPurchaseDTO> cars;
+    private bool hideErrors { get { return errors.Length == 0; } }
+    private string errors = "";
+    private string color { get; set; }
+    private string model { get; set; }
+
+    private PurchaseForCreateDTO purchase => purchaseState.Purchase;
+
+    private bool hiddenPurchasingCart = true;
+
+    private void AddCar(CarForPurchaseDTO car) {
+        purchaseState.AddPurchaseItem(car);
+    }
+
+    private void RemovePurchaseItem(PurchaseItemDTO item) {
+        purchaseState.RemovePurchaseItem(item);
+        if (purchase.PurchaseItems.Count == 0) hiddenPurchasingCart = true;
+    }
+
+    public async void SearchCars() {
+
+        model = carModelSelected == "All" ? null : carModelSelected;
+
+        try {
+            cars = await apiclient.GetCarsForPurchaseAsync(color, model);
+            errors = "";
+
+        }
+        catch (ApiException ex) {
+            errors = "Error while connecting to the system";
+        }
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync() {
+
+        try {
+            modelNames = await apiclient.GetModelsAsync(null);
+        }
+        catch (ApiException ex) {
+            if (modelNames == null) modelNames = new List<string>() { "All", };
+            logger.LogError("Error! There was an error while connecting to the GetGenresAsync service");
+        };
+
+        SearchCars();
+
+       // return base.OnInitializedAsync();
+    }
+
+    private void PurchaseCars() {
+        navigation.NavigateTo("/purchases/createpurchase");
+    }
+
+}
