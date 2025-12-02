@@ -1,4 +1,4 @@
-﻿﻿@page "/Purchase/SelectCarsForPurchase"
+﻿@page "/purchase/selectcarforpurchase"
 
 @using Microsoft.AspNetCore.Authorization
 @using AppForSEII2526.Web.API
@@ -8,7 +8,7 @@
 @inject NavigationManager navigation
 
 @attribute [Authorize]
-<h3>Select Movies For Rental</h3>
+<h3>Select Cars For Purchase</h3>
 <div class="container-fluid">
     <div class="row alert alert-danger" role="alert" hidden="@hideErrors">
         <p id="ErrorsShown">Errors: @errors</p>
@@ -18,63 +18,54 @@
             <div class="row">
                 <div class="col">
                     <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">Title</span>
-                        <input type="text" id="inputTitle" @bind=movieTitle class="form-control" placeholder="Title" aria-label="Title" aria-describedby="basic-addon1">
+                        <span class="input-group-text" id="basic-addon1">Color</span>
+                        <input type="text" id="inputColor" @bind=color class="form-control" placeholder="Color" aria-label="Color" aria-describedby="basic-addon1">
                     </div>
                 </div>
                 <div class="col">
                     <div class="input-group mb-3">
-                        <span class="input-group-text" id="basic-addon1">Genre</span>
-                        <select class="form-select" aria-label="Default select" @bind="movieGenreSelected" id="selectGenre">
+                        <span class="input-group-text" id="basic-addon1">Model</span>
+                        <select class="form-select" aria-label="Default select" @bind="carModelSelected" id="selectModel">
                             <option value="All" selected>All</option>
-                            @foreach (string genreName in genresNames) {
-                                <option value="@genreName" id="genreNameSelected_@genreName">@genreName</option>
+                            @foreach (string modelName in modelNames) {
+                                <option value="@modelName" id="carModelSelected_@modelName">@modelName</option>
                             }
                         </select>
                     </div>
                 </div>
                 <div class="col">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">From</span>
-                        <InputDate @bind-Value="@From" id="fromDate" />
-                    </div>
-                </div>
-                <div class="col">
-                    <span class="input-group-text">To</span>
-                    <InputDate id="toDate" @bind-Value="@To" />
-
-                </div>
-                <div class="col">
-                    <button type="button" class="btn btn-primary" @onclick=@SearchMovies id="searchMovies">Search movies</button>
+                    <button type="button" class="btn btn-primary" @onclick=@SearchCars id="searchCars">Search cars</button>
                 </div>
 
             </div>
             <div class="row">
-                @if (movies == null) {
-                    <p>Loading movies....</p>
+                @if (cars == null) {
+                    <p>Loading cars....</p>
                 }
                 else
                 {
                     <div class="mh-100 table-responsive">
-                        <table class="table table-condensed table-hover" id="TableOfMovies">
+                        <table class="table table-condensed table-hover" id="TableOfCars">
                             <thead>
                                 <tr>
-                                    <th>Title</th>
-                                    <th>Genre</th>
-                                    <th>Release Date</th>
-                                    <th>Price For Renting</th>
-                                    <th>Rent</th>
+                                    <th>Model</th>
+                                    <th>Color</th>
+                                    <th>Manufacturer</th>
+                                    <th>FuelType</th>
+                                    <th>PurchasingPrice</th>
+                                    <th>Purchase</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var movie in movies) {
-                                    <tr id="MovieData_@movie.Title">
-                                        <td>@movie.Title</td>
-                                        <td>@movie.Genre</td>
-                                        <td>@movie.ReleaseDate.DateTime.ToShortDateString()</td>
-                                        <td>@movie.PriceForRenting</td>
+                                @foreach (var car in cars) {
+                                    <tr id="CarData_@car.Id">
+                                        <td>@car.Model</td>
+                                        <td>@car.Color</td>
+                                        <td>@car.Manufacturer</td>
+                                        <td>@car.FuelType</td>
+                                        <td>@car.PurchasingPrice</td>
                                         <td>
-                                            <button class="btn btn-outline-secondary" id="movieToRent_@movie.Title" @onclick="@(() => AddMovie(movie))">Add</button>
+                                            <button class="btn btn-outline-secondary" id="CarToPurchase_@car.Id" @onclick="@(() => AddCar(car))">Add</button>
                                         </td>
                                     </tr>
                                 }
@@ -85,17 +76,17 @@
                 }
             </div>
         </div>
-        <div class="col-2" hidden="@hideRentingCart">
+        <div class="col-2" hidden="@hidePurchasingCart">
             <div class="row">
                 <h3>Shopping Cart</h3>
             </div>
-            @foreach (RentalItemDTO item in rental.RentalItems) {
+            @foreach (PurchaseItemDTO item in purchase.PurchaseItems) {
                 <div class="row">
-                    <button type="button" class="btn btn-light" id="removeMovie_@item.Title" @onclick="@(() => RemoveRentalItem(item))">x @item.Title - @item.PriceForRenting€</button>
+                    <button type="button" class="btn btn-light" id="removeCar_@item.Model" @onclick="@(() => RemovePurchaseItem(item))">x @item.Model - @item.Color</button>
                 </div>
             }
             <div class="row">
-                <button type="button" class="btn btn-primary" id="purchaseMovieButton" @onclick=@RentMovies>Rent movies</button>
+                <button type="button" class="btn btn-primary" id="purchaseCarButton" @onclick=@PurchaseCars>Purchase cars</button>
             </div>
         </div>
         
