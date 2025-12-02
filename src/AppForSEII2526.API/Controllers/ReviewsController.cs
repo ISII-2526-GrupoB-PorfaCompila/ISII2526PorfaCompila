@@ -39,7 +39,7 @@ namespace AppForSEII2526.API.Controllers
                     r.Country, (DriverTypes)r.DriverType,
                     r.ReviewItems
                         .Select(ri => new ReviewItemDTO(ri.Car.Id, ri.Car.Model.Name,
-                                ri.Car.Manufacturer, ri.Car.Color,
+                                ri.Car.Manufacturer, ri.Car.Color, ri.Car.FuelType,
                                 ri.Rating, ri.Description)).ToList<ReviewItemDTO>()))
                 .FirstOrDefaultAsync();
 

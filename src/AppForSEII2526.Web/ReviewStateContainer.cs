@@ -19,7 +19,7 @@ namespace AppForSEII2526.Web
 
         public void AddCarToReview(CarForReviewDTO car)
         {
-            //before adding a cqr we checked whether it has been already added
+            //before adding a car we checked whether it has been already added
             if (!Review.ReviewItems.Any(ri => ri.CarId == car.Id))
                 //we add it if it is not in the list
                 Review.ReviewItems.Add(new ReviewItemDTO()
@@ -28,6 +28,7 @@ namespace AppForSEII2526.Web
                     Model = car.Model,
                     Manufacturer = car.Manufacturer,
                     Color = car.Color,
+                    FuelType = car.FuelType,
                 }
             );
 

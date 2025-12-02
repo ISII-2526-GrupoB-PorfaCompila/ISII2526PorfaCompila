@@ -1,0 +1,157 @@
+﻿@page "/purchase/selectcarforpurchase"
+
+@using Microsoft.AspNetCore.Authorization
+@using AppForSEII2526.Web.API
+@inject AppForSEII2526APIClient apiclient
+@inject ILogger<SelectCarsForPurchase> logger
+@inject PurchaseStateContainer purchaseState
+@inject NavigationManager navigation
+
+<!--    attribute [Authorize]-->
+<h3>Select Cars For Purchase</h3>
+<div class="container-fluid">
+    <div class="row alert alert-danger" role="alert" hidden="@hideErrors">
+        <p id="ErrorsShown">Errors: @errors</p>
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="row">
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Color</span>
+                        <input type="text" id="inputColor" @bind=color class="form-control" placeholder="Color" aria-label="Color" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Model</span>
+                        <select class="form-select" aria-label="Default select" @bind="carModelSelected" id="selectModel">
+                            <option value="All" selected>All</option>
+                            @foreach (string modelName in modelNames) {
+                                <option value="@modelName" id="carModelSelected_@modelName">@modelName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-primary" @onclick=@SearchCars id="searchCars">Search cars</button>
+                </div>
+
+            </div>
+            <div class="row">
+                @if (cars == null) {
+                    <p>Loading cars....</p>
+                }
+                else
+                {
+                    <div class="mh-100 table-responsive">
+                        <table class="table table-condensed table-hover" id="TableOfCars">
+                            <thead>
+                                <tr>
+                                    <th>Model</th>
+                                    <th>Color</th>
+                                    <th>Manufacturer</th>
+                                    <th>FuelType</th>
+                                    <th>PurchasingPrice</th>
+                                    <th>Purchase</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var car in cars) {
+                                    <tr id="CarData_@car.Id">
+                                        <td>@car.Model</td>
+                                        <td>@car.Color</td>
+                                        <td>@car.Manufacturer</td>
+                                        <td>@car.FuelType</td>
+                                        <td>@car.PurchasingPrice</td>
+                                        <td>
+                                            <button class="btn btn-outline-secondary" id="CarToPurchase_@car.Id" @onclick="@(() => AddCar(car))">Add</button>
+                                        </td>
+                                    </tr>
+                                }
+                        </tbody>
+                    </table>
+                    </div>
+                
+                }
+            </div>
+        </div>
+        <div class="col-2" hidden="@hidePurchasingCart">
+            <div class="row">
+                <h3>Shopping Cart</h3>
+            </div>
+            @foreach (PurchaseItemDTO item in purchase.PurchaseItems) {
+                <div class="row">
+                    <button type="button" class="btn btn-light" id="removeCar_@item.Model" @onclick="@(() => RemovePurchaseItem(item))">x @item.Model - @item.Color</button>
+                </div>
+            }
+            <div class="row">
+                <button type="button" class="btn btn-primary" id="purchaseCarButton" @onclick=@PurchaseCars>Purchase cars</button>
+            </div>
+            <div class="row">
+                <p class="btn btn-light">Precio final @purchaseState.TotalPrice</p>
+            </div>
+        </div>
+        
+    </div>
+
+</div>
+
+@code {
+    private string carModelSelected;
+    private ICollection<string>? modelNames = new List<string>();
+    private bool hidePurchasingCart { get { return purchase.PurchaseItems.Count == 0; } }
+    private ICollection<CarForPurchaseDTO> cars;
+    private bool hideErrors { get { return errors.Length == 0; } }
+    private string errors = "";
+    private string color { get; set; }
+    private string model { get; set; }
+
+    private PurchaseForCreateDTO purchase => purchaseState.Purchase;
+
+    private bool hiddenPurchasingCart = true;
+
+    private void AddCar(CarForPurchaseDTO car) {
+        purchaseState.AddPurchaseItem(car);
+    }
+
+    private void RemovePurchaseItem(PurchaseItemDTO item) {
+        purchaseState.RemovePurchaseItem(item);
+        if (purchase.PurchaseItems.Count == 0) hiddenPurchasingCart = true;
+    }
+
+    public async void SearchCars() {
+
+        model = carModelSelected == "All" ? null : carModelSelected;
+
+        try {
+            cars = await apiclient.GetCarsForPurchaseAsync(color, model);
+            errors = "";
+
+        }
+        catch (ApiException ex) {
+            errors = "Error while connecting to the system";
+        }
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync() {
+
+        try {
+            modelNames = await apiclient.GetModelsAsync(null);
+        }
+        catch (ApiException ex) {
+            if (modelNames == null) modelNames = new List<string>() { "All", };
+            logger.LogError("Error! There was an error while connecting to the GetGenresAsync service");
+        };
+
+        SearchCars();
+
+       // return base.OnInitializedAsync();
+    }
+
+    private void PurchaseCars() {
+        navigation.NavigateTo("/purchases/createpurchase");
+    }
+
+}
