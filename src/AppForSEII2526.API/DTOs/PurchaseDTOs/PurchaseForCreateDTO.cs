@@ -2,6 +2,10 @@
 {
     public class PurchaseForCreateDTO
     {
+        public PurchaseForCreateDTO()
+        {
+            PurchaseItems = new List<PurchaseItemDTO>();
+        }
         public PurchaseForCreateDTO(string name, string surname, string deliveryCarDealer, 
                                     PaymentMethod paymentMethod, IList<PurchaseItemDTO> purchaseItems)
         {
