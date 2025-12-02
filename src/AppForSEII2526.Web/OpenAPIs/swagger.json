@@ -1443,6 +1443,10 @@
             "type": "string",
             "nullable": true
           },
+          "fuelType": {
+            "type": "string",
+            "nullable": true
+          },
           "rating": {
             "type": "integer",
             "format": "int32"
