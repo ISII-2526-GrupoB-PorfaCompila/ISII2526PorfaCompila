@@ -5,10 +5,10 @@
         public int ReservaId { get; set; }
         public double Price { get; set; }
         public int NumberOfDays { get; set; }
-        public string? Comentarios { get; set; }
+        public string Comentarios { get; set; }
         public string Name { get; set; }
 
-        public ReservaItemDTO(int reservaId ,string name, double price, int numberofdays, string? comentarios= "")
+        public ReservaItemDTO(int reservaId ,string name, double price, int numberofdays, string comentarios= "")
         {
             ReservaId = reservaId;
             Name = name;
