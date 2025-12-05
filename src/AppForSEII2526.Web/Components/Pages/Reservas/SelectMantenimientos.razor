@@ -1,0 +1,201 @@
+﻿@page "/reservas/selectmantenimiento"
+
+@using Microsoft.AspNetCore.Authorization
+@using AppForSEII2526.Web.API
+@inject AppForSEII2526APIClient apiclient
+@inject ILogger<SelectMantenimientos> logger
+@inject ReservaStateContainer reservaState
+@inject NavigationManager navigation
+
+<h3>SelectMantenimientos</h3>
+<div class="container-fluid">
+    <!-- ventana flotante para mostrar que hay errores -->
+    <div class="row alert alert-danger" role="alert" hidden="@hideErrors">
+        <p id="ErrorsShown">Errors: @errors</p>
+    </div>
+
+    <!-- html para mostrar filtros-->
+    <div class="row">
+        <div class="col-8">
+            <div class="row">
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">NombreMantenimiento</span>
+                        <input type="text" id="inputPrice" @bind=nombreMantenimiento class="form-control" placeholder="NombreMantenimiento" aria-label="NombreMantenimiento" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">Tipo</span>
+                        <select class="form-select" aria-label="Default select" @bind="Tipo" id="selectTipo">
+                            <option value="All" selected>All</option>
+                            @foreach (string tipoName in TipoNames)
+                            {
+                                <option value="@tipoName" id="tipoNameSelected_@tipoName">@tipoName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">From</span>
+                        <InputDate @bind-Value="@Fecha" id="fecha" />
+                    </div>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-primary" @onclick=@SearchMantenimientos id="searchMantenimientos">Search mantenimientos</button>
+                </div>
+
+                <!-- tabla de mantenimientos -->
+            </div>
+            <div class="row">
+                @if (mantenimientos == null)
+                {
+                    <p>Loading mantenimientos....</p>
+                }
+                else
+                {
+                    <div class="mh-100 table-responsive">
+                        <table class="table table-condensed table-hover" id="TableOfMantenimientos">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Tipo</th>
+                                    <th>NumeroDias</th>
+                                    <th>Precio</th>
+                                    <th>Reserva</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var mantenimiento in mantenimientos)
+                                {
+                                    <tr id="MantenimientoData_@mantenimiento.Id">
+                                        <td>@mantenimiento.Nombre</td>
+                                        <td>@mantenimiento.Tipo</td>
+                                        <td>@mantenimiento.NumeroDias</td>
+                                        <td>@mantenimiento.Precio</td>
+                                        <td>
+                                            <button class="btn btn-outline-secondary" id="mantenimientoToReservar_@mantenimiento.Tipo" @onclick="@(() => AddMantenimiento(mantenimiento))">Add</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Carrito de la compra -->
+        <div class="col-2" hidden="@hideReservaCart">
+            <div class="row">
+                <h3>Shopping Cart</h3>
+            </div>
+            @foreach (ReservaItemDTO item in reserva.ReservaItems)
+            {
+                <div class="row">
+                    <button type="button" class="btn btn-light" id="removeMantenimiento_@item.Name" @onclick="@(() => RemoveReservaItem(item))">@item.Name</button>
+                </div>
+            }
+            <div class="row">
+                <button type="button" class="btn btn-primary" id="purchaseCarButton" @onclick=@ContratarMantenimientos>Contratar Mantenimientos</button>
+            </div>
+            <div class="row">
+                <p class="btn btn-light">Precio total @reservaState.TotalPrice</p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+@code {
+    private string tipoMantenimientoSelected;
+    private ICollection<string>? TipoNames = new List<string>();
+    private bool hideReservaCart { get { return reserva.ReservaItems.Count == 0; } }
+    private ICollection<MantenimientoDTO> mantenimientos;
+    private bool hideErrors { get { return errors.Length == 0; } }
+    private string errors = "";
+    private string nombreMantenimiento { get; set; }
+    private string Tipo { get; set; }
+    private DateTime _fecha;
+    private DateTime Fecha
+    {
+        get { return _fecha; }
+        set
+        {
+            if (_fecha != value)
+            {
+                //the rentingcart is cleared to ensure that only cars available for the selected period are selected
+                _fecha = value;
+                reserva.Date = DateTime.SpecifyKind(_fecha, DateTimeKind.Utc);
+                reservaState.ClearReservaCart();
+
+            }
+        }
+    }
+
+    private ReservaForCreateDTO reserva => reservaState.Reserva;
+    private bool hiddenReservaCart = true;
+
+    private void AddMantenimiento(MantenimientoDTO mantenimiento)
+    {
+        reservaState.AddMantenimiento(mantenimiento);
+    }
+    private void RemoveReservaItem(ReservaItemDTO item)
+    {
+        reservaState.RemoveMantenimiento(item);
+        if (reserva.ReservaItems.Count == 0) hiddenReservaCart = true;
+    }
+    public async void SearchMantenimientos()
+    {
+
+        Tipo = tipoMantenimientoSelected == "All" ? null : tipoMantenimientoSelected;
+
+        if (reserva.Date <= DateTime.Today)
+        {
+            errors = "La reserva no puede comenzar antes de hoy.";
+            return;
+        }
+
+        try
+        {
+            mantenimientos = await apiclient.GetMantenimientosAsync(nombreMantenimiento, Tipo);
+            errors = "";
+
+        }
+        catch (ApiException ex)
+        {
+            logger.LogError($"{DateTime.Now} Error: {ex}");
+            errors = "Error while connecting to the system";
+        }
+        StateHasChanged();
+    }
+    protected override async Task OnInitializedAsync()
+    {
+
+        try
+        {
+            TipoNames = await apiclient.GetTipoMantenimientoAsync(null);
+        }
+        catch (ApiException ex)
+        {
+            if (TipoNames == null) TipoNames = new List<string>() { "All", };
+            logger.LogError("Error! There was an error while connecting to the GetTipoMantenimientoAsync service");
+        }
+
+        _fecha = (_fecha == new DateTime(1, 1, 1)) ?
+            DateTime.SpecifyKind(DateTime.Today.AddDays(1), DateTimeKind.Utc)
+            : _fecha;
+        reserva.Date = _fecha;
+
+        SearchMantenimientos();
+
+        // return base.OnInitializedAsync();
+    }
+    private void ContratarMantenimientos()
+    {
+        navigation.NavigateTo("/reservas/createreserva");
+    }
+}
+
