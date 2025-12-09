@@ -1,0 +1,176 @@
+﻿@page "/purchase/createpurchase"
+@inject NavigationManager navigation
+@using AppForSEII2526.Web.Components.Shared
+@using AppForSEII2526.Web.API
+@using Microsoft.AspNetCore.Authorization
+@inject AppForSEII2526APIClient apiclient
+@inject ILogger<CreatePurchase> logger
+@inject PurchaseStateContainer purchaseState
+
+@*@attribute [Authorize]*@
+
+<h3>Create Purchase</h3>
+
+<EditForm Model="purchase" OnValidSubmit="OpenDialog">
+    <div class="row">
+        <DataAnnotationsValidator />
+        <ValidationSummary class="row alert alert-danger" />
+    </div>
+    <div class="row alert alert-danger" role="alert" hidden="@hideErrors">
+        <p id="ErrorsShown">Errors: @messageError</p>
+    </div>
+    <div class="row g-3">
+        <div class="col-md">
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="purchase.Name" class="form-control" id="Name" />
+                <label for="Name">Name </label>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="purchase.Surname" class="form-control" id="Surname" />
+                <label for="Name">Surname </label>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="purchase.DeliveryCarDealer" class="form-control" id="DeliveryCarDealer" />
+                <label for="DeliveryAddress">Delivery Car Dealer</label>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-floating mb-3">
+                <InputSelect @bind-Value="purchase.PaymentMethod" class="form-control" id="PaymentMethod" >
+                    <option value="@PaymentMethod.Visa" default> Visa</option>
+                    <option value="@PaymentMethod.GooglePay"> GooglePay</option>
+                </InputSelect>
+                <label for="PaymentMethod">Payment Method</label>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-floating">
+                <button class="btn btn-primary" type="submit" id="Submit">
+                    Purchase your cars
+                </button>
+            </div>
+        </div>
+    </div>
+    <h4>Purchase detail</h4>
+    <p>
+        <b>Total price:</b> @TotalCost €
+        <button class="btn btn-outline-primary" type="button" @onclick="ModifyPurchaseItems" id="ModifyCars">
+            Modify cars
+        </button>
+    </p>
+    <div class="mh-100 table-responsive">
+        <table class="table table-condensed table-hover" id="TableOfPurchaseItems">
+            <thead>
+                <tr>
+                    <th>Model</th>
+                    <th>Color</th>
+                    <th>Price for Purchasing</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in purchase.PurchaseItems)
+                {
+                    <tr id="MovieData_@item.Model">
+                        <td>@item.Model</td>
+                        <td>@item.Color</td>
+                        <td>@item.PriceForPurchase</td>
+                        <td><InputText @bind-Value="item.Description" class="form-control" id="@($"description_{item.CarId}")" /></td>
+                        <td><InputNumber @bind-Value="item.QuantityForPurchase" class="form-control" id="@($"quantity_{item.CarId}")" /></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</EditForm>
+
+@if (DialogIsOpen)
+{
+    <Dialog Caption="Purchase carss"
+    Message="Do you want to proceed to purchase the selected cars?"
+    OnClose="@OnDialogClose"
+    Type=Dialog.Category.SaveNot>
+    </Dialog>
+}
+
+@code {
+
+    private string messageError = "";
+    private bool hideErrors { get { return messageError.Length == 0; } }
+    private bool DialogIsOpen;
+    private object? errors;
+    
+    private decimal TotalCost => purchaseState.TotalPrice;
+
+    private void ModifyPurchaseItems()
+    {
+        navigation.NavigateTo("/purchase/selectcarforpurchase");
+    }
+
+    private PurchaseForCreateDTO purchase => purchaseState.Purchase;
+
+    private void OpenDialog()
+    {
+        DialogIsOpen = true;
+    }
+    private async Task OnDialogClose(bool isOk)
+    {
+
+        DialogIsOpen = false;
+        if (isOk)
+        {
+            if (purchase.PurchaseItems.Count > 0)
+            {
+                try
+                {
+                    var purchased = await apiclient.CreatePurchaseAsync(purchase);
+                    purchaseState.PurchaseProcessed();
+                    navigation.NavigateTo($"/purchase/detailpurchase/?PurchaseID={purchased.Id}");
+                }
+                catch (ApiException<ValidationProblemDetails> apiexceptionvalidation)
+                {
+
+                    if (apiexceptionvalidation.Result.Errors.Values != null)
+                    {
+                        messageError = "";
+                        foreach (var errors in apiexceptionvalidation.Result.Errors.Values)
+                            //https://learn.microsoft.com/en-us/dotnet/api/system.string.join?view=net-7.0
+                            messageError = string.Join("(*) ", messageError, string.Join(" (*) ", errors));
+                    }
+                }
+                catch (ApiException apiexception)
+                {
+                    messageError = "Error while processing your request, please try again later!";
+                }
+            }
+        }
+    }
+    protected override async Task OnInitializedAsync()
+    {
+
+        if (authenticationState is not null)
+        {
+            var authState = await authenticationState;
+            var user = authState?.User;
+
+            if (user is not null)
+            {
+                if (user.Identity is not null && user.Identity.IsAuthenticated)
+                {
+                    purchase.Name = user.Identity.Name;
+                }
+            }
+            purchase.Name = purchase.Name == null ? "" : purchase.Name;
+            purchase.Surname = purchase.Surname == null ? "" : purchase.Surname;
+            purchase.DeliveryCarDealer = purchase.DeliveryCarDealer == null ? "" : purchase.DeliveryCarDealer;
+            purchase.PaymentMethod = purchase.PaymentMethod == null ? 0 : purchase.PaymentMethod;
+        }
+    }
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationState { get; set; }
+}
