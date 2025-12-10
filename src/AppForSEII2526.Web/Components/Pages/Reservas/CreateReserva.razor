@@ -88,11 +88,11 @@
 @*a modal popup dialog for checking if user wants to proceed to rent*@
 @if (DialogIsOpen)
 {
-    <DialogReview Caption="Contratar mantenimientos"
+    <DialogMantenimiento Caption="Contratar mantenimientos"
                   Message="¿Desea contratar estos mantenimientos?"
                   OnClose="@OnDialogClose"
-                  Type=DialogReview.Category.SaveNot>
-    </DialogReview>
+                  Type=DialogMantenimiento.Category.SaveNot>
+    </DialogMantenimiento>
 }
 
 @code {
