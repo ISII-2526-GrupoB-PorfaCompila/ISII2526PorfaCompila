@@ -112,11 +112,11 @@ siendo todos datos obligatorios. *@
 @*a modal popup dialog for checking if user wants to proceed to rent*@
 @if (DialogIsOpen)
 {
-    <Dialog Caption="Rental cars"
+    <DialogRental Caption="Rental cars"
     Message="Do you want to proceed to rent the selected cars?"
     OnClose="@OnDialogClose"
-    Type=Dialog.Category.SaveNot>
-    </Dialog>
+    Type=DialogRental.Category.SaveNot>
+    </DialogRental>
 }
 
 @code {
@@ -158,7 +158,7 @@ siendo todos datos obligatorios. *@
                 {
                     var rented = await apiclient.CreateRentalAsync(rental);
                     rentalState.RentalProcessed();
-                    navigation.NavigateTo($"/rental/detailrental/?RentalID={rented.Id}");
+                    navigation.NavigateTo($"/rentals/detailrental/?RentalID={rented.Id}");
                 }
                 catch (ApiException<ValidationProblemDetails> apiexceptionvalidation)
                 {

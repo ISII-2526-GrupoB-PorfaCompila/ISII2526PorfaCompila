@@ -102,7 +102,7 @@ alquiler, fecha en la que se realizó el alquiler y precio total del alquiler. *
         }
 
         try {
-            rental = await apiservice.GetRentalDetailAsync(2);
+            rental = await apiservice.GetRentalDetailAsync(RentalID);
         }
         catch (ApiException exception)
         {
