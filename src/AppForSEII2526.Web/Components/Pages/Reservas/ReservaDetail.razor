@@ -1,0 +1,110 @@
+﻿@page "/mantenimiento/reservadetail"
+@using AppForSEII2526.Web.API
+@using Microsoft.AspNetCore.Authorization
+@inject AppForSEII2526APIClient apiservice
+
+<h3>ReservaDetail</h3>
+
+@if (reserva == null)
+{
+    <p>@error</p>
+}
+else
+{
+    <table class="table table-borderless table-sm">
+        <tr>
+            <th>Nombre de usuario</th>
+            <td id="NombreUsuario">@reserva.ApplicationUser</td>
+        </tr>
+        <tr>
+            <th>Direccion</th>
+            <td id="DireccionCliente">@reserva.ClientAddress</td>
+        </tr>
+        <tr>
+            <th>Metodo de pago</th>
+            <td id="MetodoPago">@reserva.PaymentMethod</td>
+        </tr>
+        <tr>
+            <th>Fecha de reserva</th>
+            <td id="FechaReserva">@reserva.Date.ToString("dd/MM/yyyy hh:mm:ss")</td>
+        </tr>
+    </table>
+
+    <!-- Lista de mantenimientos contratados -->
+    <h4>Mantenimientos Contratados</h4>
+
+    <table class="table" id="MantenimientosContratados">
+        <thead>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Numero de dias</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Comentarios</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ReservaItemDTO item in reserva.ReservaItems)
+            {
+                <tr id="ReservaItem">
+                    <td>@item.Name</td>
+                    <td>@item.NumberOfDays</td>
+                    <td>@item.Price €</td>
+                    <td>@item.Comentarios</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+        <th scope="row" colspan="2" class="text-end">Precio total</th>
+        <td id="TotalPrice">@reserva.TotalPrice €</td>
+        </tfoot>
+
+    </table>
+
+}
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public int ReservaID { get; set; }
+    private ReservaDetailDTO reserva;
+    private string error = "";
+
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        //we check the user is logged in
+        string userName = "";
+        if (authenticationState is not null)
+        {
+            var authState = await authenticationState;
+            var user = authState?.User;
+
+            if (user is not null)
+            {
+                if (user.Identity is not null && user.Identity.IsAuthenticated && user.IsInRole("User"))
+                {
+                    userName = user.Identity.Name;
+                }
+            }
+        }
+
+        try
+        {
+            reserva = await apiservice.GetReservaAsync(2);
+        }
+        catch (ApiException exception)
+        {
+            reserva = null;
+        }
+        if ((reserva == null) /* || (rental.Name != userName) */)
+        {
+            error = $"Error! No esta autorizado para ver esta reserva o la reserva con este id no existe.={ReservaID}";
+        }
+
+
+    }
+
+}
