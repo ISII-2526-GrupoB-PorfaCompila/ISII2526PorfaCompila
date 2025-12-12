@@ -1370,6 +1370,10 @@
             "type": "string",
             "format": "date-time"
           },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
           "reservaItems": {
             "type": "array",
             "items": {
@@ -1411,6 +1415,10 @@
           "date": {
             "type": "string",
             "format": "date-time"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
           },
           "reservaItems": {
             "type": "array",
