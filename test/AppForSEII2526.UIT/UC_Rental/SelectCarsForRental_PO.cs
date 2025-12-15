@@ -8,18 +8,18 @@ namespace AppForSEII2526.UIT.UC_Rental
 {
     public class SelectCarsForRental_PO : PageObject
     {
-        By inputTitle = By.Id("movieTitle");
+        By inputPrice = By.Id("inputPrice");
         By inputGenre = By.Id("selectGenre");
-        By buttonSearchMovies = By.Id("searchCars");
+        By buttonSearchCars = By.Id("searchCars");
         public SelectCarsForRental_PO(IWebDriver driver, ITestOutputHelper output) : base(driver, output)
         {
         }
         public void SearchMovies(string title)
         {
             //wait for the webelement to be clickable
-            WaitForBeingClickable(inputTitle);
-            _driver.FindElement(inputTitle).SendKeys(title);
-            _driver.FindElement(buttonSearchMovies).Click();
+            WaitForBeingClickable(inputPrice);
+            _driver.FindElement(inputPrice).SendKeys(title);
+            _driver.FindElement(buttonSearchCars).Click();
 
 
         }
