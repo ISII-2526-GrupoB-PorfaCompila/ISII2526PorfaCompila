@@ -44,7 +44,7 @@ namespace AppForSEII2526.API.Controllers
                         pi.Car.Id,
                         pi.Car.Model.Name,
                         pi.Car.Color,
-                        pi.Car.QuantityForPurchasing,
+                        pi.Quantity,
                         pi.Car.PurchasingPrice)).ToList()
                 )).FirstOrDefaultAsync();
 
