@@ -91,11 +91,11 @@
 
 @if (DialogIsOpen)
 {
-    <Dialog Caption="Purchase carss"
+    <DialogPurchase Caption="Purchase cars"
     Message="Do you want to proceed to purchase the selected cars?"
     OnClose="@OnDialogClose"
-    Type=Dialog.Category.SaveNot>
-    </Dialog>
+    Type=DialogPurchase.Category.SaveNot>
+    </DialogPurchase>
 }
 
 @code {
