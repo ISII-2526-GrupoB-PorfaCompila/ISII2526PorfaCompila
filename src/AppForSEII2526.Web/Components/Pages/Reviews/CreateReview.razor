@@ -73,7 +73,7 @@
                         <td>@item.Manufacturer</td>
                         <td>@item.Color</td>
                         <td><InputText @bind-Value="item.Description" class="form-control" id="@($"description_{item.Description}")" /></td>
-                        <td><InputNumber @bind-Value="item.Rating" class="form-control" id="@($"rating_{item.Rating}")" /></td>
+                        <td><InputNumber @bind-Value="item.Rating" class="form-control" id="@($"rating_{item.Rating}")" min="1" max="5" /></td>
                     </tr>
                 }
             </tbody>
@@ -143,7 +143,7 @@
         }
     }
 
-    /*protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
 
         if (authenticationState is not null)
@@ -163,7 +163,7 @@
             //review.DriverType = review.DriverType == null ? "" : review.DriverType;
 
         }
-    }*/
+    }
 
 
     [CascadingParameter]
