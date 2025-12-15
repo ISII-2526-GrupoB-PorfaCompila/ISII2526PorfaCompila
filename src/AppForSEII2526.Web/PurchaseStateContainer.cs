@@ -30,7 +30,7 @@ namespace AppForSEII2526.Web
                     Model = car.Model,
                     Color = car.Color,
                     PriceForPurchase = car.PurchasingPrice,
-                    QuantityForPurchase = 0,
+                    QuantityForPurchase = 1,
                 });
             }
         }
