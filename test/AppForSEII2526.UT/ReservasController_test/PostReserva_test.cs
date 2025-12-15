@@ -38,11 +38,11 @@ namespace AppForSEII2526.UT.ReservasController_test
         {
             var reservaItems = new List<ReservaItemDTO>() { new ReservaItemDTO(1,"Mant1",50,5,"todo bien") };
 
-            var reservaNoItem = new ReservaForCreateDTO("María", "Alcazar", PaymentMethod.TarjetaDeCredito, DateTime.Today, new List<ReservaItemDTO>());
+            var reservaNoItem = new ReservaForCreateDTO("María", "Alcazar", PaymentMethod.TarjetaDeCredito, DateTime.Today, "334598",  new List<ReservaItemDTO>());
             
-            var ReservaApplicationUser = new ReservaForCreateDTO("Usuario@inventado", "Alcazar", PaymentMethod.TarjetaDeCredito, DateTime.Today.AddDays(1), reservaItems);
+            var ReservaApplicationUser = new ReservaForCreateDTO("Usuario@inventado", "Alcazar", PaymentMethod.TarjetaDeCredito, DateTime.Today.AddDays(1),"334598", reservaItems);
 
-            var reservaFromBeforeToday = new ReservaForCreateDTO("María", "Alcazar", PaymentMethod.TarjetaDeCredito, new DateTime(2025, 6, 18), reservaItems);
+            var reservaFromBeforeToday = new ReservaForCreateDTO("María", "Alcazar", PaymentMethod.TarjetaDeCredito, new DateTime(2025, 6, 18),"334598",  reservaItems);
 
             var allTests = new List<object[]>
             {             //input for createreserva - Error expected                
@@ -94,7 +94,7 @@ namespace AppForSEII2526.UT.ReservasController_test
             ILogger<ReservasController> logger = mock.Object;
             var controller = new ReservasController(_context, logger);
 
-            var reservaDTO = new ReservaForCreateDTO("Fernando", "Alcazar", PaymentMethod.TarjetaDeCredito, DateTime.Today.AddDays(1), new List<ReservaItemDTO>(){ new ReservaItemDTO(1,"Mant1",70,5,"todo bien")});
+            var reservaDTO = new ReservaForCreateDTO("Fernando", "Alcazar", PaymentMethod.TarjetaDeCredito, DateTime.Today.AddDays(1),"12345", new List<ReservaItemDTO>(){ new ReservaItemDTO(1,"Mant1",70,5,"todo bien")});
 
             var expectedreservaDetailDTO = new ReservaDetailDTO(2,"Fernando","Alcazar",PaymentMethod.TarjetaDeCredito, DateTime.Today.AddDays(1), new List<ReservaItemDTO>(){ new ReservaItemDTO(1,"Mant1",70,5,"todo bien")});
 

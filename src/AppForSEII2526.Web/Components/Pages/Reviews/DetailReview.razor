@@ -38,19 +38,19 @@
                 <th scope="col">Model</th>
                 <th scope="col">Manufacturer</th>
                 <th scope="col">Color</th>
-                <th scope="col">Rating</th>
                 <th scope="col">Description</th>
+                <th scope="col">Rating</th>
             </tr>
         </thead>
         <tbody>
             @foreach (ReviewItemDTO item in review.ReviewItems)
             {
-                <tr id="ReviewItem_@item.CarId">
+                <tr id="ReviewItem_@item.Model">
                     <td>@item.Model</td>
                     <td>@item.Manufacturer</td>
                     <td>@item.Color</td>
-                    <td>@item.Rating</td>
                     <td>@item.Description</td>
+                    <td>@item.Rating</td>
                 </tr>
             }
         </tbody>
@@ -72,7 +72,7 @@
     protected override async Task OnInitializedAsync() {
 
         //we check the user is logged in
-        string userName = "";
+        /*string userName = "";
         if (authenticationState is not null) {
             var authState = await authenticationState;
             var user = authState?.User;
@@ -83,10 +83,10 @@
                     userName = user.Identity.Name;
                 }
             }
-        }
+        }*/
 
         try {
-            review = await apiclient.GetReviewAsync(2);
+            review = await apiclient.GetReviewAsync(ReviewID);
         }
         catch (ApiException exception) {
             review = null;
