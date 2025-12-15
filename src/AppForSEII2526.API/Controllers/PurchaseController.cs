@@ -19,7 +19,7 @@ namespace AppForSEII2526.API.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        [ProducesResponseType(typeof(PurchaseItemDTO), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(PurchaseDetailDTO), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetPurchase(int id)
         {
