@@ -36,6 +36,7 @@ namespace AppForSEII2526.API.Controllers
                  .Include(r => r.RentalItems)     //añade los RentalItemDTOs
                     .ThenInclude(r => r.Car)      //añade los datos del Car de cada RentalItem
              .Select(r => new RentalDetailDTO(
+                 r.Id,
                  r.ApplicationUser.Name, 
                  r.ApplicationUser.Surname, 
                  r.DeliveryCarDealer, 
@@ -134,6 +135,7 @@ namespace AppForSEII2526.API.Controllers
             }
 
             var rentalDetail = new RentalDetailDTO(
+                 rental.Id,
                  rentalForCreate.Name,
                  rentalForCreate.Surname,
                  rental.DeliveryCarDealer,
