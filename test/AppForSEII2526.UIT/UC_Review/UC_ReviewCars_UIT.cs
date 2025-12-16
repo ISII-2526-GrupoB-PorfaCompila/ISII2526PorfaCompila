@@ -85,7 +85,7 @@ namespace AppForSEII2526.UIT.UC_Review
 
         }
 
-        /*[Fact]
+        [Fact]
         [Trait("LevelTesting", "Funcional Testing")]
         public void UC4_AF2_UC4_6_ModifySelectedCars()
         {
@@ -99,7 +99,11 @@ namespace AppForSEII2526.UIT.UC_Review
 
 
             //Assert            
-            Assert.True();
-        }*/
+            Assert.Equal(1, selectCarsForReview_PO.CountCarsInReviewCart());
+
+            //Para asegurarnos de que el coche es el 1
+            //Assert.True(selectCarsForReview_PO.IsCarInReviewCart(id1));
+            //Assert.False(selectCarsForReview_PO.IsCarInReviewCart(id2));
+        }
     }
 }

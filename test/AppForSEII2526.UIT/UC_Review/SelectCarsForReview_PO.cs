@@ -58,5 +58,16 @@ namespace AppForSEII2526.UIT.UC_Review
 
             return _driver.FindElement(buttonReviewCars).Displayed == false;
         }
+
+        public int CountCarsInReviewCart()
+        {
+            return _driver.FindElements(By.CssSelector("button[id^='removeCar_']")).Count;
+        }
+
+        // Método para verificar si un coche específico está en el carrito
+        /*public bool IsCarInReviewCart(int carId)
+        {
+            return _driver.FindElements(By.Id("removeCar_" + carId)).Count > 0;
+        }*/
     }
 }
