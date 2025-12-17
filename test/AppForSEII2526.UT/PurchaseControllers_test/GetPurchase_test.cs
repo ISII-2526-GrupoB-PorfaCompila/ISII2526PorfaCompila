@@ -84,8 +84,8 @@ namespace AppForSEII2526.UT.PurchaseControllers_test
                 new List<PurchaseItemDTO>()
             );
 
-            expectedPurchase.PurchaseItems.Add(new PurchaseItemDTO(1, "FIAT", "Rojo", 1, 15000m));
-            expectedPurchase.PurchaseItems.Add(new PurchaseItemDTO(3, "SEAT", "Azul", 2, 30000m));
+            expectedPurchase.PurchaseItems.Add(new PurchaseItemDTO(1, "FIAT", "Rojo", 5, 15000m));
+            expectedPurchase.PurchaseItems.Add(new PurchaseItemDTO(3, "SEAT", "Azul", 7, 30000m));
 
             // Act 
             var result = await controller.GetPurchase(1);

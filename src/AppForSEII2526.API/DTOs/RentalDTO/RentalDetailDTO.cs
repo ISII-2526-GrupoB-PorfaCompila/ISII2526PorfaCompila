@@ -5,7 +5,7 @@ namespace AppForSEII2526.API.DTOs.RentalDTO
 {
     public class RentalDetailDTO
     {
-        public RentalDetailDTO(int id, string name, string? surname, string? address, 
+        public RentalDetailDTO(int id, string name, string surname, string address, 
             IList<RentalItemDTO> rentalItems, PaymentMethod paymentMethod, DateTime endDate, 
             DateTime rentingDate, DateTime startDate)
         {
@@ -20,7 +20,7 @@ namespace AppForSEII2526.API.DTOs.RentalDTO
             StartDate = startDate;
         }
 
-        public RentalDetailDTO(string name, string? surname, string? address,
+        public RentalDetailDTO(string name, string surname, string address,
             IList<RentalItemDTO> rentalItems, PaymentMethod paymentMethod, DateTime endDate,
             DateTime rentingDate, DateTime startDate)
         {
@@ -39,7 +39,9 @@ namespace AppForSEII2526.API.DTOs.RentalDTO
 
         [Required]
         public string Name { get; set; }
+        [Required]
         public string? Surname { get; set; }
+        [Required]
         public string? DeliveryCarDealer { get; set; } //esto es el address
 
         public IList<RentalItemDTO> RentalItems { get; set; }

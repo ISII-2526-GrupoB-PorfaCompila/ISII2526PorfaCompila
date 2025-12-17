@@ -71,10 +71,6 @@ namespace AppForSEII2526.API.Controllers
             if (user == null)
                 ModelState.AddModelError("ReviewApplicationUser", "Error! That user is not registered");
 
-            //Modificacion examen
-            //if (reviewForCreate.DriverType.ToString().Contains("Novato"))
-            //    ModelState.AddModelError("reviewDriverType", "Error! No aceptamos reseñas de conductores novatos");
-
             if (ModelState.ErrorCount > 0)
                 return BadRequest(new ValidationProblemDetails(ModelState));
 

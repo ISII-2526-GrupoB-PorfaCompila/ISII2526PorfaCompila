@@ -81,7 +81,7 @@
                         <td>@item.Color</td>
                         <td>@item.PriceForPurchase</td>
                         <td><InputText @bind-Value="item.Description" class="form-control" id="@($"description_{item.CarId}")" /></td>
-                        <td><InputNumber @bind-Value="item.QuantityForPurchase" class="form-control" id="@($"quantity_{item.CarId}")" min="1" /></td>
+                        <td><InputNumber @bind-Value="item.QuantityForPurchase" class="form-control" id="@($"quantity_{item.CarId}")" /></td>
                     </tr>
                 }
             </tbody>

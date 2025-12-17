@@ -52,13 +52,7 @@
         </div>
     </div>
 
-    <h4>Review detail</h4> 
-    <p>
-        <button class="btn btn-outline-primary" type="submit" @onclick="ModifyReviewItems" id="ModifyCars">
-            Modify cars
-        </button>
-    </p>
-
+    <h4>Review detail</h4>    
     <div class="mh-100 table-responsive">
         <table class="table table-condensed table-hover" id="TableOfReviewItems">
             <thead>
@@ -78,8 +72,8 @@
                         <td>@item.FuelType</td>
                         <td>@item.Manufacturer</td>
                         <td>@item.Color</td>
-                        <td><InputText @bind-Value="item.Description" class="form-control" id="@($"description_{item.CarId}")" /></td>
-                        <td><InputNumber @bind-Value="item.Rating" class="form-control" id="@($"rating_{item.CarId}")" min="1" max="5" /></td>
+                        <td><InputText @bind-Value="item.Description" class="form-control" id="@($"description_{item.Description}")" /></td>
+                        <td><InputNumber @bind-Value="item.Rating" class="form-control" id="@($"rating_{item.Rating}")" min="1" max="5" /></td>
                     </tr>
                 }
             </tbody>
