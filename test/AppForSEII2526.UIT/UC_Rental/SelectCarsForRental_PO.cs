@@ -48,7 +48,7 @@ namespace AppForSEII2526.UIT.UC_Rental
         {
             IWebElement actualErrorShown = _driver.FindElement(errorShownBy);
             _output.WriteLine($"actual Message shown:{actualErrorShown.Text}");
-            return actualErrorShown.Text.Contains(errorMessage);
+            return actualErrorShown.Text.Contains(errorMessage); //comprueba si son iguales el actualErrorShown y el errorMessage
         }
 
         public void AddMovieToRentingCart(string carModel)
