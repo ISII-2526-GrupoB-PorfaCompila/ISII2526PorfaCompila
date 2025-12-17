@@ -30,7 +30,9 @@
 
         [Required]
         public string Name { get; set; }
+        [Required]
         public string? Surname { get; set; }
+        [Required]
         public string? DeliveryCarDealer { get; set; }
 
         public IList<RentalItemDTO> RentalItems { get; set; }
