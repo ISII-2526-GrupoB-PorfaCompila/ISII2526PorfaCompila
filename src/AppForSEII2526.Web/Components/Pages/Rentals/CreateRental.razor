@@ -45,7 +45,7 @@ siendo todos datos obligatorios. *@
         <div class="col-md">
             <div class="form-floating mb-3">
                 <InputText @bind-Value="rental.Surname" class="form-control" id="Surname" />
-                <label for="Name">Surname </label>
+                <label for="Surname">Surname </label>
             </div>
         </div>
         <div class="col-md">
@@ -56,7 +56,7 @@ siendo todos datos obligatorios. *@
         </div>
         <div class="col-md">
             <div class="form-floating mb-3">
-                <InputSelect @bind-Value="rental.PaymentMethod" class="form-control" id="DeliveryAddress">
+                <InputSelect @bind-Value="rental.PaymentMethod" class="form-control" id="PaymentMethod">
                     <option value="@PaymentMethod.Visa" default> Visa</option>
                     <option value="@PaymentMethod.GooglePay"> GooglePay</option>
                     <option value="@PaymentMethod.PayPal"> Paypal</option>
@@ -68,7 +68,7 @@ siendo todos datos obligatorios. *@
             <div class="form-floating">
                 @*this button will be used to ask the user if he want to proceed to rent the movies*@
                 <button class="btn btn-primary" type="submit" id="Submit">
-                    Rent your movies
+                    Rent your cars
                 </button>
             </div>
         </div>
@@ -78,8 +78,8 @@ siendo todos datos obligatorios. *@
     <p><b>Date from:</b> @rental.StartDate.ToString("dd/MM/yyyy") <b>to:</b> @rental.EndDate.ToString("dd/MM/yyyy")</p>
     <p>
         <b>Total price:</b> @TotalCost €
-        <button class="btn btn-outline-primary" type="submit" @onclick="ModifyRentalItems" id="ModifyMovies">
-            Modify movies
+        <button class="btn btn-outline-primary" type="submit" @onclick="ModifyRentalItems" id="ModifyCars">
+            Modify cars
         </button>
     </p>
 
@@ -101,7 +101,7 @@ siendo todos datos obligatorios. *@
                         <td>@item.Model</td>
                         <td>@item.Manufacturer</td>
                         <td>@item.RentingPrice</td>
-                        <td><InputNumber @bind-Value="item.QuantityForRenting" class="form-control" id="@($"quantity_{item.Id}")" /></td>
+                        <td><InputNumber @bind-Value="item.QuantityForRenting" class="form-control" id="@($"quantity_{item.Id}")" min="1" /></td>
                     </tr>
                 }
             </tbody>
@@ -136,7 +136,7 @@ siendo todos datos obligatorios. *@
     }
     private void ModifyRentalItems()
     {
-        navigation.NavigateTo("/rental/selectmoviesforrental");
+        navigation.NavigateTo("/rentals/selectcarforrental");
     }
     private RentalForCreateDTO rental => rentalState.Rental;
 
