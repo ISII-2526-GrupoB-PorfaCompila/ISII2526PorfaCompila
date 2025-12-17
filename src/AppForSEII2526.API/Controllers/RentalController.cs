@@ -36,6 +36,7 @@ namespace AppForSEII2526.API.Controllers
                  .Include(r => r.RentalItems)     //añade los RentalItemDTOs
                     .ThenInclude(r => r.Car)      //añade los datos del Car de cada RentalItem
              .Select(r => new RentalDetailDTO(
+                 r.Id,
                  r.ApplicationUser.Name, 
                  r.ApplicationUser.Surname, 
                  r.DeliveryCarDealer, 
@@ -81,6 +82,10 @@ namespace AppForSEII2526.API.Controllers
 
             if (rentalForCreate.RentalItems.Count == 0)
                 ModelState.AddModelError("RentalItems", "Error! You must include at least one car to be rented");
+
+            //Comprobación del examen.
+            if (!rentalForCreate.DeliveryCarDealer.Contains("Calle")) 
+                ModelState.AddModelError("RentalCalle", "¡Error! La dirección de envío tiene que empezar por la palabra Calle");
 
             var user = _context.ApplicationUsers.FirstOrDefault(au => au.Name == rentalForCreate.Name);
             if (user == null)
@@ -130,6 +135,7 @@ namespace AppForSEII2526.API.Controllers
             }
 
             var rentalDetail = new RentalDetailDTO(
+                 rental.Id,
                  rentalForCreate.Name,
                  rentalForCreate.Surname,
                  rental.DeliveryCarDealer,

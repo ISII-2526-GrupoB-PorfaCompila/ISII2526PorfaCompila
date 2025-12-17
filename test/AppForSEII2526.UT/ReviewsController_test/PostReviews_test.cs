@@ -49,16 +49,22 @@ namespace AppForSEII2526.UT.ReviewsController_test
 
         public static IEnumerable<object[]> TestCasesFor_CreateReview()
         {
-            var reviewNoItem = new ReviewForCreateDTO(_username, _country, DriverTypes.Novato, new List<ReviewItemDTO>());
+            var reviewNoItem = new ReviewForCreateDTO(_username, _country, DriverTypes.Experto, new List<ReviewItemDTO>());
 
-            var reviewItems = new List<ReviewItemDTO>() { new ReviewItemDTO(2, _model1, "FIAT", "Rojo", 4, "Excelente") };
+            var reviewItems = new List<ReviewItemDTO>() { new ReviewItemDTO(2, _model1, _model1, "Rojo", "Gasolina", 4, "Excelente") };
 
-            var RentalApplicationUser = new ReviewForCreateDTO("angel", _country, DriverTypes.Novato, reviewItems);
+            var RentalApplicationUser = new ReviewForCreateDTO("angel", _country, DriverTypes.Experto, reviewItems);
+
+            //Modificacion examen
+            //var reviewDriverType = new ReviewForCreateDTO(_username, _country, DriverTypes.Novato, reviewItems);
 
             var allTests = new List<object[]>
             {             //input for createpurchase - Error expected
                 new object[] { reviewNoItem, "Error! You must include at least one car to be reviewed",  },
                 new object[] { RentalApplicationUser, "Error! That user is not registered", },
+
+                //Modificacion examen
+                //new object[] { reviewDriverType, "Error! No aceptamos reseñas de conductores novatos" }
             };
 
             return allTests;
@@ -102,11 +108,11 @@ namespace AppForSEII2526.UT.ReviewsController_test
 
             var controller = new ReviewsController(_context, logger);
 
-            var reviewDTO = new ReviewForCreateDTO(_username, _country, DriverTypes.Novato, 
-                new List<ReviewItemDTO>() { new ReviewItemDTO(1, _model1, "FIAT", "Rojo", 4, "Excelente")});
+            var reviewDTO = new ReviewForCreateDTO(_username, _country, DriverTypes.Experto, 
+                new List<ReviewItemDTO>() { new ReviewItemDTO(1, _model1, _model1, "Rojo", "Gasolina", 4, "Excelente")});
 
-            var expectedreviewDetailDTO = new ReviewDetailDTO(2, DateTime.Today, _username, _country, DriverTypes.Novato,
-                new List<ReviewItemDTO>() { new ReviewItemDTO(1, _model1, "FIAT", "Rojo", 4, "Excelente") });
+            var expectedreviewDetailDTO = new ReviewDetailDTO(2, DateTime.Today, _username, _country, DriverTypes.Experto,
+                new List<ReviewItemDTO>() { new ReviewItemDTO(1, _model1, _model1, "Rojo", "Gasolina", 4, "Excelente") });
 
             // Act
             var result = await controller.CreateReview(reviewDTO);

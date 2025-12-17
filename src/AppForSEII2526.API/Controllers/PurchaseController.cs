@@ -19,7 +19,7 @@ namespace AppForSEII2526.API.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        [ProducesResponseType(typeof(PurchaseItemDTO), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(PurchaseDetailDTO), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetPurchase(int id)
         {
@@ -44,7 +44,7 @@ namespace AppForSEII2526.API.Controllers
                         pi.Car.Id,
                         pi.Car.Model.Name,
                         pi.Car.Color,
-                        pi.Car.QuantityForPurchasing,
+                        pi.Quantity,
                         pi.Car.PurchasingPrice)).ToList()
                 )).FirstOrDefaultAsync();
 
@@ -101,6 +101,10 @@ namespace AppForSEII2526.API.Controllers
                     ModelState.AddModelError("CarId", $"Error! The car with Id {item.CarId} does not exist.");
                 }
                 purchase.PurchaseItems.Add(new PurchaseItem(purchase, car.Id, item.QuantityForPurchase));
+                if (car.Description == "." && item.QuantityForPurchase == 2) 
+                {
+                    ModelState.AddModelError("CarId", $"¡Error! Estás comprando demasiados coches sin descripción.");
+                }
                 purchase.PurchasingPrice += car.PurchasingPrice * item.QuantityForPurchase;
             }
 

@@ -39,7 +39,7 @@ namespace AppForSEII2526.API.Controllers
                     r.Country, (DriverTypes)r.DriverType,
                     r.ReviewItems
                         .Select(ri => new ReviewItemDTO(ri.Car.Id, ri.Car.Model.Name,
-                                ri.Car.Manufacturer, ri.Car.Color,
+                                ri.Car.Manufacturer, ri.Car.Color, ri.Car.FuelType,
                                 ri.Rating, ri.Description)).ToList<ReviewItemDTO>()))
                 .FirstOrDefaultAsync();
 
@@ -70,6 +70,10 @@ namespace AppForSEII2526.API.Controllers
             var user = _context.ApplicationUsers.FirstOrDefault(au => au.UserName == reviewForCreate.UserName);
             if (user == null)
                 ModelState.AddModelError("ReviewApplicationUser", "Error! That user is not registered");
+
+            //Modificacion examen
+            //if (reviewForCreate.DriverType.ToString().Contains("Novato"))
+            //    ModelState.AddModelError("reviewDriverType", "Error! No aceptamos reseñas de conductores novatos");
 
             if (ModelState.ErrorCount > 0)
                 return BadRequest(new ValidationProblemDetails(ModelState));

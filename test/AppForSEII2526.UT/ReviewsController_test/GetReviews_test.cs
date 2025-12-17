@@ -73,7 +73,7 @@ namespace AppForSEII2526.UT.ReviewsController_test
 
 
             var expectedReview = new ReviewDetailDTO(1, new DateTime(2025, 11, 17), "mperez", "España", DriverTypes.Novato, new List<ReviewItemDTO>());
-            expectedReview.ReviewItems.Add(new ReviewItemDTO(1, "FIAT", "FIAT", "Rojo", 4, "Excelente"));
+            expectedReview.ReviewItems.Add(new ReviewItemDTO(1, "FIAT", "FIAT", "Rojo", "Gasolina", 4, "Excelente"));
 
             // Act 
             var result = await controller.GetReview(1);

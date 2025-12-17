@@ -10,6 +10,7 @@
         public PaymentMethod PaymentMethod { get; set; }
         [Required]
         public DateTime Date { get; set; }
+        public string? PhoneNumber { get; set; }
         public IList<ReservaItemDTO> ReservaItems { get; set; }
         [Display(Name = "Total Price")]
         [JsonPropertyName("TotalPrice")]
@@ -32,6 +33,19 @@
             Date = date;
             ReservaItems = reservaItems;
         }
+        public ReservaForCreateDTO(string applicationUser, string clientAddress, PaymentMethod paymentMethod, DateTime date, string? phonenumber, IList<ReservaItemDTO> reservaItems)
+        {
+            if (applicationUser is null) throw new ArgumentNullException(nameof(applicationUser));
+            if (clientAddress is null) throw new ArgumentNullException(nameof(clientAddress));
+            if (reservaItems is null) throw new ArgumentNullException(nameof(reservaItems));
+
+            ApplicationUser = applicationUser;
+            ClientAddress = clientAddress;
+            PaymentMethod = paymentMethod;
+            Date = date;
+            PhoneNumber = phonenumber;
+            ReservaItems = reservaItems;
+        }
         public ReservaForCreateDTO(IList<ReservaItemDTO> reservaItems)
         {
             ReservaItems = reservaItems;
@@ -49,12 +63,13 @@
                    ClientAddress == dTO.ClientAddress &&
                    PaymentMethod == dTO.PaymentMethod &&
                    Date.Equals(dTO.Date) &&
+                   PhoneNumber == dTO.PhoneNumber &&
                    ReservaItems.SequenceEqual(dTO.ReservaItems) &&
                    TotalPrice == dTO.TotalPrice;
         }
         public override int GetHashCode()
         {
-            return HashCode.Combine(ApplicationUser, ClientAddress, PaymentMethod, Date, ReservaItems, TotalPrice);
+            return HashCode.Combine(ApplicationUser, ClientAddress, PaymentMethod, Date, PhoneNumber, ReservaItems, TotalPrice);
         }
     }
 }
