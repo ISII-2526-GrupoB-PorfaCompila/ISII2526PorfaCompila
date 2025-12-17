@@ -105,5 +105,52 @@ namespace AppForSEII2526.UIT.UC_Review
             //Assert.True(selectCarsForReview_PO.IsCarInReviewCart(id1));
             //Assert.False(selectCarsForReview_PO.IsCarInReviewCart(id2));
         }
+
+        [Theory]
+        [InlineData("", "España", "The UserName field is required")]
+        [InlineData("carlosg", "", "The Country field is required")]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC4_AF3_UC4_7_8_testingErrorsMandatorydata(string userName, string country,
+            string expectedMessageError)
+        {
+            //Arrange
+            var createreview = new CreateReview_PO(_driver, _output);
+            //Act
+            InitialStepsForReviewCars();
+
+            selectCarsForReview_PO.AddCarToReviewingCart(id1);
+            selectCarsForReview_PO.ReviewCars();
+            createreview.FillInReviewInfo(userName, country, "Experto");
+            createreview.FillInReviewRating(4, id1);
+            createreview.PressReviewYourCars();
+
+            //Assert
+            //the expected error is shown in the view
+            Assert.True(createreview.CheckValidationError(expectedMessageError), $"Expected error: {expectedMessageError}");
+        }
+
+        [Fact]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC4_AF4_UC4_9_ModifyReviewItems()
+        {
+            //Arrange
+            var createreview = new CreateReview_PO(_driver, _output);
+
+            //Act
+            InitialStepsForReviewCars();
+
+            selectCarsForReview_PO.AddCarToReviewingCart(id1);
+            selectCarsForReview_PO.AddCarToReviewingCart(id2);
+            selectCarsForReview_PO.ReviewCars();
+            createreview.PressModifyCars();
+            //we remove car2 from the reviewingcart
+            selectCarsForReview_PO.RemoveCarFromReviewingCart(id2);
+            selectCarsForReview_PO.ReviewCars();
+
+            //Assert
+            //the list of movies must change
+            var expectedReviewItems = new List<string[]> { new string[] { modelName1, fuelType1, manufacturer1, color1 }, };
+            Assert.True(createreview.CheckListOfReviewItems(expectedReviewItems));
+        }
     }
 }

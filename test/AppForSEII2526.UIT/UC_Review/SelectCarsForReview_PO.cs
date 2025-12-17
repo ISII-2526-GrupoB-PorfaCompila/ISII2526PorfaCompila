@@ -23,8 +23,15 @@ namespace AppForSEII2526.UIT.UC_Review
             //wait for the webelement to be clickable
             WaitForBeingClickable(inputManufacturer);
             _driver.FindElement(inputManufacturer).SendKeys(manufacturer);
+            WaitForBeingClickable(inputFuelType);
             _driver.FindElement(inputFuelType).SendKeys(fuelType);
             _driver.FindElement(buttonSearchCars).Click();
+        }
+
+        public void ReviewCars()
+        {
+            WaitForBeingClickable(buttonReviewCars);
+            _driver.FindElement(buttonReviewCars).Click();
         }
 
         public bool CheckListOfCars(List<string[]> expectedCars)
