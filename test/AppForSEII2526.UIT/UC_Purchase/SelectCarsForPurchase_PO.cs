@@ -53,19 +53,31 @@ namespace AppForSEII2526.UIT.UC_Purchase
 
             return _driver.FindElement(buttonPurchaseCars).Displayed == false;
         }
-        public bool CheckCartPrice()
+
+        public bool CheckCartPrice(string expectedPrice)
         {
-            //the button is not Displayed=hidden
+            WaitForBeingVisible(By.Id("totalPrice"));
 
-            return _driver.FindElement(buttonPurchaseCars).Displayed == false;
-            return _showPurchasingCartButton().Text.Contains(price);
+            // Obtenemos el texto completo: "Precio final XXXXX"
+            string price = _driver.FindElement(By.Id("totalPrice")).Text;
+
+            // Comprobamos si el texto en pantalla CONTIENE el precio esperado.
+            // Esto funcionará aunque haya espacios extra o el prefijo "Precio final "
+            return price.Contains(expectedPrice);
         }
-
 
         public bool CheckListOfCars(List<string[]> expectedCars)
         {
 
             return CheckBodyTable(expectedCars, tableOfCarsBy);
+        }
+
+        public void PurchaseCars()
+        {
+            WaitForBeingClickable(buttonPurchaseCars);
+            _driver.FindElement(buttonPurchaseCars).Click();
+            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
+            wait.Until(driver => driver.Url.Contains("/purchase/createpurchase"));
         }
     }
 }
