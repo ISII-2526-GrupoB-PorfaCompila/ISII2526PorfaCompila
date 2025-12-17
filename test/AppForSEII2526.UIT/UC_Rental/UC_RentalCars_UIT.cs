@@ -136,9 +136,10 @@ namespace AppForSEII2526.UIT.UC_Rental
 
         [Theory]
         [InlineData("", "Martinez", "Calle Calatrava", "The Name field is required.")]
-        [InlineData("Laura", "Martinez", "Calatrava", "Errors: (*) ¡Error! La dirección de envío tiene que empezar por la palabra Calle")]
+        [InlineData("Laura", "", "Calle Calatrava", "The Surname field is required.")]
+        [InlineData("Laura", "Martinez", "", "The DeliveryCarDealer field is required.")]
         [Trait("LevelTesting", "Funcional Testing")]
-        public void UC2_Esc5_8_9_testingErrorsMandatorydata(string name, string surname, string deliveryAddress, string expectedMessageError)
+        public void UC2_Esc5_8_9_10_testingErrorsMandatorydata(string name, string surname, string deliveryAddress, string expectedMessageError)
         {
             var createRental_PO = new CreateRental_PO(_driver, _output);
             //Arrange
@@ -157,6 +158,35 @@ namespace AppForSEII2526.UIT.UC_Rental
             //the expected error is shown in the view
             Assert.True(createRental_PO.CheckValidationError(expectedMessageError), $"Expected error: {expectedMessageError}");
         }
+
+        [Fact]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC2_Esc6_11_ModifyRentalItems()
+        {
+            //Arrange
+
+            var createRental_PO = new CreateRental_PO(_driver, _output);
+
+            var from = DateTime.Today.AddDays(2).ToString();
+            var to = DateTime.Today.AddDays(3).ToString();
+            //Act
+            InitialStepsForRentalCars();
+
+            selectCarsForRental_PO.SearchCars("100", "", from, to);
+            selectCarsForRental_PO.AddCarToRentingCart(carModel1);
+            selectCarsForRental_PO.AddCarToRentingCart(carModel2);
+            selectCarsForRental_PO.RentCars();
+            createRental_PO.PressModifyCars();
+            //we remove movietitle2 from the rentingcart
+            selectCarsForRental_PO.RemoveCarFromRentingCart(carModel2);
+            selectCarsForRental_PO.RentCars();
+
+            //Assert
+            //the list of movies must change
+            var expectedRentalItems = new List<string[]> { new string[] { carModel1, carManufacturer1, carRentingPrice1 }, };
+            Assert.True(createRental_PO.CheckListOfRentalItems(expectedRentalItems));
+        }
+
     }
 
 }

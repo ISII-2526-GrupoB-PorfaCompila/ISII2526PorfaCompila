@@ -76,7 +76,7 @@ namespace AppForSEII2526.UIT.UC_Rental
         }
 
         //cuenta todos los elementos cuya etiqueta empiece por 'removeCar_'
-        public int CountCarsInCart() 
+        public int CountCarsInCart()
         {
             return _driver.FindElements(By.CssSelector("[id^='removeCar_']")).Count;
         }

@@ -79,7 +79,7 @@ siendo todos datos obligatorios. *@
     <p>
         <b>Total price:</b> @TotalCost €
         <button class="btn btn-outline-primary" type="submit" @onclick="ModifyRentalItems" id="ModifyCars">
-            Modify movies
+            Modify cars
         </button>
     </p>
 
@@ -136,7 +136,7 @@ siendo todos datos obligatorios. *@
     }
     private void ModifyRentalItems()
     {
-        navigation.NavigateTo("/rental/selectmoviesforrental");
+        navigation.NavigateTo("/rentals/selectcarforrental");
     }
     private RentalForCreateDTO rental => rentalState.Rental;
 
