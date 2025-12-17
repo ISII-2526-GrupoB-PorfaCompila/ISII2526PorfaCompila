@@ -12,7 +12,6 @@ namespace AppForSEII2526.UIT.UC_Rental
     public class UC_RentalCars_UIT : UC_UIT
     {
         private SelectCarsForRental_PO selectCarsForRental_PO;
-        private CreateRental_PO createRental_PO;
         private const int carId1 = 1;
 
         private string validFrom = DateTime.Today.AddDays(-1).ToString("dd/MM/yyyy");
@@ -136,11 +135,12 @@ namespace AppForSEII2526.UIT.UC_Rental
         /////////////////////////////
 
         [Theory]
-        [InlineData("Invent", "Martinez", "Calle Calatrava", "Errors: (*) Error! That user is not registered")]
+        [InlineData("", "Martinez", "Calle Calatrava", "The Name field is required.")]
         [InlineData("Laura", "Martinez", "Calatrava", "Errors: (*) ¡Error! La dirección de envío tiene que empezar por la palabra Calle")]
         [Trait("LevelTesting", "Funcional Testing")]
         public void UC2_Esc5_8_9_testingErrorsMandatorydata(string name, string surname, string deliveryAddress, string expectedMessageError)
         {
+            var createRental_PO = new CreateRental_PO(_driver, _output);
             //Arrange
             var from = DateTime.Today.AddDays(2).ToString();
             var to = DateTime.Today.AddDays(3).ToString();
