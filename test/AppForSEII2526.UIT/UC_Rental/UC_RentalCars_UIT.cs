@@ -1,5 +1,4 @@
-﻿using AppForMovies.UIT.RentalMovies;
-using AppForMovies.UIT.Shared;
+﻿using AppForMovies.UIT.Shared;
 using AppForSEII2526.UIT.Shared;
 using System;
 using System.Collections.Generic;
@@ -115,7 +114,7 @@ namespace AppForSEII2526.UIT.UC_Rental
 
         [Fact]
         [Trait("LevelTesting", "Funcional Testing")]
-        public void UC2_Esc4_7_ModifySelectedMovies()
+        public void UC2_Esc4_7_ModifySelectedCars()
         {
             //Arrange
             InitialStepsForRentalCars();
@@ -229,7 +228,7 @@ namespace AppForSEII2526.UIT.UC_Rental
             var expectedRentalItems = new List<string[]>
                     { new string[] { carModel1, carManufacturer1, carRentingPrice1+" €" }, };
 
-            Assert.True(detailRental.CheckListOfMovies(expectedRentalItems),
+            Assert.True(detailRental.CheckListOfCars(expectedRentalItems),
                 "Error: rental items are not as expected");
 
         }

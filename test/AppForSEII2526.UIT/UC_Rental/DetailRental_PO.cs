@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AppForMovies.UIT.RentalMovies
+namespace AppForSEII2526.UIT.UC_Rental
 {
     public class DetailRental_PO : PageObject
     {
@@ -32,9 +32,9 @@ namespace AppForMovies.UIT.RentalMovies
 
         }
 
-        public bool CheckListOfMovies(List<string[]> expectedRentalItems)
+        public bool CheckListOfCars(List<string[]> expectedRentalItems)
         {
-            return CheckBodyTable(expectedRentalItems, By.Id("RentedMovies"));
+            return CheckBodyTable(expectedRentalItems, By.Id("RentedCars"));
         }
     }
 }
