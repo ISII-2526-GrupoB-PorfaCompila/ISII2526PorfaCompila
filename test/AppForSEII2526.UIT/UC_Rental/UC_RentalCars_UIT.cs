@@ -12,6 +12,7 @@ namespace AppForSEII2526.UIT.UC_Rental
     public class UC_RentalCars_UIT : UC_UIT
     {
         private SelectCarsForRental_PO selectCarsForRental_PO;
+        private CreateRental_PO createRental_PO;
         private const int carId1 = 1;
 
         private string validFrom = DateTime.Today.AddDays(-1).ToString("dd/MM/yyyy");
@@ -34,11 +35,10 @@ namespace AppForSEII2526.UIT.UC_Rental
             selectCarsForRental_PO = new SelectCarsForRental_PO(_driver, _output);
         }
 
-        //NO aplica porque no estamos usando login
-        //private void Precondition_perform_login()
-        //{
-        //    Perform_login("elena@uclm.es", "Password1234%");
-        //}
+
+        /////////////////////////////
+        ///// Tests del Select //////
+        /////////////////////////////
 
         private void InitialStepsForRentalCars() //Entra en el apartado de rental
         {
@@ -131,6 +131,32 @@ namespace AppForSEII2526.UIT.UC_Rental
             Assert.Equal(1, selectCarsForRental_PO.CountCarsInCart());
         }
 
+        /////////////////////////////
+        ///// Tests del Create //////
+        /////////////////////////////
+
+        [Theory]
+        [InlineData("Invent", "Martinez", "Calle Calatrava", "Errors: (*) Error! That user is not registered")]
+        [InlineData("Laura", "Martinez", "Calatrava", "Errors: (*) ¡Error! La dirección de envío tiene que empezar por la palabra Calle")]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC2_Esc5_8_9_testingErrorsMandatorydata(string name, string surname, string deliveryAddress, string expectedMessageError)
+        {
+            //Arrange
+            var from = DateTime.Today.AddDays(2).ToString();
+            var to = DateTime.Today.AddDays(3).ToString();
+            //Act
+            InitialStepsForRentalCars();
+
+            selectCarsForRental_PO.SearchCars("100", "", from, to);
+            selectCarsForRental_PO.AddCarToRentingCart(carModel1);
+            selectCarsForRental_PO.RentCars();
+            createRental_PO.FillInRentalInfo(name, surname, deliveryAddress, "Visa");
+            createRental_PO.PressRentYourCars();
+
+            //Assert
+            //the expected error is shown in the view
+            Assert.True(createRental_PO.CheckValidationError(expectedMessageError), $"Expected error: {expectedMessageError}");
+        }
     }
 
 }
