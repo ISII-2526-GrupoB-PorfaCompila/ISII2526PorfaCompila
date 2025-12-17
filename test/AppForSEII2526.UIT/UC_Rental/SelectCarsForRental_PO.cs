@@ -14,12 +14,14 @@ namespace AppForSEII2526.UIT.UC_Rental
         By inputFrom = By.Id("fromDate");
         By inputTo = By.Id("toDate");
         By tableOfCarsBy = By.Id("TableOfCars");
+        By errorShownBy = By.Id("ErrorsShown");
+        By buttonRentCars = By.Id("rentCarButton");
 
         By buttonSearchCars = By.Id("searchCars");
         public SelectCarsForRental_PO(IWebDriver driver, ITestOutputHelper output) : base(driver, output)
         {
         }
-        public void SearchMovies(string price, string model, string from, string to)
+        public void SearchCars(string price, string model, string from, string to)
         {
             //wait for the webelement to be clickable
             WaitForBeingClickable(inputPrice);
@@ -41,6 +43,41 @@ namespace AppForSEII2526.UIT.UC_Rental
         {
             return CheckBodyTable(expectedCars, tableOfCarsBy);
         }
+
+        public bool CheckMessageError(string errorMessage)
+        {
+            IWebElement actualErrorShown = _driver.FindElement(errorShownBy);
+            _output.WriteLine($"actual Message shown:{actualErrorShown.Text}");
+            return actualErrorShown.Text.Contains(errorMessage);
+        }
+
+        public void AddMovieToRentingCart(string carModel)
+        {
+            WaitForBeingClickable(By.Id("carToRent_" + carModel));
+            _driver.FindElement(By.Id("carToRent_" + carModel)).Click();
+        }
+
+        public void RemoveMovieFromRentingCart(string carModel)
+        {
+            WaitForBeingClickable(By.Id("removeCar_" + carModel));
+            _driver.FindElement(By.Id("removeCar_" + carModel)).Click();
+        }
+
+        ////PACOOOO
+        //public bool CheckShoppingCart(string price)
+        //{
+        //    //string texto = _showRentingCartButton().Text;
+        //    //WaitForTextToBePresentInElement(_rentButtonBy, $"Renting Cart: {price} €" );
+        //    return _showRentingCartButton().Text.Contains(price);
+        //}
+
+        public bool RentingNotAvailable()
+        {
+            //the button is not Displayed=hidden
+            return _driver.FindElement(buttonRentCars).Displayed == false;
+        }
+
+
 
     }
 }
