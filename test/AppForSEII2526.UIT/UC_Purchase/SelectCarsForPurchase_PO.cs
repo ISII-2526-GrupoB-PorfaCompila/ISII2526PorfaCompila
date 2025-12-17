@@ -49,8 +49,6 @@ namespace AppForSEII2526.UIT.UC_Purchase
 
         public bool PurchasingNotAvailable()
         {
-            //the button is not Displayed=hidden
-
             return _driver.FindElement(buttonPurchaseCars).Displayed == false;
         }
 
@@ -58,17 +56,13 @@ namespace AppForSEII2526.UIT.UC_Purchase
         {
             WaitForBeingVisible(By.Id("totalPrice"));
 
-            // Obtenemos el texto completo: "Precio final XXXXX"
             string price = _driver.FindElement(By.Id("totalPrice")).Text;
 
-            // Comprobamos si el texto en pantalla CONTIENE el precio esperado.
-            // Esto funcionará aunque haya espacios extra o el prefijo "Precio final "
             return price.Contains(expectedPrice);
         }
 
         public bool CheckListOfCars(List<string[]> expectedCars)
         {
-
             return CheckBodyTable(expectedCars, tableOfCarsBy);
         }
 
