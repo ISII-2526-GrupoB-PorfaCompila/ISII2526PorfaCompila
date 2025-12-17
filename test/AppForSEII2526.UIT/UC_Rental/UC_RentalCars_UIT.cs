@@ -51,7 +51,7 @@ namespace AppForSEII2526.UIT.UC_Rental
         [InlineData(carRentingPrice1, carModel1, carColor1, carFuelType1, carManufacturer1, "A3", "")]
         [InlineData(carRentingPrice2, carModel2, carColor2, carFuelType2, carManufacturer2, "", "45")]
         [Trait("LevelTesting", "Funcional Testing")]
-        public void UC2_Esc2_UC2_4_5_filtering(string carRentingPrice, string carModel, string carColor, string carFuelType, string carManufacturer, string filterModel, string filterRentingPrice)
+        public void UC2_Esc2_4_5_filtering(string carRentingPrice, string carModel, string carColor, string carFuelType, string carManufacturer, string filterModel, string filterRentingPrice)
         {
             //Arrange
             InitialStepsForRentalCars();
@@ -66,7 +66,7 @@ namespace AppForSEII2526.UIT.UC_Rental
         }
 
         //test de error de fechas ---------------------- Falta clickar el botón.
-        public static IEnumerable<object[]> TestCasesFor_Esc2_UC2_6_errorindates()
+        public static IEnumerable<object[]> TestCasesFor_UC2_Esc2_12_13_14_errorindates()
         {
             var allTests = new List<object[]> {
                 new object[] { DateTime.Today.AddDays(-1).ToString("dd/MM/yyyy"), DateTime.Today.AddDays(2).ToString("dd/MM/yyyy"), "Your rental period must be later",  },
@@ -78,9 +78,9 @@ namespace AppForSEII2526.UIT.UC_Rental
             return allTests;
         }
         [Theory]
-        [MemberData(nameof(TestCasesFor_Esc2_UC2_6_errorindates))]
+        [MemberData(nameof(TestCasesFor_UC2_Esc2_12_13_14_errorindates))]
         [Trait("LevelTesting", "Funcional Testing")]
-        public void UC2_Esc2_UC2_6_errorindates(string from, string to, string error)
+        public void UC2_Esc2_12_13_14_errorindates(string from, string to, string error)
         {
             //Arrange en TestcasesFor
             //Act
@@ -97,7 +97,7 @@ namespace AppForSEII2526.UIT.UC_Rental
         //test de botón no activo
         [Fact]
         [Trait("LevelTesting", "Funcional Testing")]
-        public void UC2_Esc3_UC2_4_5_RentingNotavailable()
+        public void UC2_Esc3_6_RentingNotavailable()
         {
             //Arrange
             InitialStepsForRentalCars();
@@ -110,27 +110,23 @@ namespace AppForSEII2526.UIT.UC_Rental
 
         }
 
-        //PACOOOOOO
-        //[Fact]
-        //[Trait("LevelTesting", "Funcional Testing")]
-        //public void UC2_10_AF3_ModifySelectedMovies()
-        //{
-        //    //Arrange
+        [Fact]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC2_Esc4_7_ModifySelectedMovies()
+        {
+            //Arrange
+            InitialStepsForRentalCars();
 
-        //    var from = DateTime.Today.AddDays(2);
-        //    var to = DateTime.Today.AddDays(3);
-        //    //Act
-        //    InitialStepsForRentalCars();
+            //Act
+            selectCarsForRental_PO.SearchCars("100", "", "", "");
+            selectCarsForRental_PO.AddMovieToRentingCart(carModel1);
+            selectCarsForRental_PO.AddMovieToRentingCart(carModel2);
+            selectCarsForRental_PO.RemoveMovieFromRentingCart(carModel2);
 
-        //    selectCarsForRental_PO.SearchCars("100", "", "", "");
-        //    selectCarsForRental_PO.AddMovieToRentingCart(carModel1);
-        //    selectCarsForRental_PO.AddMovieToRentingCart(carModel2);
-        //    selectCarsForRental_PO.RemoveMovieFromRentingCart(carModel2);
-
-
-        //    //Assert            
-        //    Assert.True(selectCarsForRental_PO.CheckShoppingCart(carRentingPrice1));
-        //}
+            //Assert                       
+            //Comprueba que hay un solo item en el carrito (ergo se ha eliminado carModel2)
+            Assert.Equal(1, selectCarsForRental_PO.CountCarsInCart());
+        }
 
     }
 

@@ -77,6 +77,12 @@ namespace AppForSEII2526.UIT.UC_Rental
             return _driver.FindElement(buttonRentCars).Displayed == false;
         }
 
+        //cuenta todos los elementos cuya etiqueta empiece por 'removeCar_'
+        public int CountCarsInCart() 
+        {
+            return _driver.FindElements(By.CssSelector("[id^='removeCar_']")).Count;
+        }
+
 
 
     }
