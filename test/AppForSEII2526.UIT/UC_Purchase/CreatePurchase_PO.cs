@@ -46,6 +46,7 @@ namespace AppForSEII2526.UIT.UC_Purchase
 
         public void PressPurchaseYourCars()
         {
+            WaitForBeingClickable(By.Id("Submit"));
             _driver.FindElement(By.Id("Submit")).Click();
         }
 
