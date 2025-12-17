@@ -16,7 +16,7 @@
         {
         }
 
-        public RentalForCreateDTO(string name, string? surname, string? deliveryCarDealer, IList<RentalItemDTO> rentalItems, 
+        public RentalForCreateDTO(string name, string surname, string deliveryCarDealer, IList<RentalItemDTO> rentalItems, 
             PaymentMethod paymentMethod, DateTime endDate, DateTime startDate)
         {
             Name = name;
@@ -31,9 +31,9 @@
         [Required]
         public string Name { get; set; }
         [Required]
-        public string? Surname { get; set; }
+        public string Surname { get; set; }
         [Required]
-        public string? DeliveryCarDealer { get; set; }
+        public string DeliveryCarDealer { get; set; }
 
         public IList<RentalItemDTO> RentalItems { get; set; }
 

@@ -1205,12 +1205,14 @@
       },
       "RentalDetailDTO": {
         "required": [
+          "deliveryCarDealer",
           "endDate",
           "id",
           "name",
           "paymentMethod",
           "rentingDate",
-          "startDate"
+          "startDate",
+          "surname"
         ],
         "type": "object",
         "properties": {
@@ -1223,12 +1225,12 @@
             "type": "string"
           },
           "surname": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "deliveryCarDealer": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "rentalItems": {
             "type": "array",
