@@ -21,7 +21,7 @@ namespace AppForMovies.UIT.Shared {
             get {
                 //set url of your web page 
                 return "https://localhost:7081/";
-
+                //return "https://localhost:44335/";
             }
         }
 
