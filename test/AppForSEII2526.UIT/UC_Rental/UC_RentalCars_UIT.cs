@@ -104,9 +104,9 @@ namespace AppForSEII2526.UIT.UC_Rental
             //Arrange
             InitialStepsForRentalCars();
             //Act
-            selectCarsForRental_PO.SearchCars("100", "", validFrom, validTo);
-            selectCarsForRental_PO.AddMovieToRentingCart(carModel1);
-            selectCarsForRental_PO.RemoveMovieFromRentingCart(carModel1);
+            selectCarsForRental_PO.SearchCars("100", "", "", "");
+            selectCarsForRental_PO.AddCarToRentingCart(carModel1);
+            selectCarsForRental_PO.RemoveCarFromRentingCart(carModel1);
 
             //Assert
             Assert.True(selectCarsForRental_PO.RentingNotAvailable());
@@ -122,9 +122,9 @@ namespace AppForSEII2526.UIT.UC_Rental
 
             //Act
             selectCarsForRental_PO.SearchCars("100", "", "", "");
-            selectCarsForRental_PO.AddMovieToRentingCart(carModel1);
-            selectCarsForRental_PO.AddMovieToRentingCart(carModel2);
-            selectCarsForRental_PO.RemoveMovieFromRentingCart(carModel2);
+            selectCarsForRental_PO.AddCarToRentingCart(carModel1);
+            selectCarsForRental_PO.AddCarToRentingCart(carModel2);
+            selectCarsForRental_PO.RemoveCarFromRentingCart(carModel2);
 
             //Assert                       
             //Comprueba que hay un solo item en el carrito (ergo se ha eliminado carModel2)

@@ -50,13 +50,13 @@ namespace AppForSEII2526.UIT.UC_Rental
             return actualErrorShown.Text.Contains(errorMessage); //comprueba si son iguales el actualErrorShown y el errorMessage
         }
 
-        public void AddMovieToRentingCart(string carModel)
+        public void AddCarToRentingCart(string carModel)
         {
             WaitForBeingClickable(By.Id("carToRent_" + carModel));
             _driver.FindElement(By.Id("carToRent_" + carModel)).Click();
         }
 
-        public void RemoveMovieFromRentingCart(string carModel)
+        public void RemoveCarFromRentingCart(string carModel)
         {
             WaitForBeingClickable(By.Id("removeCar_" + carModel));
             _driver.FindElement(By.Id("removeCar_" + carModel)).Click();
