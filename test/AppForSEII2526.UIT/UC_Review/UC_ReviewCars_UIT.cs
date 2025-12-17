@@ -115,13 +115,13 @@ namespace AppForSEII2526.UIT.UC_Review
         {
             //Arrange
             var createreview = new CreateReview_PO(_driver, _output);
-            //Act
             InitialStepsForReviewCars();
 
+            //Act
             selectCarsForReview_PO.AddCarToReviewingCart(id1);
             selectCarsForReview_PO.ReviewCars();
             createreview.FillInReviewInfo(userName, country, "Experto");
-            createreview.FillInReviewRating(4, id1);
+            createreview.FillInReviewRating("4", id1);
             createreview.PressReviewYourCars();
 
             //Assert
@@ -151,6 +151,43 @@ namespace AppForSEII2526.UIT.UC_Review
             //the list of movies must change
             var expectedReviewItems = new List<string[]> { new string[] { modelName1, fuelType1, manufacturer1, color1 }, };
             Assert.True(createreview.CheckListOfReviewItems(expectedReviewItems));
+        }
+        
+        [Theory]
+        [InlineData("carlosg", "España", "Novato", "Muy bonito", "5")]
+        [InlineData("carlosg", "España", "Experto", "Horrible", "1")]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC4_1_2_BasicFlow(string userName, string country, string driverType, string description, string rating)
+        {
+            //Arrange
+            var createReview = new CreateReview_PO(_driver, _output);
+            var detailReview = new DetailReview_PO(_driver, _output);
+
+            //Act
+            InitialStepsForReviewCars();
+
+            selectCarsForReview_PO.AddCarToReviewingCart(id1);
+            selectCarsForReview_PO.ReviewCars();
+
+            createReview.FillInReviewInfo(userName, country, driverType);
+            createReview.FillInReviewDescription(description, id1);
+            createReview.FillInReviewRating(rating, id1);
+            createReview.PressReviewYourCars();
+            createReview.PressOkModalDialog();
+            
+
+            //Assert
+            //the expected error is shown in the view
+            Assert.True(detailReview.CheckReviewDetail(userName,
+                country, driverType, DateTime.Now),
+                "Error: detail review is not as expected");
+
+            var expectedReviewItems = new List<string[]>
+                    { new string[] { modelName1, manufacturer1, color1, description, rating}, };
+
+            Assert.True(detailReview.CheckListOfCars(expectedReviewItems),
+                "Error: review items are not as expected");
+
         }
     }
 }

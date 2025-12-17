@@ -40,9 +40,9 @@ namespace AppForSEII2526.UIT.UC_Review
             _driver.FindElement(By.Id("description_" + carId)).SendKeys(reviewDescription);
         }
 
-        public void FillInReviewRating(int rating, int carId)
+        public void FillInReviewRating(string rating, int carId)
         {
-            _driver.FindElement(By.Id("rating_" + carId)).SendKeys(rating.ToString());
+            _driver.FindElement(By.Id("rating_" + carId)).SendKeys(rating);
         }
 
 

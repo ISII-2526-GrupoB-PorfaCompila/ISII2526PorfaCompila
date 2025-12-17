@@ -55,13 +55,16 @@ namespace AppForSEII2526.UT.ReviewsController_test
 
             var RentalApplicationUser = new ReviewForCreateDTO("angel", _country, DriverTypes.Experto, reviewItems);
 
-            var reviewDriverType = new ReviewForCreateDTO(_username, _country, DriverTypes.Novato, reviewItems);
+            //Modificacion examen
+            //var reviewDriverType = new ReviewForCreateDTO(_username, _country, DriverTypes.Novato, reviewItems);
 
             var allTests = new List<object[]>
             {             //input for createpurchase - Error expected
                 new object[] { reviewNoItem, "Error! You must include at least one car to be reviewed",  },
                 new object[] { RentalApplicationUser, "Error! That user is not registered", },
-                new object[] { reviewDriverType, "Error! No aceptamos reseñas de conductores novatos" }
+
+                //Modificacion examen
+                //new object[] { reviewDriverType, "Error! No aceptamos reseñas de conductores novatos" }
             };
 
             return allTests;
