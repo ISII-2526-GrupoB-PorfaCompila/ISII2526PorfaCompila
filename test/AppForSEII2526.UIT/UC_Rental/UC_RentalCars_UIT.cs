@@ -1,9 +1,10 @@
-﻿using AppForMovies.UIT.Shared;
+﻿using AppForMovies.UIT.RentalMovies;
+using AppForMovies.UIT.Shared;
 using AppForSEII2526.UIT.Shared;
 using System;
-using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -48,7 +49,7 @@ namespace AppForSEII2526.UIT.UC_Rental
             _driver.FindElement(By.Id("CreateRental")).Click();
         }
 
-        //Tests de filtros --DONE--
+        //Tests de filtros 
         [Theory]
         [InlineData(carModel1, carRentingPrice1, carColor1, carFuelType1, carManufacturer1, "TOYOTA", "100")]
         [InlineData(carModel1, carRentingPrice1, carColor1, carFuelType1, carManufacturer1, "", "35")]
@@ -67,7 +68,7 @@ namespace AppForSEII2526.UIT.UC_Rental
 
         }
 
-        //test de error de fechas ---------------------- Falta clickar el botón.
+        //test de error de fechas
         public static IEnumerable<object[]> TestCasesFor_UC2_Esc2_12_13_14_errorindates()
         {
             var allTests = new List<object[]> {
@@ -134,6 +135,7 @@ namespace AppForSEII2526.UIT.UC_Rental
         ///// Tests del Create //////
         /////////////////////////////
 
+        //Test error datos obligatorios
         [Theory]
         [InlineData("", "Martinez", "Calle Calatrava", "The Name field is required.")]
         [InlineData("Laura", "", "Calle Calatrava", "The Surname field is required.")]
@@ -159,6 +161,7 @@ namespace AppForSEII2526.UIT.UC_Rental
             Assert.True(createRental_PO.CheckValidationError(expectedMessageError), $"Expected error: {expectedMessageError}");
         }
 
+        //Test de modificar y guardar datos
         [Fact]
         [Trait("LevelTesting", "Funcional Testing")]
         public void UC2_Esc6_11_ModifyRentalItems()
@@ -185,6 +188,50 @@ namespace AppForSEII2526.UIT.UC_Rental
             //the list of movies must change
             var expectedRentalItems = new List<string[]> { new string[] { carModel1, carManufacturer1, carRentingPrice1 }, };
             Assert.True(createRental_PO.CheckListOfRentalItems(expectedRentalItems));
+        }
+
+        //test del flujo básico
+        [Theory]
+        [InlineData("Laura", "Martinez", "Calle Calatrava", "GooglePay")]
+        [InlineData("Laura", "Martinez", "Calle Calatrava", "Paypal")]
+        [InlineData("Laura", "Martinez", "Calle Calatrava", "Visa")]
+
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC2_Esc1_1_2_3_BasicFlow(string name, string surname, string deliveryAddress, string paymentMethod)
+        {
+            //Arrange
+
+            var createrental = new CreateRental_PO(_driver, _output);
+            var detailRental = new DetailRental_PO(_driver, _output);
+
+            var from = DateTime.Today.AddDays(2).ToString();
+            var to = DateTime.Today.AddDays(3).ToString();
+            var fromDateType = DateTime.Today.AddDays(2);
+            var toDateType = DateTime.Today.AddDays(3);
+
+            //Act
+            InitialStepsForRentalCars();
+
+            selectCarsForRental_PO.SearchCars("100", "", from, to);
+            selectCarsForRental_PO.AddCarToRentingCart(carModel1);
+            selectCarsForRental_PO.RentCars();
+
+            createrental.FillInRentalInfo(name, surname, deliveryAddress, paymentMethod);
+            createrental.PressRentYourCars();
+            createrental.PressOkModalDialog();
+
+            //Assert
+            //the expected error is shown in the view
+            Assert.True(detailRental.CheckRentalDetail(name, surname,
+                deliveryAddress, paymentMethod, DateTime.Now, fromDateType, toDateType, carRentingPrice1 + " €"),
+                "Error: detail rental is not as expected");
+
+            var expectedRentalItems = new List<string[]>
+                    { new string[] { carModel1, carManufacturer1, carRentingPrice1+" €" }, };
+
+            Assert.True(detailRental.CheckListOfMovies(expectedRentalItems),
+                "Error: rental items are not as expected");
+
         }
 
     }

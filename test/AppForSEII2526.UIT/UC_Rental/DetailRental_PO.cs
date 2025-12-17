@@ -12,14 +12,14 @@ namespace AppForMovies.UIT.RentalMovies
         {
         }
 
-        public bool CheckRentalDetail(string name, string delivery, string paymentmethod,
+        public bool CheckRentalDetail(string name,string surname, string delivery, string paymentmethod,
             DateTime rentalDate, DateTime from, DateTime to, string totalprice)
         {
             WaitForBeingVisible(By.Id("TotalPrice"));
             bool result = true;
-            result = result && _driver.FindElement(By.Id("NameSurname")).Text.Contains(name);
+            result = result && _driver.FindElement(By.Id("NameSurname")).Text.Contains(name+ " " +surname);
             result = result && _driver.FindElement(By.Id("DeliveryAddress")).Text.Contains(delivery);
-            result = result && _driver.FindElement(By.Id("PaymentMethod")).Text.Contains(paymentmethod);
+            result = result && _driver.FindElement(By.Id("PaymentMethod")).Text.Contains(paymentmethod, StringComparison.OrdinalIgnoreCase);
             result = result && _driver.FindElement(By.Id("TotalPrice")).Text.Contains(totalprice);
 
             var actualRentalDate = DateTime.Parse(_driver.FindElement(By.Id("RentalDate")).Text);
