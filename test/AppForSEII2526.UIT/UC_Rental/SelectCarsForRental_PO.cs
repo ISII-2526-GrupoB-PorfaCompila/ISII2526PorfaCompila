@@ -29,13 +29,12 @@ namespace AppForSEII2526.UIT.UC_Rental
             if (model == "") model = "All";
             SelectElement selectElement = new SelectElement(_driver.FindElement(inputGenre));
             selectElement.SelectByText(model);
-
-            _driver.FindElement(buttonSearchCars).Click();
-
             if (from != "")
                 _driver.FindElement(inputFrom).SendKeys(from);
             if (to != "")
                 _driver.FindElement(inputTo).SendKeys(to);
+
+            _driver.FindElement(buttonSearchCars).Click();
 
         }
 

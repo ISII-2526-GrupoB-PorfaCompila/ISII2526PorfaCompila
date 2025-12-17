@@ -90,7 +90,6 @@ namespace AppForSEII2526.UIT.UC_Rental
             InitialStepsForRentalCars();
 
             selectCarsForRental_PO.SearchCars("100", "", from, to);
-            selectCarsForRental_PO.AddMovieToRentingCart(carModel1);
 
             //Assert
             //this message will be shown if assert fails
