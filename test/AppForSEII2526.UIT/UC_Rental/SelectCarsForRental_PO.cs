@@ -62,19 +62,13 @@ namespace AppForSEII2526.UIT.UC_Rental
             _driver.FindElement(By.Id("removeCar_" + carModel)).Click();
         }
 
-        ////PACOOOO
-        //public bool CheckShoppingCart(string price)
-        //{
-        //    //string texto = _showRentingCartButton().Text;
-        //    //WaitForTextToBePresentInElement(_rentButtonBy, $"Renting Cart: {price} €" );
-        //    return _showRentingCartButton().Text.Contains(price);
-        //}
-
         public bool RentingNotAvailable()
         {
             //the button is not Displayed=hidden
+
             return _driver.FindElement(buttonRentCars).Displayed == false;
         }
+
 
         //cuenta todos los elementos cuya etiqueta empiece por 'removeCar_'
         public int CountCarsInCart() 
