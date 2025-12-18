@@ -23,6 +23,7 @@ namespace AppForSEII2526.UIT.UC_Purchase
         {
             //wait for the webelement to be clickable
             WaitForBeingClickable(inputColor);
+            _driver.FindElement(inputColor).Clear();
             _driver.FindElement(inputColor).SendKeys(color);
 
             if (model == "") model = "All";
