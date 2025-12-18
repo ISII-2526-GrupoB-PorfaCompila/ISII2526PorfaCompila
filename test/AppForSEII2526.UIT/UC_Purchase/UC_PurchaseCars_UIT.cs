@@ -1,10 +1,12 @@
-﻿using System;
+﻿using AppForMovies.UIT.Shared;
+using AppForSEII2526.UIT.Shared;
+using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AppForMovies.UIT.Shared;
-using AppForSEII2526.UIT.Shared;
 //using OpenQA.Selenium.DevTools.V137.Network;
 
 namespace AppForSEII2526.UIT.UC_Purchase
@@ -183,6 +185,48 @@ namespace AppForSEII2526.UIT.UC_Purchase
             Assert.True(detailPurchase_PO.CheckListOfMovies(expectedPurchaseItems),
                 "Error: rental items are not as expected");
 
+        }
+        [Theory]
+        [InlineData("Blanco","KIA","Carlos", "Garcia", "Calle de la Universidad 1, Albacete", "Visa")]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC1_BF_AF1_AF1_Exam(string filterColor, string filterModel,string name, string surname, string deliveryCarDealer, string paymentMethod) 
+        {
+            //Arrange
+            var createPurchase_PO = new CreatePurchase_PO(_driver, _output);
+            var detailPurchase_PO = new DetailPurchase_PO(_driver, _output);
+            InitialStepsForPurchaseCars();
+
+            //Act
+
+            //Paso 1
+            selectCarsForPurchase_PO.SearchCars(filterColor, "");
+            //Paso 2
+            selectCarsForPurchase_PO.AddCarToPurchasingCart(carId1);
+            //Paso 3
+            selectCarsForPurchase_PO.SearchCars("", filterModel);
+            //Paso 4
+            selectCarsForPurchase_PO.AddCarToPurchasingCart(carId2);
+            //Paso 5
+            selectCarsForPurchase_PO.PurchaseCars();
+            createPurchase_PO.PressModifyCars();
+            selectCarsForPurchase_PO.RemoveCarFromPurchasingCart(model1);
+            //Flujo Básico
+            selectCarsForPurchase_PO.PurchaseCars();
+            createPurchase_PO.FillInPurchaseInfo(name, surname, deliveryCarDealer, paymentMethod);
+            createPurchase_PO.FillInPurchaseDescription("Muy bueno", carId2);
+            createPurchase_PO.PressPurchaseYourCars();
+            createPurchase_PO.PressOkModalDialog();
+
+            //Assert
+
+            Assert.True(detailPurchase_PO.CheckPurchaseDetail(name, surname, deliveryCarDealer, DateTime.Now, carPriceForPurchase2 + " €"),
+                "Error: detail purchase is not as expected");
+
+            var expectedPurchaseItems = new List<string[]>
+                    { new string[] { model2, color2, carPriceForPurchase2 + " €" }, };
+
+            Assert.True(detailPurchase_PO.CheckListOfMovies(expectedPurchaseItems),
+                "Error: rental items are not as expected");
         }
 
     }
