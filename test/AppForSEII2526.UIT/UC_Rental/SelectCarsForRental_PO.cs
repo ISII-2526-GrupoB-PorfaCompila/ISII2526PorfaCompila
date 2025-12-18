@@ -23,6 +23,7 @@ namespace AppForSEII2526.UIT.UC_Rental
         }
         public void SearchCars(string price, string model, string from, string to)
         {
+            //_driver.FindElement(inputPrice).Clear();
             //wait for the webelement to be clickable
             WaitForBeingClickable(inputPrice);
             _driver.FindElement(inputPrice).SendKeys(price);

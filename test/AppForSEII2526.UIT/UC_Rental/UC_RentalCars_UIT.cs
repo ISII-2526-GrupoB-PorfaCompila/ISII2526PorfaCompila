@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace AppForSEII2526.UIT.UC_Rental
 {
@@ -53,7 +54,7 @@ namespace AppForSEII2526.UIT.UC_Rental
         [InlineData(carModel1, carRentingPrice1, carColor1, carFuelType1, carManufacturer1, "TOYOTA", "100")]
         [InlineData(carModel1, carRentingPrice1, carColor1, carFuelType1, carManufacturer1, "", "35")]
         [Trait("LevelTesting", "Funcional Testing")]
-        public void UC2_Esc2_4_5_filtering(string carModel, string carRentingPrice, string carColor,  string carFuelType, string carManufacturer, string filterModel, string filterRentingPrice)
+        public void UC2_Esc2_4_5_filtering(string carModel, string carRentingPrice, string carColor, string carFuelType, string carManufacturer, string filterModel, string filterRentingPrice)
         {
             //Arrange
             InitialStepsForRentalCars();
@@ -189,6 +190,10 @@ namespace AppForSEII2526.UIT.UC_Rental
             Assert.True(createRental_PO.CheckListOfRentalItems(expectedRentalItems));
         }
 
+        /////////////////////////////
+        ///// Tests del Detail //////
+        /////////////////////////////
+
         //test del flujo básico
         [Theory]
         [InlineData("Laura", "Martinez", "Calle Calatrava", "GooglePay")]
@@ -231,6 +236,74 @@ namespace AppForSEII2526.UIT.UC_Rental
             Assert.True(detailRental.CheckListOfCars(expectedRentalItems),
                 "Error: rental items are not as expected");
 
+        }
+
+        /////////////////////////////
+        ///// Tests del Examen //////
+        /////////////////////////////
+
+
+        [Theory]
+        [InlineData("Laura", "Martinez", "Calle Calatrava", "Paypal")]
+        [Trait("LevelTesting", "Funcional Testing")]
+        public void UC2_EscExamen_2_ModifyRentalItems(string name, string surname, string deliveryAddress, string paymentMethod)
+        {
+            //Arrange
+
+            var createRental_PO = new CreateRental_PO(_driver, _output);
+            var detailRental = new DetailRental_PO(_driver, _output);
+
+            var from = DateTime.Today.AddDays(1).ToString();
+            var to = DateTime.Today.AddDays(2).ToString();
+            var fromDateType = DateTime.Today.AddDays(1);
+            var toDateType = DateTime.Today.AddDays(2);
+
+            //Act
+            InitialStepsForRentalCars();
+
+            //añade un coche filtrando por modelo
+            //tengo que pasar el 10000 para que muestre todos los coches.
+            selectCarsForRental_PO.SearchCars("10000", "KIA", from, to);
+            Thread.Sleep(500);
+            selectCarsForRental_PO.AddCarToRentingCart(carModel2);
+            Thread.Sleep(500);
+
+            //Añade un coche filtrando por precio
+            selectCarsForRental_PO.SearchCars("36", "All", from, to);
+            Thread.Sleep(500);
+            selectCarsForRental_PO.AddCarToRentingCart(carModel1);
+            selectCarsForRental_PO.AddCarToRentingCart(carModel2);
+            Thread.Sleep(500);
+
+            //paso al post, luego al select y luego elimino el coche.
+            selectCarsForRental_PO.RentCars();
+            Thread.Sleep(500);
+            createRental_PO.PressModifyCars();
+            Thread.Sleep(500);
+            selectCarsForRental_PO.RemoveCarFromRentingCart(carModel2);
+            Thread.Sleep(500);
+
+            //flujo básico hasta el final
+            selectCarsForRental_PO.RentCars();
+            Thread.Sleep(500);
+            createRental_PO.FillInRentalInfo(name, surname, deliveryAddress, paymentMethod);
+            Thread.Sleep(500);
+            createRental_PO.PressRentYourCars();
+            Thread.Sleep(500);
+            createRental_PO.PressOkModalDialog();
+            Thread.Sleep(2000);
+
+            //Assert
+
+            Assert.True(detailRental.CheckRentalDetail(name, surname,
+                deliveryAddress, paymentMethod, DateTime.Now, fromDateType, toDateType, carRentingPrice1 + " €"),
+                "Error: detail rental is not as expected");
+
+            var expectedRentalItems = new List<string[]>
+                    { new string[] { carModel1, carManufacturer1, carRentingPrice1+" €" }, };
+
+            Assert.True(detailRental.CheckListOfCars(expectedRentalItems),
+                "Error: rental items are not as expected");
         }
 
     }
