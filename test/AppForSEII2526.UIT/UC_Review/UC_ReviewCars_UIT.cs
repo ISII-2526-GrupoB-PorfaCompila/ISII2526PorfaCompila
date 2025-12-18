@@ -1,11 +1,12 @@
-﻿using System;
+﻿using AppForMovies.UIT.Shared;
+using AppForSEII2526.UIT.Shared;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using AppForMovies.UIT.Shared;
-using AppForSEII2526.UIT.Shared;
 
 namespace AppForSEII2526.UIT.UC_Review
 {
@@ -187,6 +188,64 @@ namespace AppForSEII2526.UIT.UC_Review
 
             Assert.True(detailReview.CheckListOfCars(expectedReviewItems),
                 "Error: review items are not as expected");
+
+        }
+
+
+        [Theory]
+        [InlineData("carlosg", "España", "Novato", "Muy bonito", "5")]
+        public void UC4_AF0_AF0_BF_Examen(string userName, string country, string driverType, string description, string rating)
+        {
+            //Arrange
+            var createReview = new CreateReview_PO(_driver, _output);
+            var detailReview = new DetailReview_PO(_driver, _output);
+
+            //Act
+            InitialStepsForReviewCars();
+            selectCarsForReview_PO.SearchCars("To", "");
+            Thread.Sleep(500);
+            selectCarsForReview_PO.AddCarToReviewingCart(id1);
+            Thread.Sleep(500);
+
+            _driver.FindElement(By.Id("manufacturer")).Clear();
+            Thread.Sleep(500);
+
+            selectCarsForReview_PO.SearchCars("", "Die");
+            Thread.Sleep(500);
+            selectCarsForReview_PO.AddCarToReviewingCart(id2);
+            Thread.Sleep(500);
+            selectCarsForReview_PO.ReviewCars();
+            Thread.Sleep(500);
+
+            createReview.PressModifyCars();
+            Thread.Sleep(500);
+
+            selectCarsForReview_PO.RemoveCarFromReviewingCart(id2);
+            Thread.Sleep(500);
+            selectCarsForReview_PO.ReviewCars();
+            Thread.Sleep(500);
+
+            createReview.FillInReviewInfo(userName, country, driverType);
+            Thread.Sleep(500);
+            createReview.FillInReviewDescription(description, id1);
+            Thread.Sleep(500);
+            createReview.FillInReviewRating(rating, id1);
+            Thread.Sleep(500);
+            createReview.PressReviewYourCars();
+            Thread.Sleep(500);
+            createReview.PressOkModalDialog();
+
+            //Assert
+            Assert.True(detailReview.CheckReviewDetail("carlosg",
+                "España", "Novato", DateTime.Now),
+                "Error: detail review is not as expected");
+
+            var expectedReviewItems = new List<string[]>
+                    { new string[] { modelName1, manufacturer1, color1, description, rating}, };
+
+            Assert.True(detailReview.CheckListOfCars(expectedReviewItems),
+                "Error: review items are not as expected");
+
 
         }
     }
