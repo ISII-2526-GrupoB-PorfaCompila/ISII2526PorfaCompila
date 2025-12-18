@@ -253,10 +253,10 @@ namespace AppForSEII2526.UIT.UC_Rental
             var createRental_PO = new CreateRental_PO(_driver, _output);
             var detailRental = new DetailRental_PO(_driver, _output);
 
-            var from = DateTime.Today.AddDays(2).ToString();
-            var to = DateTime.Today.AddDays(3).ToString();
-            var fromDateType = DateTime.Today.AddDays(2);
-            var toDateType = DateTime.Today.AddDays(3);
+            var from = DateTime.Today.AddDays(1).ToString();
+            var to = DateTime.Today.AddDays(2).ToString();
+            var fromDateType = DateTime.Today.AddDays(1);
+            var toDateType = DateTime.Today.AddDays(2);
 
             //Act
             InitialStepsForRentalCars();
@@ -296,7 +296,7 @@ namespace AppForSEII2526.UIT.UC_Rental
             //Assert
 
             Assert.True(detailRental.CheckRentalDetail(name, surname,
-                deliveryAddress, paymentMethod, DateTime.Today, fromDateType, toDateType, carRentingPrice1 + " €"),
+                deliveryAddress, paymentMethod, DateTime.Now, fromDateType, toDateType, carRentingPrice1 + " €"),
                 "Error: detail rental is not as expected");
 
             var expectedRentalItems = new List<string[]>
